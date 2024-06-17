@@ -37,16 +37,16 @@ entity estagio_if is
     port(
 			--Entradas
 			clock			: in 	std_logic;	-- Base de tempo vinda da bancada de teste
-        		id_hd_hazard		: in 	std_logic;	-- Sinal de controle que carrega 0's na parte do RI do 
+			id_hd_hazard	: in 	std_logic;	-- Sinal de controle que carrega 0's na parte do RI do 
 												-- registrador de sa�da BID
-			id_Branch_nop		: in 	std_logic;	-- Sinal que determina inser�ao de NOP- desvio ou pulo
+			id_Branch_nop	: in 	std_logic;	-- Sinal que determina inser�ao de NOP- desvio ou pulo
 			id_PC_Src		: in 	std_logic;	-- Sele�ao do mux da entrada do PC
 			id_Jump_PC		: in 	std_logic_vector(31 downto 0) := x"00000000";	-- Endere�o do Jump ou 
 																					-- desvio realizado
-			keep_simulating		: in	Boolean := True; -- Sinal que indica a continua�ao da simula�ao
+			keep_simulating	: in	Boolean := True; -- Sinal que indica a continua�ao da simula�ao
 			
 			-- Sa�da
-        		BID			: out 	std_logic_vector(63 downto 0) := x"0000000000000000"--Reg. de sa�da 
+			BID				: out 	std_logic_vector(63 downto 0) := x"0000000000000000"--Reg. de sa�da 
 																					-- if para id
     );
 end entity;
@@ -63,11 +63,11 @@ architecture arch of estagio_if is
 			-- Entradas
 			  clock 	: in  std_logic;								-- Base de tempo, mem�ria s�ncrona para escrita
 			  write 	: in  std_logic;								-- Sinal de escrita na mem�ria
-			  address : in  std_logic_vector(address_bits-1 downto 0);-- Entrada de endere�o da mem�ria
-			  data_in : in  std_logic_vector(address_bits-1 downto 0);-- Entrada de dados na mem�ria
+			  address 	: in  std_logic_vector(address_bits-1 downto 0);-- Entrada de endere�o da mem�ria
+			  data_in 	: in  std_logic_vector(address_bits-1 downto 0);-- Entrada de dados na mem�ria
 			
 			-- Sa�da
-			  data_out: out std_logic_vector(address_bits-1 downto 0)	-- Sa�da de dados da mem�ria
+			  data_out	: out std_logic_vector(address_bits-1 downto 0)	-- Sa�da de dados da mem�ria
 		 );
 	end component ram;
 	
@@ -79,7 +79,7 @@ architecture arch of estagio_if is
 			  ALUOp		: in 	std_logic_vector(02 downto 0);
 			
 			-- Sa�das
-			  ULA			: out 	std_logic_vector(31 downto 0);
+			  ULA		: out 	std_logic_vector(31 downto 0);
 			  zero		: out 	std_logic
 		 );
 	end component alu;
@@ -90,6 +90,10 @@ architecture arch of estagio_if is
 	signal s_instr : std_logic_vector(31 downto 0);
 	signal s_pc_in : std_logic_vector(31 downto 0);
 	signal s_pc_enable: std_logic;
+
+    signal COP_if : instruction_type;
+	signal ri_if: std_logic_vector(31 downto 0);
+	signal PC_if: std_logic_vector(31 downto 0);
 	
 begin
 
@@ -125,7 +129,7 @@ begin
 	behaviour_instr: process(clock)
 	begin
 		if(rising_edge(clock)) then
-			if(id_branch_nop = '1' and id_hd_hazard = '1') then
+			if(id_branch_nop = '1') then
 				s_instr <= (others => '0');
 			else
 				s_instr <= s_imem_out;
@@ -145,7 +149,7 @@ begin
 	behavior_pc_out: process(clock)
 	begin
 		if(falling_edge(clock)) then
-			if(s_pc_enable = '1' and id_branch_nop = '0') then
+			if(s_pc_enable = '1' and id_branch_nop = '0'  and id_hd_hazard = '0') then
 				s_pc_out <= s_pc_in;
 			end if;
 		end if;
@@ -153,4 +157,55 @@ begin
 	
 	BID <= s_pc_out & s_instr;
 
+    -- determinar o tipo da instr
+    process(s_instr)
+    begin
+
+		ri_if <= s_instr;
+		PC_if <= s_pc_out;
+        -- tipo R
+        if (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0110011") then
+            COP_if <= ADD;
+        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0110011") then
+            COP_if <= SLT;
+        -- tipo I
+        elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0010011") then
+            COP_if <= ADDI;
+        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0010011") then
+            COP_if <= SLTI;
+        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "0010011") then
+            COP_if <= SLLI;
+        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
+            COP_if <= SRLI;
+        elsif (s_instr(31 downto 25) = "0100000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
+            COP_if <= SRAI;
+        -- tipo load
+        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0000011") then
+            COP_if <= LW;
+        -- tipo store
+        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0100011") then
+            COP_if <= SW;
+        -- tipo branch
+        elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "1100011") then
+            COP_if <= BEQ;
+        elsif (s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "1100011") then
+            COP_if <= BNE;
+        elsif (s_instr(14 downto 12) = "100" and s_instr(6 downto 0) = "1100011") then
+            COP_if <= BLT;
+        -- tipo Jump
+        elsif (s_instr(6 downto 0) = "1101111") then
+            COP_if <= JAL;
+        elsif (s_instr(6 downto 0) = "1100111") then
+            COP_if <= JALR;
+        -- pseudo instruções
+        elsif (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
+            COP_if <= NOP;
+        -- Halt
+        elsif (s_instr = x"0000006F") then
+            COP_if <= HALT;
+        -- tipo não existente
+        else
+            COP_if <= NOP;
+        end if;
+    end process;
 end architecture;

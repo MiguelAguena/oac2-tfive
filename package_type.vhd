@@ -10,10 +10,10 @@
                               LW,                           --tipo load
                               SW,                           --tipo Store
                               BEQ, BNE, BLT,                --tipo Branchs
-                              JAL, JALR,                 	--tipo Jumps
-							  NOP,							--tipo inventado
-							  NOINST,						--tipo nao existente 
-							  HALT							--PARE
+                              JAL, JALR,                 	  --tipo Jumps
+							                NOP,							            --tipo inventado
+							                NOINST,						            --tipo nao existente 
+							                HALT							            --PARE
 		);	
     end package tipos;
 
