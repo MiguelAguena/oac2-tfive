@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------------------
 
 -- Sessao de daclara�ao do package de tipos de instru�oes
-    package tipos is
+	package tipos is
 		--tipo e mnem�nicos de instru�ao
     type instruction_type is (ADD, SLT,                     --tipo R
                               ADDI, SLTI, SLLI, SRLI, SRAI, --tipo I
@@ -15,6 +15,6 @@
 							  NOINST,						--tipo nao existente 
 							  HALT							--PARE
 		);	
-    end package tipos;
+	end package tipos;
 
 	

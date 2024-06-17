@@ -5,6 +5,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_signed.all;
+use ieee.numeric_std.all;
 
 library work;
 use work.tipos.all;
@@ -36,17 +37,17 @@ entity estagio_if is
     port(
 			--Entradas
 			clock			: in 	std_logic;	-- Base de tempo vinda da bancada de teste
-        	id_hd_hazard	: in 	std_logic;	-- Sinal de controle que carrega 0's na parte do RI do 
+        		id_hd_hazard		: in 	std_logic;	-- Sinal de controle que carrega 0's na parte do RI do 
 												-- registrador de sa�da BID
-			id_Branch_nop	: in 	std_logic;	-- Sinal que determina inser�ao de NOP- desvio ou pulo
+			id_Branch_nop		: in 	std_logic;	-- Sinal que determina inser�ao de NOP- desvio ou pulo
 			id_PC_Src		: in 	std_logic;	-- Sele�ao do mux da entrada do PC
 			id_Jump_PC		: in 	std_logic_vector(31 downto 0) := x"00000000";	-- Endere�o do Jump ou 
 																					-- desvio realizado
-			keep_simulating	: in	Boolean := True; -- Sinal que indica a continua�ao da simula�ao
+			keep_simulating		: in	Boolean := True; -- Sinal que indica a continua�ao da simula�ao
 			
 			-- Sa�da
-        	BID				: out 	std_logic_vector(63 downto 0) := x"0000000000000000"--Reg. de sa�da 
-																						-- if para id
+        		BID			: out 	std_logic_vector(63 downto 0) := x"0000000000000000"--Reg. de sa�da 
+																					-- if para id
     );
 end entity;
 
@@ -83,16 +84,18 @@ architecture arch of estagio_if is
 		 );
 	end component alu;
 	
-	signal s_pc : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_pc_out : std_logic_vector(31 downto 0) := (others => '0');
 	signal s_pc_plus4 : std_logic_vector(31 downto 0);
 	signal s_imem_out : std_logic_vector(31 downto 0);
 	signal s_instr : std_logic_vector(31 downto 0);
+	signal s_pc_in : std_logic_vector(31 downto 0);
+	signal s_pc_enable: std_logic;
 	
 begin
 
 	adder4 : alu
 	port map (
-		in_a => s_pc,
+		in_a => s_pc_out,
 		in_b => (2 => '1', others => '0'),
 		ALUOp	=> "000",
 		ULA => s_pc_plus4,
@@ -108,7 +111,7 @@ begin
 	port map (
 		clock => clock,
 		write => '0',
-		address => s_pc,
+		address => s_pc_out,
 		data_in => (others => '0'),
 		data_out => s_imem_out
 	);
@@ -120,23 +123,28 @@ begin
 		if rising_edge(clock) then
 			if(id_Branch_nop = '1') then
 				if(id_hd_hazard = '1') then
-					s_instr <= (others => '0');
-				else
-				   s_instr <= s_imem_out;
+				     s_instr <= (others => '0');
 				end if;
-				
 			else
 				s_instr <= s_imem_out;
-				
-				if(id_PC_Src = '1') then
-					s_pc <= id_Jump_PC;
-				else
-					s_pc <= s_pc_plus4;
-				end if;
 			end if;
 		end if;
 	end process;
+
+	pc: process(clock)
+	begin
+		if(rising_edge(clock) and id_branch_nop = '0') then
+			s_pc_enable <= '1';
+		end if;
+		if(rising_edge(clock) and s_pc_enable = '1') then
+			s_pc_out <= s_pc_in;
+			s_pc_enable <= '0';
+		end if;
+	end process;
+
+	s_pc_in <= s_pc_plus4 when id_Pc_Src = '0' else
+		   id_Jump_PC;
 	
-	BID <= s_pc & s_instr;
+	BID <= s_pc_out & s_instr;
 
 end architecture;
