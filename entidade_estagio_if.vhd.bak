@@ -118,13 +118,13 @@ begin
 
 	behavior_pc_enable: process(clock)
 	begin
-		if(rising_edge(clock) and s_pc_enable ='0') then
+		if(rising_edge(clock) and s_pc_enable /= '1') then
 			s_pc_enable <= '1';
 		end if;
 	end process;
 	behaviour_instr: process(clock)
 	begin
-		if(rising_edge(clock)) then
+		if(falling_edge(clock)) then
 			if(id_branch_nop = '1' and id_hd_hazard = '1') then
 				s_instr <= (others => '0');
 			else
@@ -133,6 +133,7 @@ begin
 		end if;
 	end process;
 	behavior_pc_in: process(clock)
+	begin
 		if(rising_edge(clock)) then
 			if(id_pc_src = '0') then
 				s_pc_in <= s_pc_plus4;
@@ -142,6 +143,7 @@ begin
 		end if;
 	end process;
 	behavior_pc_out: process(clock)
+	begin
 		if(rising_edge(clock)) then
 			if(s_pc_enable = '1') then
 				s_pc_out <= s_pc_in;
