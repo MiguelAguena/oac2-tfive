@@ -118,7 +118,7 @@ begin
 
 	behavior_pc_enable: process(clock)
 	begin
-		if(rising_edge(clock) and s_pc_enable /= '1') then
+		if(falling_edge(clock) and s_pc_enable /= '1') then
 			s_pc_enable <= '1';
 		end if;
 	end process;
@@ -144,8 +144,8 @@ begin
 	end process;
 	behavior_pc_out: process(clock)
 	begin
-		if(rising_edge(clock)) then
-			if(s_pc_enable = '1') then
+		if(falling_edge(clock)) then
+			if(s_pc_enable = '1' and id_branch_nop = '0') then
 				s_pc_out <= s_pc_in;
 			end if;
 		end if;

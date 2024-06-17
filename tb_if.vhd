@@ -210,10 +210,10 @@ begin
 		-- Situa�ao no instante 135 ns
 		wait for clock_period/2;		  -- ciclo 13 = 135 ns	 Teste se est� inserindo NOP no ri e BID
         report "Testando se instrucao na posicao 12 esta correta";
-        assert BID(31 downto 00) = x"000000000" severity error; 	-- A instrucao eh:	slli zero,zero, 0 == NOP
+        assert BID(31 downto 00) = x"00001013" severity error; 	-- A instrucao eh:	slli zero,zero, 0 == NOP
 		report "RI_if = " & to_hex_string(BID(31 downto 00));	 	-- Imprime o codigo da instrucao passada para o id
         report "Testando o valor do PC enviado para o estagio id";
-        assert BID(63 downto 32) = x"00000044" severity error; 	 	-- Testa se manteve o PC = x"00000040"
+        assert BID(63 downto 32) = x"00000040" severity error; 	 	-- Testa se manteve o PC = x"00000040"
 		report " PC_id = " & to_hex_string(BID(63 downto 32));	 	-- Imprime o valor que esta no PC
 		report " " ;											 	-- Pula uma linha no console de saida
 		
@@ -224,7 +224,7 @@ begin
 		-- Situa�ao no instante 145 ns
 		wait for clock_period/2;		  -- ciclo 14 = 145 ns	 Teste de deteccao de conflito com acionamento do id_hd_Hazrd
         report "Testando se instrucao na posicao 13 esta correta";
-        assert BID(31 downto 00) = x"00001013" severity error; 	 -- A instrucao ainda eh: slli zero,zero, 0 == NOP
+        assert BID(31 downto 00) = x"00000000" severity error; 	 -- A instrucao ainda eh: slli zero,zero, 0 == NOP
 		report "RI_if = " & to_hex_string(BID(31 downto 00));	 -- Imprime o codigo da instrucao passada para o id
         report "Testando o valor do PC enviado para o estagio id";
         assert BID(63 downto 32) = x"00000044" severity error; 	 -- Testa se manteve o PC = x"00000040"
