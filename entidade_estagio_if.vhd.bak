@@ -116,34 +116,38 @@ begin
 		data_out => s_imem_out
 	);
 
-	mainPro: process(clock)
-	
+	behavior_pc_enable: process(clock)
 	begin
-	
-		if rising_edge(clock) then
-			if(id_Branch_nop = '1') then
-				if(id_hd_hazard = '1') then
-				     s_instr <= (others => '0');
-				end if;
+		if(rising_edge(clock) and s_pc_enable ='0') then
+			s_pc_enable <= '1';
+		end if;
+	end process;
+	behaviour_instr: process(clock)
+	begin
+		if(rising_edge(clock)) then
+			if(id_branch_nop = '1' and id_hd_hazard = '1') then
+				s_instr <= (others => '0');
 			else
 				s_instr <= s_imem_out;
 			end if;
 		end if;
 	end process;
-
-	pc: process(clock)
-	begin
-		if(rising_edge(clock) and id_branch_nop = '0') then
-			s_pc_enable <= '1';
-		end if;
-		if(rising_edge(clock) and s_pc_enable = '1') then
-			s_pc_out <= s_pc_in;
-			s_pc_enable <= '0';
+	behavior_pc_in: process(clock)
+		if(rising_edge(clock)) then
+			if(id_pc_src = '0') then
+				s_pc_in <= s_pc_plus4;
+			else
+				s_pc_in <= id_Jump_PC;
+			end if;
 		end if;
 	end process;
-
-	s_pc_in <= s_pc_plus4 when id_Pc_Src = '0' else
-		   id_Jump_PC;
+	behavior_pc_out: process(clock)
+		if(rising_edge(clock)) then
+			if(s_pc_enable = '1') then
+				s_pc_out <= s_pc_in;
+			end if;
+		end if;
+	end process;
 	
 	BID <= s_pc_out & s_instr;
 
