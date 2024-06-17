@@ -135,7 +135,8 @@ begin
 	begin
 		if(rising_edge(clock) and id_branch_nop = '0') then
 			s_pc_enable <= '1';
-		else if(rising_edge(clock) and s_pc_enable = '1') then
+		end if;
+		if(rising_edge(clock) and s_pc_enable = '1') then
 			s_pc_out <= s_pc_in;
 			s_pc_enable <= '0';
 		end if;

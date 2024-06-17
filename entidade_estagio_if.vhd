@@ -124,6 +124,8 @@ begin
 			if(id_Branch_nop = '1') then
 				if(id_hd_hazard = '1') then
 				     s_instr <= (others => '0');
+				else
+				     s_instr <= s_imem_out;
 				end if;
 			else
 				s_instr <= s_imem_out;
