@@ -1,13 +1,4 @@
-/home/miguelaguena/Documents/oac2-tfive/regfile.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/regfile.vhd
-Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity regfile
--- Compiling architecture regfile_arch of regfile
-
-} {} {}} /home/miguelaguena/Documents/oac2-tfive/alu.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/alu.vhd
+/home/miguelaguena/Documents/oac2-tfive/alu.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/alu.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -18,165 +9,16 @@ Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Compiling entity alu
 -- Compiling architecture alu_arch of alu
 
-} {} {}} /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/regfile.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/regfile.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_SIGNED
-** Error: (vcom-11) Could not find work.tipos.
-** Error (suppressible): /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd(10): (vcom-1195) Cannot find expanded name "work.tipos".
-** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd(10): Unknown expanded name.
-** Note: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd(32): VHDL Compiler exiting
+-- Loading package NUMERIC_STD
+-- Compiling entity regfile
+-- Compiling architecture regfile_arch of regfile
 
-} {8.0 9.0 10.0 11.0} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
-Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_SIGNED
--- Compiling entity tb_if2
--- Compiling architecture tb of tb_if2
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(77): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(77): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(80): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(80): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(92): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(92): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(95): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(95): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(108): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(108): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(111): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(111): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(118): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(118): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(121): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(121): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(128): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(128): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(131): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(131): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(138): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(138): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(141): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(141): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(148): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(148): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(151): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(151): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(158): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(158): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(161): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(161): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(173): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(173): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(176): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(176): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(188): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(188): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(191): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(191): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(199): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(199): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(202): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(202): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(215): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(215): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(218): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(218): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(230): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(230): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(233): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(233): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(241): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(241): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(244): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(244): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(252): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(252): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(255): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(255): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(263): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(263): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(266): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(266): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Note: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd(272): VHDL Compiler exiting
-
-} {10.0 74.0} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
-Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_SIGNED
--- Compiling entity tb_if
--- Compiling architecture tb of tb_if
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(74): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(74): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(77): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(77): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(84): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(84): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(87): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(87): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(94): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(94): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(97): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(97): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(104): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(104): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(107): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(107): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(114): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(114): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(117): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(117): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(124): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(124): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(127): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(127): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(134): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(134): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(137): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(137): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(144): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(144): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(147): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(147): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(154): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(154): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(157): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(157): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(171): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(171): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(174): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(174): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(185): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(185): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(188): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(188): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(199): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(199): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(202): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(202): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(213): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(213): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(216): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(216): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(227): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(227): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(230): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(230): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(242): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(242): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(245): (vcom-1136) Unknown identifier "to_hex_string".
-** Error: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(245): Type error resolving infix expression "&" as type std.STANDARD.STRING.
-** Note: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd(251): VHDL Compiler exiting
-
-} {10.0 70.0} {}} /home/miguelaguena/Documents/oac2-tfive/ram.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/ram.vhd
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/ram.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/ram.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -185,6 +27,27 @@ Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package NUMERIC_STD
 -- Compiling entity ram
 -- Compiling architecture ram_arch of ram
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd {1 {vcom -work work -2008 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package NUMERIC_STD
+-- Compiling entity tb_if
+-- Compiling architecture tb of tb_if
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd {1 {vcom -work work -2008 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Compiling entity tb_if2
+-- Compiling architecture tb of tb_if2
 
 } {} {}} /home/miguelaguena/Documents/oac2-tfive/package_type.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/package_type.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
