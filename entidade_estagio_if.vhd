@@ -163,8 +163,11 @@ begin
 
 		ri_if <= s_instr;
 		PC_if <= s_pc_out;
+		-- pseudo instruções
+		if (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
+			COP_if <= NOP;
         -- tipo R
-        if (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0110011") then
+        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0110011") then
             COP_if <= ADD;
         elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0110011") then
             COP_if <= SLT;
@@ -197,9 +200,6 @@ begin
             COP_if <= JAL;
         elsif (s_instr(6 downto 0) = "1100111") then
             COP_if <= JALR;
-        -- pseudo instruções
-        elsif (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
-            COP_if <= NOP;
         -- Halt
         elsif (s_instr = x"0000006F") then
             COP_if <= HALT;
