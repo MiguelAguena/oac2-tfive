@@ -66,14 +66,32 @@ entity estagio_id is
 end entity;
 
 architecture arch of estagio_id is
-	signal s_instruction : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_pc, s_instruction : std_logic_vector(31 downto 0) := (others => '0');
 	signal rs2_id, rs1_id, rd_id : std_logic_vector(4 downto 0) := (others => '0');
-	signal s_op : std_logic_vector(5 downto 0) := (others => '0');
+	signal s_op : std_logic_vector(6 downto 0) := (others => '0');
 	signal s_funct3 : std_logic_vector(2 downto 0) := (others => '0');
 	signal s_funct7 : std_logic_vector(6 downto 0) := (others => '0');
-	signal s_pc : std_logic_vector(31 downto 0) := (others => '0');
+	signal RegWrite_id, Memwrite_id, Memread_id, AluSrc_id, Branch, Jump : std_logic;
+	signal MemtoReg_id : std_logic_vector(1 downto 0) := (others => '0');
+	signal RA_id, RB_id, Imed_id, PC_id_Plus4 : std_logic_vector(31 downto 0) := (others => '0');
+	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
+	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
 
-	
+	component regfile is
+		port(
+			-- Entradas
+			clock			: 	in 		std_logic;						-- Base de tempo - Bancada de teste
+			RegWrite		: 	in 		std_logic; 						-- Sinal de escrita no RegFile
+			read_reg_rs1	: 	in 		std_logic_vector(04 downto 0);	-- Endere�o do registrador na sa�da RA
+			read_reg_rs2	: 	in 		std_logic_vector(04 downto 0);	-- Endere�o do registrador na sa�da RB
+			write_reg_rd	: 	in 		std_logic_vector(04 downto 0);	-- Endere�o do registrador a ser escrito
+			data_in			: 	in 		std_logic_vector(31 downto 0);	-- Valor a ser escrito no registrador
+			
+			-- Sa�das
+			data_out_a		: 	out 	std_logic_vector(31 downto 0);	-- Valor lido pelo endere�o rs1
+			data_out_b		: 	out 	std_logic_vector(31 downto 0) 	-- Valor lido pelo enderc�o rs2
+		);
+	end component;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
@@ -84,6 +102,119 @@ begin
 	s_op <= s_instruction(6 downto 0);
 	s_funct3 <= s_instruction(14 downto 12);
 	s_funct7 <= s_instruction(31 downto 25);
+
+	rs1_id_ex <= rs1_id;
+	rs2_id_ex <= rs2_id;
+
+	process (s_op, s_instruction) begin
+        case s_op is
+			when "0110011" => -- R-type
+				AluSrc_id <= '0';
+				MemtoReg_id <= "00";
+				RegWrite_id <= '1';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Jump <= '0';
+				
+            when "0000011" => -- lw
+				AluSrc_id <= '1';
+				MemtoReg_id <= "01";
+				RegWrite_id <= '1';
+				Memread_id <= '1';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(31 downto 20);
+                
+            when "0100011" => -- sw
+				AluSrc_id <= '1';
+				MemtoReg_id <= "--";
+				RegWrite_id <= '0';
+				Memread_id <= '0';
+				Memwrite_id <= '1';
+				Branch <= '0';
+				Jump <= '0';
+				Imed_id <= (31 downto 12 => s_instruction(31)) &
+                    s_instruction(31 downto 25) & s_instruction(11 downto 7);
+                
+            when "1100011" => -- beq
+				AluSrc_id <= '0';
+				MemtoReg_id <= "--";
+				RegWrite_id <= '0';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '1';
+				Jump <= '0';
+				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(7) & s_instruction(30
+                    downto 25) & s_instruction(11 downto 8) & '0';
+                
+            when "0010011" => -- I-type ALU
+				AluSrc_id <= '1';
+				MemtoReg_id <= "00";
+				RegWrite_id <= '1';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Jump <= '0';
+				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(31 downto 20);
+                
+            when "1101111" => -- jal
+				AluSrc_id <= '0';
+				MemtoReg_id <= "00";
+				RegWrite_id <= '1';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Jump <= '1';
+				Imed_id <= (31 downto 20 => s_instruction(31)) &
+                    s_instruction(19 downto 12) & s_instruction(20) &
+                    s_instruction(30 downto 21) & '0';
+                
+            when others => -- not valid
+				-- preencher
+                
+        end case;
+    end process;
+
+	process (s_op, s_funct3, s_funct7(5)) begin
+        case s_op is 
+            when "0000011" =>  -- lw
+                Aluop_id <= "000"; -- addition
+			when "0100011" =>  -- sw
+                Aluop_id <= "000"; -- addition
+            when "1100011" =>  -- beq
+                Aluop_id <= "001"; -- subtraction
+            when others =>
+                case s_funct3 is -- R–type or I–type ALU
+                    when "000" =>
+                        if ((s_funct7(5) and s_op(5)) = '1') then
+                            Aluop_id <= "001"; -- sub
+                        else 
+                            Aluop_id <= "000"; -- add, addi
+                        end if;
+                    when "010" => 
+                        Aluop_id <= "101"; -- slt, slti
+                    when "110" => 
+                        Aluop_id <= "011"; -- or, ori
+                    when "111" => 
+                        Aluop_id <= "010"; -- and, andi
+                    when others => 
+                        Aluop_id <= "---"; -- unknown
+                end case;
+        end case;
+    end process;
+	
+	rf : regfile
+    port map (
+        clock => clock,
+		RegWrite => RegWrite_id,
+		read_reg_rs1 => rs1_id,
+		read_reg_rs2 => rs2_id,
+		write_reg_rd => rd_id,
+		data_in => writedata_wb,
+		data_out_a => RA_id,
+		data_out_b => RB_id
+    );
 
 	BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
 	BEX(149) <= RegWrite_id;
