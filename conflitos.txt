@@ -1,0 +1,57 @@
+###Instruções que escrevem em registradores:
+ -(Basicamente todas as instruções tipo R)
+  -ADD
+  -SLT
+ 
+ -(Basicamente todas as instruções tipo I)
+  -ADDI
+  -SLTI
+  -SLLI
+  -SLRI
+  -SLAI
+  -JALR
+  -LW (também conta como tipo I, aparentemente)
+ 
+ -Tipo J
+  -JAL
+  
+###Instruções que NÃO dependem de registradores secundários (porque é mais fácil listar assim):
+ -Só JAL
+  
+###Registradores entre-estágios em que cada instrução tem seu valor final:
+ -LW   : MEM-WB (1 ciclo antes de WB) => única onde há LEITURA DE MEMÓRIA
+ -ADD  : EX-MEM (2 ciclos antes de WB)
+ -SLT  : EX-MEM (2 ciclos antes de WB)
+ -ADDI : EX-MEM (2 ciclos antes de WB)
+ -SLTI : EX-MEM (2 ciclos antes de WB)
+ -SLLI : EX-MEM (2 ciclos antes de WB)
+ -SLRI : EX-MEM (2 ciclos antes de WB)
+ -SLAI : EX-MEM (2 ciclos antes de WB)
+ -JAL  : ID-EX (3 ciclos antes de WB)
+ -JALR : ID-EX (3 ciclos antes de WB)
+
+###Conflitos de dados
+ -1) EX dependendo de dado finalizado em EX-MEM (1 estágio depois - 1 instrução depois)
+ -2) EX dependendo de dado finalizado em MEM-WB (2 estágios depois - 1 instrução depois)
+ -3) EX dependendo de dado finalizado em MEM-WB (2 estágios depois - 2 instruções depois)
+ -4) ID dependendo de dado finalizado em ID-EX (1 estágio depois - 1 instrução depois) => NUNCA VAI ACONTECER
+ -5) ID dependendo de dado finalizado em EX-MEM (2 estágios depois - 1 instrução depois)
+ -6) ID dependendo de dado finalizado em EX-MEM (2 estágios depois - 2 instruções depois)
+ -7) ID dependendo de dado finalizado em MEM-WB (3 estágios depois - 1 instrução depois)
+ -8) ID dependendo de dado finalizado em MEM-WB (3 estágios depois - 2 instruções depois)
+ -9) ID dependendo de dado finalizado em MEM-WB (3 estágios depois - 3 instruções depois)
+ 
+###Resoluções
+ -1) Forwarding
+ -2) Stall
+ -3) Forwarding
+ -4) NUNCA VAI ACONTECER
+ -5) Stall
+ -6) Forwarding
+ -7) Stall
+ -8) Stall
+ -9) Forwarding
+
+###Considerações
+ -Estou ASSUMINDO que, se os registradores dependentes são os mesmos, então HAVERÁ DEPENDÊNCIA de MEM-WB (pois uma escrita irá eventualmente acontecer)
+ 

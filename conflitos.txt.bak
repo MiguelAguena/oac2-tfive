@@ -1,0 +1,53 @@
+###Instruções que determinam valores em registradores:
+ -(Basicamente todas as instruções tipo R)
+  -ADD
+  -SLT
+ 
+ -(Basicamente todas as instruções tipo I)
+  -ADDI
+  -SLTI
+  -SLLI
+  -SLRI
+  -SLAI
+  -JALR
+  -LW (também conta como tipo I, aparentemente)
+ 
+ -Tipo J
+  -JAL
+  
+###Instruções que NÃO dependem de registradores secundários (porque é mais fácil listar assim):
+ -Só JAL
+  
+###Estágios em que cada instrução tem seu valor calculado:
+ -LW   : MEM (1 ciclo antes de WB)
+ -ADD  : EX (2 ciclos antes de WB)
+ -SLT  : EX (2 ciclos antes de WB)
+ -ADDI : EX (2 ciclos antes de WB)
+ -SLTI : EX (2 ciclos antes de WB)
+ -SLLI : EX (2 ciclos antes de WB)
+ -SLRI : EX (2 ciclos antes de WB)
+ -SLAI : EX (2 ciclos antes de WB)
+ -JAL  : ID (3 ciclos antes de WB)
+ -JALR : ID (3 ciclos antes de WB)
+
+###Conflitos de dados
+ -1) EX dependendo de EX-MEM (1 estágio depois - 1 instrução depois)
+ -2) EX dependendo de MEM-WB (2 estágios depois - 1 instrução depois)
+ -3) EX dependendo de MEM-WB (2 estágios depois - 2 instruções depois)
+ -4) ID dependendo de ID-EX (1 estágio depois - 1 instrução depois)
+ -5) ID dependendo de EX-MEM (2 estágios depois - 1 instrução depois)
+ -6) ID dependendo de EX-MEM (2 estágios depois - 2 instruções depois)
+ -7) ID dependendo de MEM-WB (3 estágios depois - 1 instrução depois)
+ -8) ID dependendo de MEM-WB (3 estágios depois - 2 instruções depois)
+ -9) ID dependendo de MEM-WB (3 estágios depois - 3 instruções depois)
+ 
+###Resoluções
+ -1) Forwarding
+ -2) Stall
+ -3) Forwarding
+ -4) Forwarding
+ -5) Stall
+ -6) Forwarding
+ -7) Stall
+ -8) Stall
+ -9) Forwarding
