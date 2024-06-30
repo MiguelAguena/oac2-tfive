@@ -36,7 +36,7 @@ use work.tipos.all;
 entity estagio_id is
     port(
 		-- Entradas
-		clock				   : in 	std_logic; 						-- Base de tempo- bancada de teste
+		clock				: in 	std_logic; 						-- Base de tempo- bancada de teste
 		BID					: in 	std_logic_vector(063 downto 0);	-- Informaçoes vindas estágio Busca
 		MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
 		rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
@@ -45,11 +45,11 @@ entity estagio_id is
 		rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
 		ula_mem				: in 	std_logic_vector(031 downto 0);	-- Saída da ULA no estágio Mem 
 		NPC_mem				: in	std_logic_vector(031 downto 0); -- Valor do NPC no estagio mem
-      RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
-      writedata_wb		: in 	std_logic_vector(031 downto 0);	-- Valor escrito no RegFile - wb
-      rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
-      ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
-      ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB 
+      	RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
+      	writedata_wb		: in 	std_logic_vector(031 downto 0);	-- Valor escrito no RegFile - wb
+      	rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
+      	ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
+      	ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB 
 		
 		-- Saídas
 		id_Jump_PC			: out	std_logic_vector(031 downto 0) := x"00000000";-- Destino JUmp/Desvio
@@ -94,6 +94,30 @@ architecture arch of estagio_id is
 			data_out_b		: 	out 	std_logic_vector(31 downto 0) 	-- Valor lido pelo enderc�o rs2
 		);
 	end component;
+
+	component hazard_detection is
+		port(
+			-- Entradas
+			rd_id			: in std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio id
+			rd_ex			: in std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
+			rd_mem		 	: in std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
+		  	rd_wb		 	: in std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
+			pc			 	: in std_logic_vector(031 downto 0);
+			RA_id		 	: in std_logic_vector(031 downto 0);
+			RB_id		 	: in std_logic_vector(031 downto 0);
+			op			 	: in std_logic_vector(006 downto 0);
+			immediate	 	: in std_logic_vector(031 downto 0);
+			MemRead_mem	 	: in std_logic;						-- Leitura na memória no estágio mem
+			
+			-- Saídas
+			id_Jump_PC	  	: out std_logic_vector(031 downto 0);
+			id_Branch_nop 	: out std_logic;
+			id_hd_hazard  	: out std_logic;
+			fwd_from_mem  	: out std_logic;
+			fwd_from_wb	  	: out std_logic;
+			stall		  	: out std_logic
+		);
+	end component;
 	
 	signal s_pc, s_instruction : std_logic_vector(31 downto 0) := (others => '0');
 	signal rs2_id, rs1_id, rd_id : std_logic_vector(4 downto 0) := (others => '0');
@@ -105,6 +129,8 @@ architecture arch of estagio_id is
 	signal RA_id, RB_id, Imed_id, PC_id_Plus4 : std_logic_vector(31 downto 0) := (others => '0');
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
+	signal s_id_Jump_PC: std_logic_vector(31 downto 0) := (others => '0');
+	signal s_fwd_from_mem, s_fwd_from_wb, s_stall : std_logic;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
@@ -149,6 +175,7 @@ begin
 				Memread_id <= '1';
 				Memwrite_id <= '0';
 				Branch <= '0';
+				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(31 downto 20);
                 
             when "0100011" => -- sw
@@ -239,6 +266,26 @@ begin
 		data_in => writedata_wb,
 		data_out_a => RA_id,
 		data_out_b => RB_id
+    );
+
+	hd : hazard_detection
+    port map (
+        rd_id => rd_id,
+		rd_ex => rd_ex,
+		rd_mem => rd_mem,
+		rd_wb => rd_wb,
+		pc => s_pc,
+		RA_id => RA_id,
+		RB_id => RB_id,
+		op => s_op,
+		immediate => Imed_id,
+		MemRead_mem => MemRead_mem,
+		id_Jump_PC => id_Jump_PC,
+		id_Branch_nop => id_Branch_nop,
+		id_hd_hazard => id_hd_hazard,
+		fwd_from_mem =>	s_fwd_from_mem,
+		fwd_from_wb => s_fwd_from_wb,
+		stall => s_stall
     );
 
 	BEX(151 downto 150) <= MemtoReg_id(01 downto 0);

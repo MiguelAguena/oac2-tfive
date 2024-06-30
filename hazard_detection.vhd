@@ -1,13 +1,21 @@
 --Hazard Detection
 
+library ieee; 
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.std_logic_signed.all;
+
+library work;
+use work.tipos.all;
+
 entity hazard_detection is
     port(
 		-- Entradas
 		rd_id			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio id
 		rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
 		rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
-      rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
-		pc						: in  std_logic_vector(006 downto 0);
+      	rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
+		pc						: in  std_logic_vector(031 downto 0);
 		RA_id					: in  std_logic_vector(031 downto 0);
 		RB_id					: in  std_logic_vector(031 downto 0);
 		op						: in  std_logic_vector(006 downto 0);
@@ -20,7 +28,7 @@ entity hazard_detection is
 		id_hd_hazard		: out std_logic;
 		fwd_from_mem		: out std_logic;
 		fwd_from_wb			: out std_logic;
-		stall					: out std_logic;
+		stall				: out std_logic
 	);
 end entity;
 
@@ -38,15 +46,15 @@ architecture arch of hazard_detection is
 		 );
 	end component;
 	
-	s_a : std_logic_vector(31 downto 0) := (others => '0');	
-	s_b : std_logic_vector(31 downto 0) := (others => '0');	
-	s_op : std_logic_vector(2 downto 0) := (others => '0');	
-	s_res : std_logic_vector(31 downto 0) := (others => '0');	
-
-	s_branching_a : std_logic_vector(31 downto 0) := (others => '0');	
-	s_branching_b : std_logic_vector(31 downto 0) := (others => '0');	
-	s_branching_op : std_logic_vector(2 downto 0) := (others => '0');	
-	s_branching_zero : std_logic := '0';
+	signal s_a : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_b : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_op : std_logic_vector(2 downto 0) := (others => '0');	
+	signal s_res : std_logic_vector(31 downto 0) := (others => '0');	
+	 
+	signal s_branching_a : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_branching_b : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_branching_op : std_logic_vector(2 downto 0) := (others => '0');	
+	signal s_branching_zero : std_logic := '0';
 begin
 	TARGET_ADDER : alu
 	port map (
