@@ -138,7 +138,7 @@ begin
     rs2_id <= s_instruction(24 downto 20);
     rs1_id <= s_instruction(19 downto 15);
 	rd_id <= s_instruction(11 downto 7);
-	s_op <= s_instruction(6 downto 0);
+	s_op <= s_instruction(6 downto 0) when s_stall = '0' else (others => '0');
 	s_funct3 <= s_instruction(14 downto 12);
 	s_funct7 <= s_instruction(31 downto 25);
 
@@ -222,8 +222,15 @@ begin
 							   s_instruction(19 downto 12) & s_instruction(20) &
 							   s_instruction(30 downto 21) & '0';
                 
-            when others => -- not valid
-				-- preencher
+            when others => 
+				AluSrc_id <= '0';
+				MemtoReg_id <= "00";
+				RegWrite_id <= '0';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Jump <= '0';
+				Imed_id <= (others => '0');
                 
         end case;
     end process;

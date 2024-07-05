@@ -91,6 +91,7 @@ architecture arch of estagio_if is
 	signal s_pc_in : std_logic_vector(31 downto 0);
 	signal s_pc_enable: std_logic;
 	signal s_halt: std_logic := '0';
+	signal s_BID: std_logic_vector(63 downto 0) := (others => '0');
 
    signal COP_if : instruction_type;
 	signal ri_if: std_logic_vector(31 downto 0);
@@ -123,7 +124,7 @@ begin
 
 	behavior_pc_enable: process(clock)
 	begin
-		if(falling_edge(clock) and s_pc_enable /= '1' ) then
+		if(falling_edge(clock) and s_pc_enable /= '1') then
 			s_pc_enable <= '1';
 		end if;
 	end process;
@@ -143,7 +144,7 @@ begin
 			if(id_pc_src = '0') then
 				s_pc_in <= s_pc_plus4;
 			else
-				s_pc_in <= id_Jump_PC;
+				s_pc_in 	<= id_Jump_PC;
 			end if;
 		end if;
 	end process;
@@ -156,7 +157,13 @@ begin
 		end if;
 	end process;
 	
-	BID <= s_pc_out & s_instr;
+	BID_reg: process (clock)
+	begin
+		if(falling_edge(clock)) then
+			s_BID <= s_pc_out & s_instr;
+		end if;
+	end process;
+	BID <= s_BID;
 
     -- determinar o tipo da instr
     process(s_instr)
@@ -218,5 +225,7 @@ begin
 			end if;
 		end if;
 	end process;
+
+
 	
 end architecture;
