@@ -18,6 +18,9 @@ entity hazard_detection is
 		rs1_id					: in  std_logic_vector(031 downto 0);
 		rs2_id					: in  std_logic_vector(031 downto 0);
 		RA_id					: in  std_logic_vector(031 downto 0);
+		RB_id					: in  std_logic_vector(031 downto 0);
+		alu_mem					: in std_logic_vector(031 downto 0);
+		writedata_wb			: in std_logic_vector(031 downto 0);
 		op						: in  std_logic_vector(006 downto 0);
 		funct3					: in  std_logic_vector(002 downto 0);
 		immediate			: in  std_logic_vector(031 downto 0);
@@ -27,10 +30,8 @@ entity hazard_detection is
 		id_Jump_PC			: out std_logic_vector(031 downto 0);
 		id_Branch_nop		: out std_logic; --IF-ID Flush
 		id_hd_hazard		: out std_logic; --IF-ID Stall
-		fwd_rs1_from_mem	: out std_logic;
-		fwd_rs2_from_mem	: out std_logic;
-		fwd_rs1_from_wb		: out std_logic;
-		fwd_rs2_from_wb		: out std_logic
+		RA_out				: out std_logic_vector(031 downto 0);
+		RB_out				: out std_logic_vector(031 downto 0)
 	);
 end entity;
 
@@ -61,6 +62,8 @@ architecture arch of hazard_detection is
 	signal s_alu_branching_op : std_logic_vector(2 downto 0) := "001";	
 	signal s_branching_zero : std_logic := '0';
 	signal s_branching_res : std_logic_vector(31 downto 0) := (others => '0');	
+	
+	signal s_RA : std_logic_vector(31 downto 0) := (others => '0');
 begin
 	TARGET_ADDER : alu
 	port map (
@@ -95,19 +98,21 @@ begin
 				
 			else
 
-				fwd_rs1_from_mem <= '1';
+				RA_out <= alu_mem;
+				s_RA <= alu_mem;
 
 			end if;
 
 		elsif(rs1_id = rd_wb) then
 
-			fwd_rs1_from_wb <= '1';
+			RA_out <= writedata_wb;
+			s_RA <= writedata_wb;
 
 		else
 
 			s_id_hd_hazard_rs1 <= '0';
-			fwd_rs1_from_mem <= '0';
-			fwd_rs1_from_wb <= '0';
+			RA_out <= RA_id;
+			s_RA <= RA_id;
 
 		end if;
 
@@ -124,19 +129,18 @@ begin
 				
 			else
 
-				fwd_rs2_from_mem <= '1';
+				RB_out <= alu_mem;
 
 			end if;
 
 		elsif(rs2_id = rd_wb) then
 
-			fwd_rs2_from_wb <= '1';
+			RB_out <= writedata_wb;
 
 		else
 			
 			s_id_hd_hazard_rs2 <= '0';
-			fwd_rs2_from_mem <= '0';
-			fwd_rs2_from_wb <= '0';
+			RB_out <= RB_id;
 
 		end if;
 
@@ -170,7 +174,7 @@ begin
 		
 		elsif (op = "1100111") then --jalr
 
-			s_a <= RA_id;		  
+			s_a <= s_RA;		  
 			id_Branch_nop <= '1';
 
 		else
