@@ -15,9 +15,9 @@ entity hazard_detection is
 		rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
       	rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
 		pc						: in  std_logic_vector(031 downto 0);
-		rs1_id					: in  std_logic_vector(004 downto 0);
-		rs2_id					: in  std_logic_vector(004 downto 0);
-		RA_id					: in  std_logic_vector(004 downto 0);
+		rs1_id					: in  std_logic_vector(031 downto 0);
+		rs2_id					: in  std_logic_vector(031 downto 0);
+		RA_id					: in  std_logic_vector(031 downto 0);
 		op						: in  std_logic_vector(006 downto 0);
 		funct3					: in  std_logic_vector(002 downto 0);
 		immediate			: in  std_logic_vector(031 downto 0);
@@ -30,8 +30,7 @@ entity hazard_detection is
 		fwd_rs1_from_mem	: out std_logic;
 		fwd_rs2_from_mem	: out std_logic;
 		fwd_rs1_from_wb		: out std_logic;
-		fwd_rs2_from_wb		: out std_logic;
-		id_ex_stall			: out std_logic
+		fwd_rs2_from_wb		: out std_logic
 	);
 end entity;
 
@@ -54,8 +53,8 @@ architecture arch of hazard_detection is
 	signal s_alu_target_op : std_logic_vector(2 downto 0) := "000";	
 	signal s_target_res : std_logic_vector(31 downto 0) := (others => '0');	
 
-	signal s_id_ex_stall_rs1 : std_logic := '0';
-	signal s_id_ex_stall_rs2 : std_logic := '0';
+	signal s_id_hd_hazard_rs1 : std_logic := '0';
+	signal s_id_hd_hazard_rs2 : std_logic := '0';
 	 
 	signal s_branching_a : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_branching_b : std_logic_vector(31 downto 0) := (others => '0');	
@@ -81,18 +80,18 @@ begin
 		zero => s_branching_zero
 	);
 
-	DATA_HAZARD: process()
+	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb)
 	begin
 		--RS1
 		if(rs1_id = rd_ex) then
 
-			s_id_ex_stall_rs1 <= '1'
+			s_id_hd_hazard_rs1 <= '1';
 
 		elsif(rs1_id = rd_mem) then
 
 			if(MemRead_mem = '1') then
 
-				s_id_ex_stall_rs1 <= '1';
+				s_id_hd_hazard_rs1 <= '1';
 				
 			else
 
@@ -106,7 +105,7 @@ begin
 
 		else
 
-			s_id_ex_stall_rs1 <= '0';
+			s_id_hd_hazard_rs1 <= '0';
 			fwd_rs1_from_mem <= '0';
 			fwd_rs1_from_wb <= '0';
 
@@ -115,13 +114,13 @@ begin
 		--RS2
 		if(rs2_id = rd_ex) then
 
-			s_id_ex_stall_rs2 <= '1'
+			s_id_hd_hazard_rs2 <= '1';
 
 		elsif(rs2_id = rd_mem) then
 
 			if(MemRead_mem = '1') then
 
-				s_id_ex_stall_rs2 <= '1';
+				s_id_hd_hazard_rs2 <= '1';
 				
 			else
 
@@ -135,17 +134,17 @@ begin
 
 		else
 			
-			s_id_ex_stall_rs2 <= '0';
+			s_id_hd_hazard_rs2 <= '0';
 			fwd_rs2_from_mem <= '0';
 			fwd_rs2_from_wb <= '0';
 
 		end if;
 
-		id_ex_stall <= (s_id_ex_stall_rs1 or s_id_ex_stall_rs2);
+		id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
 
 	end process;
 	
-	CONTROL_HAZARD: process(op, immediate)
+	CONTROL_HAZARD: process(op, immediate, funct3, s_branching_zero, s_branching_res)
 	begin
 		if (op = "0010011") then --beq, bne, blt
 			

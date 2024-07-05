@@ -98,24 +98,27 @@ architecture arch of estagio_id is
 	component hazard_detection is
 		port(
 			-- Entradas
-			rd_id			: in std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio id
-			rd_ex			: in std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
-			rd_mem		 	: in std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
-		  	rd_wb		 	: in std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
-			pc			 	: in std_logic_vector(031 downto 0);
-			RA_id		 	: in std_logic_vector(031 downto 0);
-			RB_id		 	: in std_logic_vector(031 downto 0);
-			op			 	: in std_logic_vector(006 downto 0);
-			immediate	 	: in std_logic_vector(031 downto 0);
-			MemRead_mem	 	: in std_logic;						-- Leitura na memória no estágio mem
+			rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
+			rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
+			rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
+			pc						: in  std_logic_vector(031 downto 0);
+			rs1_id					: in  std_logic_vector(031 downto 0);
+			rs2_id					: in  std_logic_vector(031 downto 0);
+			RA_id					: in  std_logic_vector(031 downto 0);
+			op						: in  std_logic_vector(006 downto 0);
+			funct3					: in  std_logic_vector(002 downto 0);
+			immediate			: in  std_logic_vector(031 downto 0);
+			MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
 			
 			-- Saídas
-			id_Jump_PC	  	: out std_logic_vector(031 downto 0);
-			id_Branch_nop 	: out std_logic;
-			id_hd_hazard  	: out std_logic;
-			fwd_from_mem  	: out std_logic;
-			fwd_from_wb	  	: out std_logic;
-			stall		  	: out std_logic
+			id_Jump_PC			: out std_logic_vector(031 downto 0);
+			id_Branch_nop		: out std_logic; --IF-ID Flush
+			id_hd_hazard		: out std_logic; --IF-ID Stall
+			fwd_rs1_from_mem	: out std_logic;
+			fwd_rs2_from_mem	: out std_logic;
+			fwd_rs1_from_wb		: out std_logic;
+			fwd_rs2_from_wb		: out std_logic;
+			id_ex_stall			: out std_logic
 		);
 	end component;
 	
@@ -130,14 +133,12 @@ architecture arch of estagio_id is
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
 	signal s_id_Jump_PC: std_logic_vector(31 downto 0) := (others => '0');
-	signal s_fwd_from_mem, s_fwd_from_wb, s_stall : std_logic;
+	signal fwd_rs1_from_mem, fwd_rs2_from_mem, fwd_rs1_from_wb, fwd_rs2_from_wb : std_logic;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
 	
-    rs2_id <= s_instruction(24 downto 20);
-    rs1_id <= s_instruction(19 downto 15);
-	rd_id <= s_instruction(11 downto 7);
+    
 	s_op <= s_instruction(6 downto 0) when s_stall = '0' else (others => '0');
 	s_funct3 <= s_instruction(14 downto 12);
 	s_funct7 <= s_instruction(31 downto 25);
@@ -167,6 +168,9 @@ begin
 				Memwrite_id <= '0';
 				Branch <= '0';
 				Jump <= '0';
+				rs2_id <= s_instruction(24 downto 20);
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= s_instruction(11 downto 7);
 				
             when "0000011" => -- lw
 				AluSrc_id <= '1';
@@ -177,6 +181,9 @@ begin
 				Branch <= '0';
 				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(31 downto 20);
+				rs2_id <= (others => '0');
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= s_instruction(11 downto 7);
                 
             when "0100011" => -- sw
 				AluSrc_id <= '1';
@@ -187,8 +194,11 @@ begin
 				Branch <= '0';
 				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) &
-                    s_instruction(31 downto 25) & s_instruction(11 downto 7);
-                
+                s_instruction(31 downto 25) & s_instruction(11 downto 7);
+				rs2_id <= (others => '0');
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= s_instruction(24 downto 20);
+
             when "1100011" => -- beq
 				AluSrc_id <= '0';
 				MemtoReg_id <= "--";
@@ -199,6 +209,9 @@ begin
 				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(7) & s_instruction(30
                     downto 25) & s_instruction(11 downto 8) & '0';
+				rs2_id <= s_instruction(24 downto 20);
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= (others => '0');
                 
             when "0010011" => -- I-type ALU
 				AluSrc_id <= '1';
@@ -209,6 +222,9 @@ begin
 				Branch <= '0';
 				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) & s_instruction(31 downto 20);
+				rs2_id <= (others => '0');
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= s_instruction(11 downto 7);
                 
             when "1101111" => -- jal
 				AluSrc_id <= '0';
@@ -221,6 +237,22 @@ begin
 				Imed_id <= (31 downto 20 => s_instruction(31)) &
 							   s_instruction(19 downto 12) & s_instruction(20) &
 							   s_instruction(30 downto 21) & '0';
+				rs2_id <= (others => '0');
+				rs1_id <= (others => '0');
+				rd_id <= s_instruction(11 downto 7);
+
+			when "1100111" => -- jalr
+				AluSrc_id <= '0';
+				MemtoReg_id <= "00";
+				RegWrite_id <= '1';
+				Memread_id <= '0';
+				Memwrite_id <= '0';
+				Branch <= '0';
+				Jump <= '1';
+				Imed_id <= s_instruction(30 downto 21) & '0';
+				rs2_id <= (others => '0');
+				rs1_id <= s_instruction(19 downto 15);
+				rd_id <= s_instruction(11 downto 7);
                 
             when others => 
 				AluSrc_id <= '0';
@@ -231,6 +263,9 @@ begin
 				Branch <= '0';
 				Jump <= '0';
 				Imed_id <= (others => '0');
+				rs2_id <= (others => '0');
+				rs1_id <= (others => '0');
+				rd_id <= (others => '0');
                 
         end case;
     end process;
@@ -277,22 +312,24 @@ begin
 
 	hd : hazard_detection
     port map (
-        rd_id => rd_id,
 		rd_ex => rd_ex,
 		rd_mem => rd_mem,
 		rd_wb => rd_wb,
 		pc => s_pc,
+		rs1_id => rs1_id,
+		rs2_id => rs2_id,
 		RA_id => RA_id,
-		RB_id => RB_id,
 		op => s_op,
+		funct3 => s_funct3,
 		immediate => Imed_id,
 		MemRead_mem => MemRead_mem,
 		id_Jump_PC => id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
 		id_hd_hazard => id_hd_hazard,
-		fwd_from_mem =>	s_fwd_from_mem,
-		fwd_from_wb => s_fwd_from_wb,
-		stall => s_stall
+		fwd_rs1_from_mem => ,
+		fwd_rs2_from_mem => ,
+		fwd_rs1_from_wb => ,
+		fwd_rs2_from_wb => ,
     );
 
 	BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
@@ -308,6 +345,8 @@ begin
 	BEX(095 downto 064) <= Imed_id(31 downto 0);
 	BEX(063 downto 032) <= RB_id(31 downto 0);
 	BEX(031 downto 000) <= RA_id(31 downto 0);
+
+	dataproc: process()
 
 	-- determinar o tipo da instr
     instruct: process(s_instruction)
