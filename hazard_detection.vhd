@@ -11,24 +11,27 @@ use work.tipos.all;
 entity hazard_detection is
     port(
 		-- Entradas
-		rd_id			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio id
 		rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
 		rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
       	rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
 		pc						: in  std_logic_vector(031 downto 0);
-		RA_id					: in  std_logic_vector(031 downto 0);
-		RB_id					: in  std_logic_vector(031 downto 0);
+		rs1_id					: in  std_logic_vector(004 downto 0);
+		rs2_id					: in  std_logic_vector(004 downto 0);
+		RA_id					: in  std_logic_vector(004 downto 0);
 		op						: in  std_logic_vector(006 downto 0);
+		funct3					: in  std_logic_vector(002 downto 0);
 		immediate			: in  std_logic_vector(031 downto 0);
 		MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
 		
 		-- Saídas
 		id_Jump_PC			: out std_logic_vector(031 downto 0);
-		id_Branch_nop		: out std_logic;
-		id_hd_hazard		: out std_logic;
-		fwd_from_mem		: out std_logic;
-		fwd_from_wb			: out std_logic;
-		stall				: out std_logic
+		id_Branch_nop		: out std_logic; --IF-ID Flush
+		id_hd_hazard		: out std_logic; --IF-ID Stall
+		fwd_rs1_from_mem	: out std_logic;
+		fwd_rs2_from_mem	: out std_logic;
+		fwd_rs1_from_wb		: out std_logic;
+		fwd_rs2_from_wb		: out std_logic;
+		id_ex_stall			: out std_logic
 	);
 end entity;
 
@@ -48,108 +51,131 @@ architecture arch of hazard_detection is
 	
 	signal s_a : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_b : std_logic_vector(31 downto 0) := (others => '0');	
-	signal s_op : std_logic_vector(2 downto 0) := (others => '0');	
-	signal s_res : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_alu_target_op : std_logic_vector(2 downto 0) := "000";	
+	signal s_target_res : std_logic_vector(31 downto 0) := (others => '0');	
+
+	signal s_id_ex_stall_rs1 : std_logic := '0';
+	signal s_id_ex_stall_rs2 : std_logic := '0';
 	 
 	signal s_branching_a : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_branching_b : std_logic_vector(31 downto 0) := (others => '0');	
-	signal s_branching_op : std_logic_vector(2 downto 0) := (others => '0');	
+	signal s_alu_branching_op : std_logic_vector(2 downto 0) := "001";	
 	signal s_branching_zero : std_logic := '0';
+	signal s_branching_res : std_logic_vector(31 downto 0) := (others => '0');	
 begin
 	TARGET_ADDER : alu
 	port map (
 		in_a => s_a,
-		in_b => s_b,
-		ALUOp	=> s_op,
-		ULA => s_res,
+		in_b => immediate,
+		ALUOp	=> s_alu_target_op,
+		ULA => id_Jump_PC,
 		zero => open
 	);
 	
 	BRANCHING_ALU : alu
 	port map (
-		in_a => s_branching_a,
-		in_b => s_branching_b,
-		ALUOp	=> s_branching_op,
+		in_a => rs1_id,
+		in_b => rs2_id,
+		ALUOp	=> s_alu_branching_op,
 		ULA => open,
 		zero => s_branching_zero
 	);
-	
-	DATA_HAZARD: process(rd_id, rd_ex, rd_mem, rd_wb, MemRead_mem)
+
+	DATA_HAZARD: process()
 	begin
-		if (rd_id = rd_ex) then
-			stall <= '1';
-			fwd_from_mem <= '0';
-			fwd_from_wb <= '0';
+		--RS1
+		if(rs1_id = rd_ex) then
 
-		elsif (rd_id = rd_mem) then
+			s_id_ex_stall_rs1 <= '1'
+
+		elsif(rs1_id = rd_mem) then
+
 			if(MemRead_mem = '1') then
-				stall <= '1';
-				fwd_from_mem <= '0';
-				fwd_from_wb <= '0';
 
+				s_id_ex_stall_rs1 <= '1';
+				
 			else
 
-				stall <= '0';
-				fwd_from_mem <= '1';
-				fwd_from_wb <= '0';
-				
+				fwd_rs1_from_mem <= '1';
+
 			end if;
-			
-		elsif (rd_id = rd_wb) then
-			stall <= '0';
-			fwd_from_mem <= '0';
-			fwd_from_wb <= '1';
-		
+
+		elsif(rs1_id = rd_wb) then
+
+			fwd_rs1_from_wb <= '1';
+
+		else
+
+			s_id_ex_stall_rs1 <= '0';
+			fwd_rs1_from_mem <= '0';
+			fwd_rs1_from_wb <= '0';
+
 		end if;
-	
+
+		--RS2
+		if(rs2_id = rd_ex) then
+
+			s_id_ex_stall_rs2 <= '1'
+
+		elsif(rs2_id = rd_mem) then
+
+			if(MemRead_mem = '1') then
+
+				s_id_ex_stall_rs2 <= '1';
+				
+			else
+
+				fwd_rs2_from_mem <= '1';
+
+			end if;
+
+		elsif(rs2_id = rd_wb) then
+
+			fwd_rs2_from_wb <= '1';
+
+		else
+			
+			s_id_ex_stall_rs2 <= '0';
+			fwd_rs2_from_mem <= '0';
+			fwd_rs2_from_wb <= '0';
+
+		end if;
+
+		id_ex_stall <= (s_id_ex_stall_rs1 or s_id_ex_stall_rs2);
+
 	end process;
 	
 	CONTROL_HAZARD: process(op, immediate)
 	begin
-	
-		if (s_op = "0010011") then --beq, bne, blt
-			s_branching_a <= RA_id;
-			s_branching_b <= RB_id;
-			s_branching_op <= "001";
+		if (op = "0010011") then --beq, bne, blt
 			
 			s_a <= pc;
-			s_b <= immediate;
-			s_op <= "000";
-								  
-			if(s_branching_zero = '1') then
-				id_Jump_PC <= s_res;
+			
+			if((funct3 = "000" and s_branching_zero = '1') or
+	    	   (funct3 = "001" and s_branching_zero = '0') or
+			   (funct3 = "100" and s_branching_res(31) = '1')) then --beq
+
+				
 				id_Branch_nop <= '1';
-				id_hd_hazard <= '1';
+
 			else
+
 				id_Branch_nop <= '0';
-				id_hd_hazard <= '0';
+
 			end if;
-		end if;
 		
-		if (s_op = "1101111") then --jal
-			s_a <= pc;
-			s_b <= immediate;
-			s_op <= "000";
-			id_Jump_PC <= s_res;
-								  
+		elsif (op = "1101111") then --jal
+
+			s_a <= pc;	  
 			id_Branch_nop <= '1';
-			id_hd_hazard <= '1';
+		
+		elsif (op = "1100111") then --jalr
+
+			s_a <= RA_id;		  
+			id_Branch_nop <= '1';
+
 		else
 			id_Branch_nop <= '0';
-			id_hd_hazard <= '0';
-		end if;
-		
-		if (s_op = "1100111") then --jalr
-			s_a <= RA_id;
-			s_b <= immediate;
-			s_op <= "000";
-			id_Jump_PC <= s_res;
-								  
-			id_Branch_nop <= '1';
-			id_hd_hazard <= '1';
-		else
-			id_Branch_nop <= '0';
-			id_hd_hazard <= '0';	
 		end if;
 	
 	end process;
