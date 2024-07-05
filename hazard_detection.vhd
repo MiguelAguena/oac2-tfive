@@ -91,15 +91,17 @@ begin
 		--RS1
 		if(rs1_id = rd_ex) then
 			
+			RA_out <= RA_id;
 			s_id_hd_hazard_rs1 <= '1';
 			
 		elsif(rs1_id = rd_mem) then
 
 			if(MemRead_mem = '1') then
 
+				RA_out <= RA_id;
 				s_id_hd_hazard_rs1 <= '1';
 				
-				else
+			else
 
 				RA_out <= alu_mem;
 				s_RA <= alu_mem;
@@ -113,21 +115,23 @@ begin
 
 		else
 
-			s_id_hd_hazard_rs1 <= '0';
 			RA_out <= RA_id;
 			s_RA <= RA_id;
+			s_id_hd_hazard_rs1 <= '0';
 
 		end if;
 
 		--RS2
 		if(rs2_id = rd_ex) then
 
+			RB_out <= RB_id;
 			s_id_hd_hazard_rs2 <= '1';
 
 		elsif(rs2_id = rd_mem) then
 
 			if(MemRead_mem = '1') then
 
+				RB_out <= RB_id;
 				s_id_hd_hazard_rs2 <= '1';
 					
 			else
@@ -142,8 +146,8 @@ begin
 			
 		else
 				
-			s_id_hd_hazard_rs2 <= '0';
 			RB_out <= RB_id;
+			s_id_hd_hazard_rs2 <= '0';
 				
 		end if;
 	end process;
