@@ -50,7 +50,7 @@ architecture arch of hazard_detection is
 		 );
 	end component;
 	
-	signal s_a, s_ula : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_a : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_b : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_alu_target_op : std_logic_vector(2 downto 0) := "000";	
 	signal s_target_res : std_logic_vector(31 downto 0) := (others => '0');	
@@ -73,7 +73,7 @@ begin
 		in_a => s_a,
 		in_b => immediate,
 		ALUOp	=> s_alu_target_op,
-		ULA => s_ula,
+		ULA => id_Jump_PC,
 		zero => open
 	);
 	
@@ -86,7 +86,7 @@ begin
 		zero => s_branching_zero
 	);
 
-	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, s_ula)
+	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb)
 	begin
 		--RS1
 		if(rs1_id = rd_ex) then
@@ -153,11 +153,6 @@ begin
 		if(falling_edge(clock)) then
 			id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
 		end if;
-	end process;
-
-	JumpPc: process(s_ula)
-	begin
-		id_Jump_PC <= s_ula;			
 	end process;
 	
 	CONTROL_HAZARD: process(op, immediate, funct3, s_branching_zero, s_branching_res)

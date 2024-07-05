@@ -1,8 +1,6 @@
 TESTE1: primeira instrução: Verificando leitura de RA
-Teste 1: primeira instrução ==> ESTA CORRETO
-RA = 00000000
+RA = XXXXXXXX
    
 TESTE 2: primeira instrução: Verificando leitura de RB
-Teste 2: primeira instrução ==>  ESTA CORRETO
-RB = 00000000
+RB = XXXXXXXX
    

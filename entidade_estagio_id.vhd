@@ -134,7 +134,6 @@ architecture arch of estagio_id is
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
 	signal s_id_Jump_PC, s_RA, s_RB: std_logic_vector(31 downto 0) := (others => '0');
-	signal fwd_rs1_from_mem, fwd_rs2_from_mem, fwd_rs1_from_wb, fwd_rs2_from_wb : std_logic;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
@@ -328,7 +327,7 @@ begin
 		funct3 => s_funct3,
 		immediate => Imed_id,
 		MemRead_mem => MemRead_mem,
-		id_Jump_PC => id_Jump_PC,
+		id_Jump_PC => s_id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
 		id_hd_hazard => id_hd_hazard,
 		RA_out => s_RA,
