@@ -11,12 +11,13 @@ use work.tipos.all;
 entity hazard_detection is
     port(
 		-- Entradas
+		clock				: in 	std_logic;
 		rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
 		rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
       	rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
 		pc						: in  std_logic_vector(031 downto 0);
-		rs1_id					: in  std_logic_vector(031 downto 0);
-		rs2_id					: in  std_logic_vector(031 downto 0);
+		rs1_id					: in  std_logic_vector(004 downto 0);
+		rs2_id					: in  std_logic_vector(004 downto 0);
 		RA_id					: in  std_logic_vector(031 downto 0);
 		RB_id					: in  std_logic_vector(031 downto 0);
 		alu_mem					: in std_logic_vector(031 downto 0);
@@ -49,7 +50,7 @@ architecture arch of hazard_detection is
 		 );
 	end component;
 	
-	signal s_a : std_logic_vector(31 downto 0) := (others => '0');	
+	signal s_a, s_ula : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_b : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_alu_target_op : std_logic_vector(2 downto 0) := "000";	
 	signal s_target_res : std_logic_vector(31 downto 0) := (others => '0');	
@@ -65,42 +66,44 @@ architecture arch of hazard_detection is
 	
 	signal s_RA : std_logic_vector(31 downto 0) := (others => '0');
 begin
+
+	
 	TARGET_ADDER : alu
 	port map (
 		in_a => s_a,
 		in_b => immediate,
 		ALUOp	=> s_alu_target_op,
-		ULA => id_Jump_PC,
+		ULA => s_ula,
 		zero => open
 	);
 	
 	BRANCHING_ALU : alu
 	port map (
-		in_a => rs1_id,
-		in_b => rs2_id,
+		in_a => (31 downto 5 => '0') & rs1_id,
+		in_b => (31 downto 5 => '0') & rs2_id,
 		ALUOp	=> s_alu_branching_op,
 		ULA => open,
 		zero => s_branching_zero
 	);
 
-	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb)
+	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, s_ula)
 	begin
 		--RS1
 		if(rs1_id = rd_ex) then
-
+			
 			s_id_hd_hazard_rs1 <= '1';
-
+			
 		elsif(rs1_id = rd_mem) then
 
 			if(MemRead_mem = '1') then
 
 				s_id_hd_hazard_rs1 <= '1';
 				
-			else
+				else
 
 				RA_out <= alu_mem;
 				s_RA <= alu_mem;
-
+				
 			end if;
 
 		elsif(rs1_id = rd_wb) then
@@ -126,26 +129,35 @@ begin
 			if(MemRead_mem = '1') then
 
 				s_id_hd_hazard_rs2 <= '1';
-				
+					
 			else
 
 				RB_out <= alu_mem;
-
+				
 			end if;
-
-		elsif(rs2_id = rd_wb) then
-
-			RB_out <= writedata_wb;
-
-		else
 			
+		elsif(rs2_id = rd_wb) then
+				
+			RB_out <= writedata_wb;
+			
+		else
+				
 			s_id_hd_hazard_rs2 <= '0';
 			RB_out <= RB_id;
-
+				
 		end if;
+	end process;
 
-		id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
+	hazard_id: process(clock)
+	begin
+		if(falling_edge(clock)) then
+			id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
+		end if;
+	end process;
 
+	JumpPc: process(s_ula)
+	begin
+		id_Jump_PC <= s_ula;			
 	end process;
 	
 	CONTROL_HAZARD: process(op, immediate, funct3, s_branching_zero, s_branching_res)

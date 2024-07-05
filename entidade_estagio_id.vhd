@@ -98,13 +98,17 @@ architecture arch of estagio_id is
 	component hazard_detection is
 		port(
 			-- Entradas
+			clock				: in 	std_logic;
 			rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
 			rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
 			rd_wb			   	: in 	std_logic_vector(004 downto 0);	-- Endereço do registrador escrito
 			pc						: in  std_logic_vector(031 downto 0);
-			rs1_id					: in  std_logic_vector(031 downto 0);
-			rs2_id					: in  std_logic_vector(031 downto 0);
+			rs1_id					: in  std_logic_vector(004 downto 0);
+			rs2_id					: in  std_logic_vector(004 downto 0);
 			RA_id					: in  std_logic_vector(031 downto 0);
+			RB_id					: in  std_logic_vector(031 downto 0);
+			alu_mem					: in std_logic_vector(031 downto 0);
+			writedata_wb			: in std_logic_vector(031 downto 0);
 			op						: in  std_logic_vector(006 downto 0);
 			funct3					: in  std_logic_vector(002 downto 0);
 			immediate			: in  std_logic_vector(031 downto 0);
@@ -114,11 +118,8 @@ architecture arch of estagio_id is
 			id_Jump_PC			: out std_logic_vector(031 downto 0);
 			id_Branch_nop		: out std_logic; --IF-ID Flush
 			id_hd_hazard		: out std_logic; --IF-ID Stall
-			fwd_rs1_from_mem	: out std_logic;
-			fwd_rs2_from_mem	: out std_logic;
-			fwd_rs1_from_wb		: out std_logic;
-			fwd_rs2_from_wb		: out std_logic;
-			id_ex_stall			: out std_logic
+			RA_out				: out std_logic_vector(031 downto 0);
+			RB_out				: out std_logic_vector(031 downto 0)
 		);
 	end component;
 	
@@ -132,14 +133,14 @@ architecture arch of estagio_id is
 	signal RA_id, RB_id, Imed_id, PC_id_Plus4 : std_logic_vector(31 downto 0) := (others => '0');
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
-	signal s_id_Jump_PC: std_logic_vector(31 downto 0) := (others => '0');
+	signal s_id_Jump_PC, s_RA, s_RB: std_logic_vector(31 downto 0) := (others => '0');
 	signal fwd_rs1_from_mem, fwd_rs2_from_mem, fwd_rs1_from_wb, fwd_rs2_from_wb : std_logic;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
 	
     
-	s_op <= s_instruction(6 downto 0) when s_stall = '0' else (others => '0');
+	s_op <= s_instruction(6 downto 0);
 	s_funct3 <= s_instruction(14 downto 12);
 	s_funct7 <= s_instruction(31 downto 25);
 
@@ -312,6 +313,7 @@ begin
 
 	hd : hazard_detection
     port map (
+		clock => clock,
 		rd_ex => rd_ex,
 		rd_mem => rd_mem,
 		rd_wb => rd_wb,
@@ -319,6 +321,9 @@ begin
 		rs1_id => rs1_id,
 		rs2_id => rs2_id,
 		RA_id => RA_id,
+		RB_id => RB_id,
+		alu_mem => ula_mem,
+		writedata_wb => writedata_wb,
 		op => s_op,
 		funct3 => s_funct3,
 		immediate => Imed_id,
@@ -326,10 +331,8 @@ begin
 		id_Jump_PC => id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
 		id_hd_hazard => id_hd_hazard,
-		fwd_rs1_from_mem => ,
-		fwd_rs2_from_mem => ,
-		fwd_rs1_from_wb => ,
-		fwd_rs2_from_wb => ,
+		RA_out => s_RA,
+		RB_out => s_RB
     );
 
 	BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
@@ -343,10 +346,8 @@ begin
 	BEX(132 downto 128) <= rs1_id(04 downto 0);
 	BEX(127 downto 096) <= PC_id_Plus4(31 downto 0);
 	BEX(095 downto 064) <= Imed_id(31 downto 0);
-	BEX(063 downto 032) <= RB_id(31 downto 0);
-	BEX(031 downto 000) <= RA_id(31 downto 0);
-
-	dataproc: process()
+	BEX(063 downto 032) <= s_RB;
+	BEX(031 downto 000) <= s_RA;
 
 	-- determinar o tipo da instr
     instruct: process(s_instruction)

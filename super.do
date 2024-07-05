@@ -60,7 +60,6 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_Branch_no
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_hd_hazard
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/fwd_from_mem
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/fwd_from_wb
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/stall
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_a
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_b
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_op
@@ -146,7 +145,6 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/Aluop_id
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_id_Jump_PC
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_fwd_from_mem
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_fwd_from_wb
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_stall
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {6484 ps} 0}
 quietly wave cursor active 1

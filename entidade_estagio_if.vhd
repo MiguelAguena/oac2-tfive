@@ -88,7 +88,7 @@ architecture arch of estagio_if is
 	signal s_pc_plus4 : std_logic_vector(31 downto 0);
 	signal s_imem_out : std_logic_vector(31 downto 0);
 	signal s_instr : std_logic_vector(31 downto 0) :=(others => '0'	);
-	signal s_pc_in : std_logic_vector(31 downto 0);
+	signal s_pc_in : std_logic_vector(31 downto 0) :=(others => '0'	);
 	signal s_pc_enable: std_logic;
 	signal s_halt: std_logic := '0';
 	signal s_BID: std_logic_vector(63 downto 0) := (others => '0');
@@ -133,16 +133,16 @@ begin
 	behaviour_instr: process(clock)
 	begin
 		if(falling_edge(clock)) then
-			if(id_branch_nop = '1') then
-				s_instr <= (others => '0');
-			else
+			if(id_Branch_nop = '0') then
 				s_instr <= s_imem_out;
+			else
+				s_instr <= (others => '0');
 			end if;
 		end if;
 	end process;
 	behavior_pc_in: process(clock)
 	begin
-		if(falling_edge(clock)) then
+		if(rising_edge(clock)) then
 			if(id_pc_src = '0') then
 				s_pc_in <= s_pc_plus4;
 			else
@@ -152,8 +152,8 @@ begin
 	end process;
 	behavior_pc_out: process(clock)
 	begin
-		if(rising_edge(clock)) then
-			if(s_halt = '0' and id_branch_nop = '0'  and id_hd_hazard = '0') then
+		if(falling_edge(clock)) then
+			if(s_halt = '0'  and id_hd_hazard = '0') then
 				s_pc_out <= s_pc_in;
 			end if;
 		end if;
@@ -169,55 +169,56 @@ begin
 	BID <= s_BID;
 
     -- determinar o tipo da instr
-    process(s_instr)
+    process(clock)
     begin
-
-		ri_if <= s_instr;
-		PC_if <= s_pc_out;
-		-- pseudo instruções
-		if (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
-			COP_if <= NOP;
-        -- tipo R
-        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0110011") then
-            COP_if <= ADD;
-        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0110011") then
-            COP_if <= SLT;
-        -- tipo I
-        elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0010011") then
-            COP_if <= ADDI;
-        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0010011") then
-            COP_if <= SLTI;
-        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "0010011") then
-            COP_if <= SLLI;
-        elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
-            COP_if <= SRLI;
-        elsif (s_instr(31 downto 25) = "0100000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
-            COP_if <= SRAI;
-        -- tipo load
-        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0000011") then
-            COP_if <= LW;
-        -- tipo store
-        elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0100011") then
-            COP_if <= SW;
-        -- tipo branch
-        elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "1100011") then
-            COP_if <= BEQ;
-        elsif (s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "1100011") then
-            COP_if <= BNE;
-        elsif (s_instr(14 downto 12) = "100" and s_instr(6 downto 0) = "1100011") then
-            COP_if <= BLT;
-        -- tipo Jump
-        elsif (s_instr(6 downto 0) = "1101111") then
-            COP_if <= JAL;
-        elsif (s_instr(6 downto 0) = "1100111") then
-            COP_if <= JALR;
-        -- Halt
-        elsif (s_instr = x"0000006F") then
-            COP_if <= HALT;
-        -- tipo não existente
-        else
-            COP_if <= NOP;
-        end if;
+		if(rising_edge(clock)) then
+			ri_if <= s_instr;
+			PC_if <= s_pc_in;
+			-- pseudo instruções
+			if (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
+				COP_if <= NOP;
+			-- tipo R
+			elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0110011") then
+				COP_if <= ADD;
+			elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0110011") then
+				COP_if <= SLT;
+			-- tipo I
+			elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "0010011") then
+				COP_if <= ADDI;
+			elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0010011") then
+				COP_if <= SLTI;
+			elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "0010011") then
+				COP_if <= SLLI;
+			elsif (s_instr(31 downto 25) = "0000000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
+				COP_if <= SRLI;
+			elsif (s_instr(31 downto 25) = "0100000" and s_instr(14 downto 12) = "101" and s_instr(6 downto 0) = "0010011") then
+				COP_if <= SRAI;
+			-- tipo load
+			elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0000011") then
+				COP_if <= LW;
+			-- tipo store
+			elsif (s_instr(14 downto 12) = "010" and s_instr(6 downto 0) = "0100011") then
+				COP_if <= SW;
+			-- tipo branch
+			elsif (s_instr(14 downto 12) = "000" and s_instr(6 downto 0) = "1100011") then
+				COP_if <= BEQ;
+			elsif (s_instr(14 downto 12) = "001" and s_instr(6 downto 0) = "1100011") then
+				COP_if <= BNE;
+			elsif (s_instr(14 downto 12) = "100" and s_instr(6 downto 0) = "1100011") then
+				COP_if <= BLT;
+			-- tipo Jump
+			elsif (s_instr(6 downto 0) = "1101111") then
+				COP_if <= JAL;
+			elsif (s_instr(6 downto 0) = "1100111") then
+				COP_if <= JALR;
+			-- Halt
+			elsif (s_instr = x"0000006F") then
+				COP_if <= HALT;
+			-- tipo não existente
+			else
+				COP_if <= NOP;
+			end if;
+		end if;
     end process;
 	 
 	behavior_halt: process(clock)
