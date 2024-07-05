@@ -78,17 +78,26 @@ begin
 	begin
 		if (rd_id = rd_ex) then
 			stall <= '1';
-			
+			fwd_from_mem <= '0';
+			fwd_from_wb <= '0';
+
 		elsif (rd_id = rd_mem) then
 			if(MemRead_mem = '1') then
 				stall <= '1';
-				
+				fwd_from_mem <= '0';
+				fwd_from_wb <= '0';
+
 			else
+
+				stall <= '0';
 				fwd_from_mem <= '1';
+				fwd_from_wb <= '0';
 				
 			end if;
 			
 		elsif (rd_id = rd_wb) then
+			stall <= '0';
+			fwd_from_mem <= '0';
 			fwd_from_wb <= '1';
 		
 		end if;
@@ -111,6 +120,9 @@ begin
 				id_Jump_PC <= s_res;
 				id_Branch_nop <= '1';
 				id_hd_hazard <= '1';
+			else
+				id_Branch_nop <= '0';
+				id_hd_hazard <= '0';
 			end if;
 		end if;
 		
@@ -122,6 +134,9 @@ begin
 								  
 			id_Branch_nop <= '1';
 			id_hd_hazard <= '1';
+		else
+			id_Branch_nop <= '0';
+			id_hd_hazard <= '0';
 		end if;
 		
 		if (s_op = "1100111") then --jalr
@@ -131,7 +146,10 @@ begin
 			id_Jump_PC <= s_res;
 								  
 			id_Branch_nop <= '1';
-			id_hd_hazard <= '1';			
+			id_hd_hazard <= '1';
+		else
+			id_Branch_nop <= '0';
+			id_hd_hazard <= '0';	
 		end if;
 	
 	end process;
