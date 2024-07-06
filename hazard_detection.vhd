@@ -163,13 +163,8 @@ begin
 				RB_out <= RB_id;
 		end if;
 	end process;
-
-	hazard_id: process(clock)
-	begin
-		if(falling_edge(clock)) then
-			id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
-		end if;
-	end process;
+			
+	id_hd_hazard <= (s_id_hd_hazard_rs1 or s_id_hd_hazard_rs2);
 	
 	CONTROL_HAZARD: process(op, immediate, funct3, s_branching_zero, s_branching_res)
 	begin

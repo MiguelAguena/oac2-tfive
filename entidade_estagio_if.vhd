@@ -139,9 +139,9 @@ begin
 			end if;
 		end if;
 	end process;
-	behavior_pc_in: process(clock)
+	behavior_pc_in: process(clock, id_hd_hazard)
 	begin
-		if(rising_edge(clock)) then
+		if(rising_edge(clock) and id_hd_hazard = '0') then
 			if(id_pc_src = '0') then
 				s_pc <= s_pc_plus4;
 			else
