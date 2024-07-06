@@ -115,6 +115,7 @@ architecture arch of estagio_id is
 			MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
 			
 			-- Saídas
+			id_PC_src			: out std_logic;
 			id_Jump_PC			: out std_logic_vector(031 downto 0);
 			id_Branch_nop		: out std_logic; --IF-ID Flush
 			id_hd_hazard		: out std_logic; --IF-ID Stall
@@ -327,6 +328,7 @@ begin
 		funct3 => s_funct3,
 		immediate => Imed_id,
 		MemRead_mem => MemRead_mem,
+		id_PC_src => id_PC_src,
 		id_Jump_PC => s_id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
 		id_hd_hazard => id_hd_hazard,

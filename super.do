@@ -23,9 +23,9 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/NPC_mem
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/id_Branch_nop
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/rs1_id_ex
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/rs2_id_ex
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/COP_id
+add wave -noupdate -color PINK -radix hexadecimal /tb_if_id_swap_halt/COP_id
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/BEX
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/COP_ex
+add wave -noupdate -color PINK -radix hexadecimal /tb_if_id_swap_halt/COP_ex
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/eof
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/BEX_Data
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/BEX_control
@@ -44,59 +44,27 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/RegWrite
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/MemToReg
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/clock_period
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/C_FILE_NAME
-add wave -noupdate -divider -height 40 {HAZARD UNIT}
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_id
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_ex
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_mem
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_wb
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/pc
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RA_id
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RB_id
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/op
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/immediate
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/MemRead_mem
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_Jump_PC
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_Branch_nop
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_hd_hazard
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/fwd_from_mem
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/fwd_from_wb
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_a
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_b
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_op
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_res
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_a
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_b
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_op
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_zero
 add wave -noupdate -divider -height 40 FETCH
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/imem_init_file
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/clock
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/id_hd_hazard
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/id_Branch_nop
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/id_PC_Src
+add wave -noupdate -divider -height 40 REGFILE
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/id_Jump_PC
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/keep_simulating
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/BID
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_pc_out
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_pc_plus4
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_imem_out
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_instr
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_pc_in
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_pc_enable
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_halt
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/COP_if
-add wave -noupdate -radix hexadecimal -childformat {{/tb_if_id_swap_halt/fetch/ri_if(31) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(30) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(29) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(28) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(27) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(26) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(25) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(24) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(23) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(22) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(21) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(20) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(19) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(18) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(17) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(16) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(15) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(14) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(13) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(12) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(11) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(10) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(9) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(8) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(7) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(6) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(5) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(4) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(3) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(2) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(1) -radix hexadecimal} {/tb_if_id_swap_halt/fetch/ri_if(0) -radix hexadecimal}} -subitemconfig {/tb_if_id_swap_halt/fetch/ri_if(31) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(30) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(29) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(28) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(27) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(26) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(25) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(24) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(23) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(22) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(21) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(20) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(19) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(18) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(17) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(16) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(15) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(14) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(13) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(12) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(11) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(10) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(9) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(8) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(7) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(6) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(5) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(4) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(3) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(2) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(1) {-height 14 -radix hexadecimal} /tb_if_id_swap_halt/fetch/ri_if(0) {-height 14 -radix hexadecimal}} /tb_if_id_swap_halt/fetch/ri_if
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_BID
+add wave -noupdate -color PINK -radix hexadecimal /tb_if_id_swap_halt/fetch/COP_if
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/ri_if
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/PC_if
-add wave -noupdate -divider -height 40 REGFILE
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/clock
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/RegWrite
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/read_reg_rs1
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/read_reg_rs2
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/write_reg_rd
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/data_in
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/data_out_a
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/data_out_b
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rf/regs
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/wait_bit
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/fetch/s_pc
 add wave -noupdate -divider -height 40 DECODE
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/clock
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/BID
@@ -119,8 +87,8 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/id_Branch_nop
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rs1_id_ex
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rs2_id_ex
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/BEX
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/COP_id
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/COP_ex
+add wave -noupdate -color pink -radix hexadecimal /tb_if_id_swap_halt/decode/COP_id
+add wave -noupdate -color pink -radix hexadecimal /tb_if_id_swap_halt/decode/COP_ex
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_pc
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_instruction
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/rs2_id
@@ -143,10 +111,51 @@ add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/PC_id_Plus4
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/ImmSrc
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/Aluop_id
 add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_id_Jump_PC
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_fwd_from_mem
-add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_fwd_from_wb
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_RA
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/s_RB
+add wave -noupdate -divider -height 40 HAZARD
+add wave -noupdate -color cyan -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_ex
+add wave -noupdate -color cyan -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_mem
+add wave -noupdate -color cyan -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rd_wb
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/pc
+add wave -noupdate -color cyan -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rs1_id
+add wave -noupdate -color cyan -radix hexadecimal /tb_if_id_swap_halt/decode/hd/rs2_id
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RA_id
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RB_id
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/alu_mem
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/writedata_wb
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/op
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/funct3
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/immediate
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/MemRead_mem
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_Jump_PC
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_Branch_nop
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/id_hd_hazard
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RA_out
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/RB_out
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_a
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_b
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_alu_target_op
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_target_res
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_id_hd_hazard_rs1
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_id_hd_hazard_rs2
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_a
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_b
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_alu_branching_op
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_zero
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_branching_res
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/s_RA
+add wave -noupdate /tb_if_id_swap_halt/decode/hd/id_PC_src
+add wave -noupdate -divider -height 40 {ADDER TARGET HAZ}
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/in_a
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/in_b
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/ALUOp
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/ULA
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/zero
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/alu_out
+add wave -noupdate -radix hexadecimal /tb_if_id_swap_halt/decode/hd/TARGET_ADDER/zeros
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {6484 ps} 0}
+WaveRestoreCursors {{Cursor 1} {132046 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 354
 configure wave -valuecolwidth 303

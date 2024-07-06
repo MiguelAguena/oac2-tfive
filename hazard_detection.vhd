@@ -28,6 +28,7 @@ entity hazard_detection is
 		MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
 		
 		-- Saídas
+		id_PC_src			: out std_logic;
 		id_Jump_PC			: out std_logic_vector(031 downto 0);
 		id_Branch_nop		: out std_logic; --IF-ID Flush
 		id_hd_hazard		: out std_logic; --IF-ID Stall
@@ -89,68 +90,77 @@ begin
 	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb)
 	begin
 		--RS1
-		if(rs1_id = rd_ex) then
-			
-			RA_out <= RA_id;
-			s_RA <= RA_id;
-			s_id_hd_hazard_rs1 <= '1';
-			
-		elsif(rs1_id = rd_mem) then
-
-			if(MemRead_mem = '1') then
-
+		if(rs1_id /= "00000") then
+			if(rs1_id = rd_ex) then
+				
 				RA_out <= RA_id;
 				s_RA <= RA_id;
 				s_id_hd_hazard_rs1 <= '1';
 				
+			elsif(rs1_id = rd_mem) then
+
+				if(MemRead_mem = '1') then
+
+					RA_out <= RA_id;
+					s_RA <= RA_id;
+					s_id_hd_hazard_rs1 <= '1';
+					
+				else
+
+					RA_out <= alu_mem;
+					s_RA <= alu_mem;
+					
+				end if;
+
+			elsif(rs1_id = rd_wb) then
+
+				RA_out <= writedata_wb;
+				s_RA <= writedata_wb;
+
 			else
 
-				RA_out <= alu_mem;
-				s_RA <= alu_mem;
-				
+				RA_out <= RA_id;
+				s_RA <= RA_id;
+				s_id_hd_hazard_rs1 <= '0';
+
 			end if;
-
-		elsif(rs1_id = rd_wb) then
-
-			RA_out <= writedata_wb;
-			s_RA <= writedata_wb;
-
 		else
-
-			RA_out <= RA_id;
 			s_RA <= RA_id;
-			s_id_hd_hazard_rs1 <= '0';
-
+			RA_out <= RA_id;
 		end if;
 
 		--RS2
-		if(rs2_id = rd_ex) then
-
-			RB_out <= RB_id;
-			s_id_hd_hazard_rs2 <= '1';
-
-		elsif(rs2_id = rd_mem) then
-
-			if(MemRead_mem = '1') then
+		if(rs2_id /= "00000") then
+			if(rs2_id = rd_ex) then
 
 				RB_out <= RB_id;
 				s_id_hd_hazard_rs2 <= '1';
-					
-			else
 
-				RB_out <= alu_mem;
+			elsif(rs2_id = rd_mem) then
+
+				if(MemRead_mem = '1') then
+
+					RB_out <= RB_id;
+					s_id_hd_hazard_rs2 <= '1';
+						
+				else
+
+					RB_out <= alu_mem;
+					
+				end if;
 				
+			elsif(rs2_id = rd_wb) then
+					
+				RB_out <= writedata_wb;
+				
+			else
+					
+				RB_out <= RB_id;
+				s_id_hd_hazard_rs2 <= '0';
+					
 			end if;
-			
-		elsif(rs2_id = rd_wb) then
-				
-			RB_out <= writedata_wb;
-			
-		else
-				
-			RB_out <= RB_id;
-			s_id_hd_hazard_rs2 <= '0';
-				
+			else
+				RB_out <= RB_id;
 		end if;
 	end process;
 
@@ -163,34 +173,36 @@ begin
 	
 	CONTROL_HAZARD: process(op, immediate, funct3, s_branching_zero, s_branching_res)
 	begin
-		if (op = "0010011") then --beq, bne, blt
-			
+		if (op = "1100011") then --beq, bne, blt
 			s_a <= pc;
 			
 			if((funct3 = "000" and s_branching_zero = '1') or
 	    	   (funct3 = "001" and s_branching_zero = '0') or
 			   (funct3 = "100" and s_branching_res(31) = '1')) then --beq
 
-				
+			   	id_PC_src <= '1';
 				id_Branch_nop <= '1';
 
 			else
-
+			    id_PC_src <= '0';
 				id_Branch_nop <= '0';
 
 			end if;
 		
 		elsif (op = "1101111") then --jal
 
-			s_a <= pc;	  
+			s_a <= pc;
+			id_PC_src <= '1';	  
 			id_Branch_nop <= '1';
 		
 		elsif (op = "1100111") then --jalr
 
-			s_a <= s_RA;		  
+			s_a <= s_RA;
+			id_PC_src <= '1';		  
 			id_Branch_nop <= '1';
 
 		else
+			id_PC_src <= '0';
 			id_Branch_nop <= '0';
 		end if;
 	

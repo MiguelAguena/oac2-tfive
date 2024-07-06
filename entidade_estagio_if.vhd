@@ -84,11 +84,10 @@ architecture arch of estagio_if is
 		 );
 	end component alu;
 	
-	signal s_pc_out : std_logic_vector(31 downto 0) := (others => '0');
 	signal s_pc_plus4 : std_logic_vector(31 downto 0);
 	signal s_imem_out : std_logic_vector(31 downto 0);
 	signal s_instr : std_logic_vector(31 downto 0) :=(others => '0'	);
-	signal s_pc_in : std_logic_vector(31 downto 0) :=(others => '0'	);
+	signal s_pc : std_logic_vector(31 downto 0) :=(others => '0'	);
 	signal s_pc_enable: std_logic;
 	signal s_halt: std_logic := '0';
 	signal s_BID: std_logic_vector(63 downto 0) := (others => '0');
@@ -103,7 +102,7 @@ begin
 
 	adder4 : alu
 	port map (
-		in_a => s_pc_out,
+		in_a => s_pc,
 		in_b => (2 => '1', others => '0'),
 		ALUOp	=> "000",
 		ULA => s_pc_plus4,
@@ -119,7 +118,7 @@ begin
 	port map (
 		clock => clock,
 		write => '0',
-		address => s_pc_out,
+		address => s_pc,
 		data_in => (others => '0'),
 		data_out => s_imem_out
 	);
@@ -144,36 +143,26 @@ begin
 	begin
 		if(rising_edge(clock)) then
 			if(id_pc_src = '0') then
-				s_pc_in <= s_pc_plus4;
+				s_pc <= s_pc_plus4;
 			else
-				s_pc_in 	<= id_Jump_PC;
+				s_pc 	<= id_Jump_PC;
 			end if;
 		end if;
-	end process;
-	behavior_pc_out: process(clock)
-	begin
-		if(falling_edge(clock)) then
-			if(s_halt = '0'  and id_hd_hazard = '0') then
-				s_pc_out <= s_pc_in;
-			end if;
-		end if;
-
 	end process;
 	
 	BID_reg: process (clock) is
 	begin
 		if(rising_edge(clock)) then
-			s_BID <= s_pc_in & s_instr;
+			s_BID <= s_pc & s_instr;
 		end if;
 	end process;
 	BID <= s_BID;
 
     -- determinar o tipo da instr
-    process(clock)
+    process(s_instr)
     begin
-		if(rising_edge(clock)) then
 			ri_if <= s_instr;
-			PC_if <= s_pc_in;
+			PC_if <= s_pc;
 			-- pseudo instruções
 			if (s_instr = "00000000000000000000000000000000" or s_instr = "00000000000000000001000000010011") then 
 				COP_if <= NOP;
@@ -218,7 +207,6 @@ begin
 			else
 				COP_if <= NOP;
 			end if;
-		end if;
     end process;
 	 
 	behavior_halt: process(clock)
