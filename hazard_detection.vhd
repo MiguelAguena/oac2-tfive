@@ -92,6 +92,7 @@ begin
 		if(rs1_id = rd_ex) then
 			
 			RA_out <= RA_id;
+			s_RA <= RA_id;
 			s_id_hd_hazard_rs1 <= '1';
 			
 		elsif(rs1_id = rd_mem) then
@@ -99,6 +100,7 @@ begin
 			if(MemRead_mem = '1') then
 
 				RA_out <= RA_id;
+				s_RA <= RA_id;
 				s_id_hd_hazard_rs1 <= '1';
 				
 			else
