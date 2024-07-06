@@ -188,7 +188,7 @@ begin
                 
             when "0100011" => -- sw
 				AluSrc_id <= '1';
-				MemtoReg_id <= "--";
+				MemtoReg_id <= "00";
 				RegWrite_id <= '0';
 				Memread_id <= '0';
 				Memwrite_id <= '1';
@@ -294,7 +294,7 @@ begin
                     when "111" => 
                         Aluop_id <= "010"; -- and, andi
                     when others => 
-                        Aluop_id <= "---"; -- unknown
+                        Aluop_id <= "000"; -- unknown
                 end case;
         end case;
     end process;
