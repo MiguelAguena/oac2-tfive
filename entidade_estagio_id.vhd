@@ -345,7 +345,7 @@ begin
 	BEX(142 downto 138) <= rd_id(04 downto 0);
 	BEX(137 downto 133) <= rs2_id(04 downto 0);
 	BEX(132 downto 128) <= rs1_id(04 downto 0);
-	BEX(127 downto 096) <= PC_id_Plus4(31 downto 0);
+	BEX(127 downto 096) <= s_pc;
 	BEX(095 downto 064) <= Imed_id(31 downto 0);
 	BEX(063 downto 032) <= s_RB;
 	BEX(031 downto 000) <= s_RA;

@@ -87,7 +87,7 @@ begin
 		zero => s_branching_zero
 	);
 
-	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb)
+	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
 	begin
 		--RS1
 		if(rs1_id /= "00000") then
