@@ -163,7 +163,7 @@ begin
 			ula_a <= writedata_wb;
 		else
 			ula_a <= s_RA;
-		end if;dado_arma_ex
+		end if;
 
 		-- ula b
 		if (s_ula_b = "01") then
