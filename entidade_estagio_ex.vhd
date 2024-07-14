@@ -54,7 +54,7 @@ end entity;
 architecture behavior_ex of estagio_ex is
 
 	signal s_rd_ex, s_rs1_ex, s_rs2_ex : std_logic_vector(004 downto 0) := (others => '0');
-	signal ula_a, ula_b, s_immed, s_RB, s_RA, s_pcPlus4, s_ULA, s_dado_arma  : std_logic_vector(031 downto 0) := (others => '0');
+	signal ula_a, ula_b, s_immed, s_RB, s_RA, s_pcPlus4, s_ULA, s_dado_arma, s_NPC  : std_logic_vector(031 downto 0) := (others => '0');
 	signal s_fw_a, s_fw_b, s_ula_a, s_ula_b, s_MemToReg : std_logic_vector(001 downto 0) := (others => '0');
 	signal s_aluSrc : std_logic := '0';
 	signal s_aluOp : std_logic_vector(002 downto 0) := "000";
@@ -137,11 +137,19 @@ begin
 	);
 
 	ula_exec: alu port map(
+		in_a => s_pcPlus4,
+		in_b => (2 => '1', others => '0'), --4
+		ALUOp => (others => '0'), -- add
+		ULA => s_NPC,
+		zero => open
+	);
+
+	ula_NPC: alu port map(
 		in_a => ula_a,
 		in_b => ula_b,
 		ALUOp => s_aluOp,
 		ULA => s_ULA,
-		zero => zero
+		zero => open
 	);
  
 	ula_src: process(s_aluSrc, s_ula_a, s_ula_b, s_RA, s_RB, s_immed, s_pcPlus4, ula_mem, writedata_wb, Memval_mem)
@@ -181,7 +189,7 @@ begin
 			s_dado_arma <= Memval_mem;
 		elsif (s_ula_b = "11") then
 			s_dado_arma <= writedata_wb;
-		else
+		else  
 			s_dado_arma <= s_RB;
 		end if;
 	end process;
@@ -193,7 +201,7 @@ begin
 		BMEM(113) <= s_RegWrite;
 		BMEM(112) <= s_Memwrite;
 		BMEM(111) <= s_Memread;
-		BMEM(110 downto 079) <= NPC_ex;
+		BMEM(110 downto 079) <= s_NPC;
 		BMEM(078 downto 047) <= s_ULA;
 		BMEM(046 downto 015) <= s_dado_arma;
 		BMEM(014 downto 010) <= s_rs1_ex;

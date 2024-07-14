@@ -20,20 +20,27 @@ entity hazard_detection is
 		rs2_id					: in  std_logic_vector(004 downto 0);
 		RA_id					: in  std_logic_vector(031 downto 0);
 		RB_id					: in  std_logic_vector(031 downto 0);
-		alu_mem					: in std_logic_vector(031 downto 0);
-		writedata_wb			: in std_logic_vector(031 downto 0);
+		alu_mem					: in  std_logic_vector(031 downto 0);
+		alu_ex					: in  std_logic_vector(031 downto 0);	-- Saída da ULA no estágio Ex
+		NPC_mem					: in  std_logic_vector(031 downto 0); -- Valor do NPC no estagio mem
+		writedata_wb			: in  std_logic_vector(031 downto 0);
+		immediate				: in  std_logic_vector(031 downto 0);
 		op						: in  std_logic_vector(006 downto 0);
 		funct3					: in  std_logic_vector(002 downto 0);
-		immediate			: in  std_logic_vector(031 downto 0);
 		MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
+		MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
+		RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
+		ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
+		ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB 
 		
 		-- Saídas
+		id_hd_hazard		: out std_logic; --IF-ID Stall
 		id_PC_src			: out std_logic;
 		id_Jump_PC			: out std_logic_vector(031 downto 0);
 		id_Branch_nop		: out std_logic; --IF-ID Flush
-		id_hd_hazard		: out std_logic; --IF-ID Stall
 		RA_out				: out std_logic_vector(031 downto 0);
 		RB_out				: out std_logic_vector(031 downto 0)
+    
 	);
 end entity;
 
@@ -87,83 +94,68 @@ begin
 		zero => s_branching_zero
 	);
 
-	DATA_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
+	NOP_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
 	begin
 		--RS1
 		if(rs1_id /= "00000") then
 			if(rs1_id = rd_ex) then
-				
-				RA_out <= RA_id;
-				s_RA <= RA_id;
-				s_id_hd_hazard_rs1 <= '1';
+
+				s_id_hd_hazard_rs1 <= '0';
 				
 			elsif(rs1_id = rd_mem) then
 
 				if(MemRead_mem = '1') then
 
-					RA_out <= RA_id;
-					s_RA <= RA_id;
 					s_id_hd_hazard_rs1 <= '1';
 					
 				else
 
-					RA_out <= alu_mem;
-					s_RA <= alu_mem;
 					s_id_hd_hazard_rs1 <= '0';
 					
 				end if;
 
 			elsif(rs1_id = rd_wb) then
 
-				RA_out <= writedata_wb;
-				s_RA <= writedata_wb;
 				s_id_hd_hazard_rs1 <= '0';
 
 			else
 
-				RA_out <= RA_id;
-				s_RA <= RA_id;
 				s_id_hd_hazard_rs1 <= '0';
 
 			end if;
 		else
-			s_RA <= RA_id;
-			RA_out <= RA_id;
+			
 			s_id_hd_hazard_rs1 <= '0';
+
 		end if;
 
 		--RS2
 		if(rs2_id /= "00000") then
 			if(rs2_id = rd_ex) then
 
-				RB_out <= RB_id;
-				s_id_hd_hazard_rs2 <= '1';
+				s_id_hd_hazard_rs2 <= '0';
 
 			elsif(rs2_id = rd_mem) then
 
 				if(MemRead_mem = '1') then
 
-					RB_out <= RB_id;
 					s_id_hd_hazard_rs2 <= '1';
 						
 				else
 
-					RB_out <= alu_mem;
 					s_id_hd_hazard_rs2 <= '0';
+
 				end if;
 				
 			elsif(rs2_id = rd_wb) then
 					
-				RB_out <= writedata_wb;
 				s_id_hd_hazard_rs2 <= '0';
 			else
 					
-				RB_out <= RB_id;
 				s_id_hd_hazard_rs2 <= '0';
 					
 			end if;
 			else
-				RB_out <= RB_id;
 				s_id_hd_hazard_rs2 <= '0';
 		end if;
 	end process;
