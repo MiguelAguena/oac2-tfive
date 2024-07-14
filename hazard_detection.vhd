@@ -109,6 +109,7 @@ begin
 
 					RA_out <= alu_mem;
 					s_RA <= alu_mem;
+					s_id_hd_hazard_rs1 <= '0';
 					
 				end if;
 
@@ -116,6 +117,7 @@ begin
 
 				RA_out <= writedata_wb;
 				s_RA <= writedata_wb;
+				s_id_hd_hazard_rs1 <= '0';
 
 			else
 
@@ -127,6 +129,7 @@ begin
 		else
 			s_RA <= RA_id;
 			RA_out <= RA_id;
+			s_id_hd_hazard_rs1 <= '0';
 		end if;
 
 		--RS2
@@ -146,13 +149,13 @@ begin
 				else
 
 					RB_out <= alu_mem;
-					
+					s_id_hd_hazard_rs2 <= '0';
 				end if;
 				
 			elsif(rs2_id = rd_wb) then
 					
 				RB_out <= writedata_wb;
-				
+				s_id_hd_hazard_rs2 <= '0';
 			else
 					
 				RB_out <= RB_id;
@@ -161,6 +164,7 @@ begin
 			end if;
 			else
 				RB_out <= RB_id;
+				s_id_hd_hazard_rs2 <= '0';
 		end if;
 	end process;
 			

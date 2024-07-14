@@ -139,7 +139,7 @@ begin
 			end if;
 		end if;
 	end process;
-	behavior_pc_in: process(clock, id_hd_hazard)
+	behavior_pc_in: process(clock)
 	begin
 		if(rising_edge(clock) and id_hd_hazard = '0') then
 			if(id_pc_src = '0') then
@@ -152,7 +152,7 @@ begin
 	
 	BID_reg: process (clock) is
 	begin
-		if(rising_edge(clock)) then
+		if(rising_edge(clock) and id_hd_hazard = '0') then
 			s_BID <= s_pc & s_instr;
 		end if;
 	end process;
@@ -195,14 +195,14 @@ begin
 				COP_if <= BNE;
 			elsif (s_instr(14 downto 12) = "100" and s_instr(6 downto 0) = "1100011") then
 				COP_if <= BLT;
+			-- Halt
+			elsif (s_instr = x"0000006F") then
+				COP_if <= HALT;
 			-- tipo Jump
 			elsif (s_instr(6 downto 0) = "1101111") then
 				COP_if <= JAL;
 			elsif (s_instr(6 downto 0) = "1100111") then
 				COP_if <= JALR;
-			-- Halt
-			elsif (s_instr = x"0000006F") then
-				COP_if <= HALT;
 			-- tipo não existente
 			else
 				COP_if <= NOP;
@@ -214,10 +214,9 @@ begin
 		if(rising_edge(clock)) then
 			if(s_instr = x"0000006F") then
 				s_halt <= '1';
+				stop;				
 			end if;
 		end if;
 	end process;
-
-
 	
 end architecture;

@@ -129,7 +129,7 @@ architecture arch of estagio_id is
 	signal s_op : std_logic_vector(6 downto 0) := (others => '0');
 	signal s_funct3 : std_logic_vector(2 downto 0) := (others => '0');
 	signal s_funct7 : std_logic_vector(6 downto 0) := (others => '0');
-	signal RegWrite_id, Memwrite_id, Memread_id, AluSrc_id, Branch, Jump : std_logic;
+	signal RegWrite_id, Memwrite_id, Memread_id, AluSrc_id, Branch, Jump, s_id_hd_hazard : std_logic;
 	signal MemtoReg_id : std_logic_vector(1 downto 0) := (others => '0');
 	signal RA_id, RB_id, Imed_id, PC_id_Plus4 : std_logic_vector(31 downto 0) := (others => '0');
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
@@ -139,14 +139,14 @@ begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
 	
-    
 	s_op <= s_instruction(6 downto 0);
 	s_funct3 <= s_instruction(14 downto 12);
 	s_funct7 <= s_instruction(31 downto 25);
-
+	
 	rs1_id_ex <= rs1_id;
 	rs2_id_ex <= rs2_id;
 	
+    id_hd_hazard <= s_id_hd_hazard;
 	id_Jump_PC <= s_id_Jump_PC;
 	
 	ADDER4 : alu
@@ -196,9 +196,9 @@ begin
 				Jump <= '0';
 				Imed_id <= (31 downto 12 => s_instruction(31)) &
                 s_instruction(31 downto 25) & s_instruction(11 downto 7);
-				rs2_id <= (others => '0');
+				rs2_id <= s_instruction(24 downto 20);
 				rs1_id <= s_instruction(19 downto 15);
-				rd_id <= s_instruction(24 downto 20);
+				rd_id <= (others => '0');
 
             when "1100011" => -- beq
 				AluSrc_id <= '0';
@@ -331,24 +331,30 @@ begin
 		id_PC_src => id_PC_src,
 		id_Jump_PC => s_id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
-		id_hd_hazard => id_hd_hazard,
+		id_hd_hazard => s_id_hd_hazard,
 		RA_out => s_RA,
 		RB_out => s_RB
     );
 
-	BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
-	BEX(149) <= RegWrite_id;
-	BEX(148) <= Memwrite_id;
-	BEX(147) <= Memread_id;
-	BEX(146) <= AluSrc_id;
-	BEX(145 downto 143) <= Aluop_id(02 downto 0);
-	BEX(142 downto 138) <= rd_id(04 downto 0);
-	BEX(137 downto 133) <= rs2_id(04 downto 0);
-	BEX(132 downto 128) <= rs1_id(04 downto 0);
-	BEX(127 downto 096) <= s_pc;
-	BEX(095 downto 064) <= Imed_id(31 downto 0);
-	BEX(063 downto 032) <= s_RB;
-	BEX(031 downto 000) <= s_RA;
+	bex_reg: process(clock)
+	begin
+		if(rising_edge(clock) and s_id_hd_hazard = '0') then
+
+			BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
+			BEX(149) <= RegWrite_id;
+			BEX(148) <= Memwrite_id;
+			BEX(147) <= Memread_id;
+			BEX(146) <= AluSrc_id;
+			BEX(145 downto 143) <= Aluop_id(02 downto 0);
+			BEX(142 downto 138) <= rd_id(04 downto 0);
+			BEX(137 downto 133) <= rs2_id(04 downto 0);
+			BEX(132 downto 128) <= rs1_id(04 downto 0);
+			BEX(127 downto 096) <= PC_id_Plus4;
+			BEX(095 downto 064) <= Imed_id(31 downto 0);
+			BEX(063 downto 032) <= s_RB;
+			BEX(031 downto 000) <= s_RA;
+		end if;
+	end process;
 
 	-- determinar o tipo da instr
     instruct: process(s_instruction)
@@ -385,14 +391,14 @@ begin
             COP_id <= BNE;
         elsif (s_instruction(14 downto 12) = "100" and s_instruction(6 downto 0) = "1100011") then
             COP_id <= BLT;
+		-- Halt
+		elsif (s_instruction = x"0000006F") then
+			COP_id <= HALT;
         -- tipo Jump
         elsif (s_instruction(6 downto 0) = "1101111") then
             COP_id <= JAL;
         elsif (s_instruction(6 downto 0) = "1100111") then
             COP_id <= JALR;
-        -- Halt
-        elsif (s_instruction = x"0000006F") then
-            COP_id <= HALT;
         -- tipo não existente
         else
             COP_id <= NOP;
