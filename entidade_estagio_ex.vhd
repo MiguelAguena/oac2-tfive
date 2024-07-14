@@ -166,15 +166,15 @@ begin
 		end if;
 
 		-- ula b
-		if (s_ula_b = "01") then
-			ula_b <= ula_mem;
-		elsif (s_ula_b = "10") then
-			ula_b <= Memval_mem;
-		elsif (s_ula_b = "11") then
-			ula_b <= writedata_wb;
+		if(s_aluSrc = '1') then
+			ula_b <= s_immed;
 		else
-			if(s_aluSrc = '1') then
-				ula_b <= s_immed;
+			if (s_ula_b = "01") then
+				ula_b <= ula_mem;
+			elsif (s_ula_b = "10") then
+				ula_b <= Memval_mem;
+			elsif (s_ula_b = "11") then
+				ula_b <= writedata_wb;
 			else
 				ula_b <= s_RB;
 			end if;
