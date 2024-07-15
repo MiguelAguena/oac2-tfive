@@ -18,6 +18,7 @@ entity hazard_detection is
 		pc						: in  std_logic_vector(031 downto 0);
 		rs1_id					: in  std_logic_vector(004 downto 0);
 		rs2_id					: in  std_logic_vector(004 downto 0);
+		rd_id					: in  std_logic_vector(004 downto 0);
 		RA_id					: in  std_logic_vector(031 downto 0);
 		RB_id					: in  std_logic_vector(031 downto 0);
 		alu_mem					: in  std_logic_vector(031 downto 0);
@@ -30,6 +31,7 @@ entity hazard_detection is
 		MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
 		MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
 		RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
+		Jump				: in 	std_logic;
 		ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
 		ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB 
 		
@@ -69,10 +71,10 @@ architecture arch of hazard_detection is
 	signal s_branching_a : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_branching_b : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_alu_branching_op : std_logic_vector(2 downto 0) := "001";	
-	signal s_branching_zero : std_logic := '0';
+	signal s_branching_zero, s_jump : std_logic := '0';
 	signal s_branching_res : std_logic_vector(31 downto 0) := (others => '0');	
 	
-	signal s_RA : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_RA, s_RB : std_logic_vector(31 downto 0) := (others => '0');
 begin
 
 	
@@ -94,69 +96,22 @@ begin
 		zero => s_branching_zero
 	);
 
-	NOP_HAZARD: process(rs1_id, rs2_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
+	
+
+	STALL_HAZARD: process(rs1_id, rs2_id, rd_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
 	begin
+
 		--RS1
-		if(rs1_id /= "00000") then
-			if(rs1_id = rd_ex) then
-
-				s_id_hd_hazard_rs1 <= '0';
-				
-			elsif(rs1_id = rd_mem) then
-
-				if(MemRead_mem = '1') then
-
-					s_id_hd_hazard_rs1 <= '1';
-					
-				else
-
-					s_id_hd_hazard_rs1 <= '0';
-					
-				end if;
-
-			elsif(rs1_id = rd_wb) then
-
-				s_id_hd_hazard_rs1 <= '0';
-
-			else
-
-				s_id_hd_hazard_rs1 <= '0';
-
-			end if;
-		else
-			
+		if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
+			s_id_hd_hazard_rs1 <= '1';
+		else 
 			s_id_hd_hazard_rs1 <= '0';
-
 		end if;
-
 		--RS2
-		if(rs2_id /= "00000") then
-			if(rs2_id = rd_ex) then
-
-				s_id_hd_hazard_rs2 <= '0';
-
-			elsif(rs2_id = rd_mem) then
-
-				if(MemRead_mem = '1') then
-
-					s_id_hd_hazard_rs2 <= '1';
-						
-				else
-
-					s_id_hd_hazard_rs2 <= '0';
-
-				end if;
-				
-			elsif(rs2_id = rd_wb) then
-					
-				s_id_hd_hazard_rs2 <= '0';
-			else
-					
-				s_id_hd_hazard_rs2 <= '0';
-					
-			end if;
-			else
-				s_id_hd_hazard_rs2 <= '0';
+		if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
+			s_id_hd_hazard_rs2 <= '1';
+		else 
+			s_id_hd_hazard_rs2 <= '0';
 		end if;
 	end process;
 			
@@ -166,10 +121,11 @@ begin
 	begin
 		if (op = "1100011") then --beq, bne, blt
 			s_a <= pc;
-			
+
 			if((funct3 = "000" and s_branching_zero = '1') or
 	    	   (funct3 = "001" and s_branching_zero = '0') or
-			   (funct3 = "100" and s_branching_res(31) = '1')) then --beq
+			   (funct3 = "100" and s_branching_res(31) = '1') or
+			   ) then --branch condition true
 
 			   	id_PC_src <= '1';
 				id_Branch_nop <= '1';
@@ -180,14 +136,12 @@ begin
 
 			end if;
 		
-		elsif (op = "1101111") then --jal
-
+		elsif (op = "1101111") then
 			s_a <= pc;
-			id_PC_src <= '1';	  
+			id_PC_src <= '1';		  
 			id_Branch_nop <= '1';
-		
-		elsif (op = "1100111") then --jalr
 
+		elsif (op = "1100111") then --jal or Jalr
 			s_a <= s_RA;
 			id_PC_src <= '1';		  
 			id_Branch_nop <= '1';
@@ -197,6 +151,50 @@ begin
 			id_Branch_nop <= '0';
 		end if;
 	
+	end process;
+
+	forwarding: process(rs1_id, rd2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
+	begin
+		case ex_fw_A_Branch is
+			when "00" =>
+				s_RA <= RA_id;
+			when "01" =>
+				s_RA <= alu_ex;
+			when "10" =>
+				if(s_jump = '1') then
+					s_RA <= NPC_mem;
+				else
+					s_RA <= alu_mem;
+				end if;
+			when "11" =>
+					s_RA <= writedata_wb;
+			when others =>
+				s_RA <= RA_id; 		
+		end case;
+
+		case ex_fw_B_Branch is
+			when "00" =>
+				s_RB <= RB_id;
+			when "01" =>
+				s_RB <= alu_ex;
+			when "10" =>
+				if(s_jump = '1') then
+					s_RB <= NPC_mem;
+				else
+					s_RB <= alu_mem;
+				end if;
+			when "11" =>
+					s_RB <= writedata_wb;
+			when others =>
+				s_RB <= RB_id;
+		end case;
+
+		if(Jump = '1') then
+			s_jump <= '1';
+		elsif(not(rs1_id = "00000" and rs2_id = "00000" and rd_id ="00000")) then -- not nop
+			s_jump <= '0';
+		end if;
+		
 	end process;
 
 end architecture;

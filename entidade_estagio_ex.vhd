@@ -136,14 +136,6 @@ begin
 		ula_sel_b => s_ula_b
 	);
 
-	ula_exec: alu port map(
-		in_a => s_pcPlus4,
-		in_b => (2 => '1', others => '0'), --4
-		ALUOp => (others => '0'), -- add
-		ULA => s_NPC,
-		zero => open
-	);
-
 	ula_NPC: alu port map(
 		in_a => ula_a,
 		in_b => ula_b,
@@ -201,7 +193,7 @@ begin
 		BMEM(113) <= s_RegWrite;
 		BMEM(112) <= s_Memwrite;
 		BMEM(111) <= s_Memread;
-		BMEM(110 downto 079) <= s_NPC;
+		BMEM(110 downto 079) <= s_pcPlus4;
 		BMEM(078 downto 047) <= s_ULA;
 		BMEM(046 downto 015) <= s_dado_arma;
 		BMEM(014 downto 010) <= s_rs1_ex;
@@ -209,8 +201,11 @@ begin
 		BMEM(004 downto 000) <= s_rd_ex;
 	end process;
 
-
-
-
+	MEM: process(clock)
+	begin
+		if(rising_edge(clock)) then
+			COP_mem <= COP_ex;
+		end if;
+	end process;
 
 end behavior_ex ; -- behavior_ex

@@ -97,7 +97,6 @@ architecture arch of estagio_id is
 
 	component hazard_detection is
 		port(
-			-- Entradas
 			clock				: in 	std_logic;
 			rd_ex			   	: in	std_logic_vector(004 downto 0);	-- Destino nos regs. no estágio ex
 			rd_mem				: in	std_logic_vector(004 downto 0);	-- Escrita nos regs. no est'agio mem
@@ -105,20 +104,27 @@ architecture arch of estagio_id is
 			pc						: in  std_logic_vector(031 downto 0);
 			rs1_id					: in  std_logic_vector(004 downto 0);
 			rs2_id					: in  std_logic_vector(004 downto 0);
+			rd_id					: in  std_logic_vector(004 downto 0);
 			RA_id					: in  std_logic_vector(031 downto 0);
 			RB_id					: in  std_logic_vector(031 downto 0);
-			alu_mem					: in std_logic_vector(031 downto 0);
-			writedata_wb			: in std_logic_vector(031 downto 0);
+			alu_mem					: in  std_logic_vector(031 downto 0);
+			alu_ex					: in  std_logic_vector(031 downto 0);	-- Saída da ULA no estágio Ex
+			NPC_mem					: in  std_logic_vector(031 downto 0); -- Valor do NPC no estagio mem
+			writedata_wb			: in  std_logic_vector(031 downto 0);
+			immediate				: in  std_logic_vector(031 downto 0);
 			op						: in  std_logic_vector(006 downto 0);
 			funct3					: in  std_logic_vector(002 downto 0);
-			immediate			: in  std_logic_vector(031 downto 0);
 			MemRead_mem			: in	std_logic;						-- Leitura na memória no estágio mem
-			
+			MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
+			RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
+			Jump				: in 	std_logic;
+			ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
+			ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB
 			-- Saídas
+			id_hd_hazard		: out std_logic; --IF-ID Stall
 			id_PC_src			: out std_logic;
 			id_Jump_PC			: out std_logic_vector(031 downto 0);
 			id_Branch_nop		: out std_logic; --IF-ID Flush
-			id_hd_hazard		: out std_logic; --IF-ID Stall
 			RA_out				: out std_logic_vector(031 downto 0);
 			RB_out				: out std_logic_vector(031 downto 0)
 		);
@@ -320,18 +326,26 @@ begin
 		pc => s_pc,
 		rs1_id => rs1_id,
 		rs2_id => rs2_id,
+		rd_id => rd_id,
 		RA_id => RA_id,
 		RB_id => RB_id,
-		alu_mem => ula_mem,
+		alu_mem => alu_mem,
+		alu_ex => alu_ex,
+		NPC_mem => NPC_mem,
 		writedata_wb => writedata_wb,
+		immediate => Imed_id,
 		op => s_op,
 		funct3 => s_funct3,
-		immediate => Imed_id,
 		MemRead_mem => MemRead_mem,
+		MemRead_ex => MemRead_ex,
+		RegWrite_wb => RegWrite_wb,
+		Jump => Jump,
+		ex_fw_A_Branch => ex_fw_A_Branch,
+		ex_fw_B_Branch => ex_fw_B_Branch,
+		id_hd_hazard => s_id_hd_hazard,
 		id_PC_src => id_PC_src,
 		id_Jump_PC => s_id_Jump_PC,
 		id_Branch_nop => id_Branch_nop,
-		id_hd_hazard => s_id_hd_hazard,
 		RA_out => s_RA,
 		RB_out => s_RB
     );
