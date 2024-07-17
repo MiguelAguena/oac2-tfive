@@ -54,7 +54,7 @@ end entity;
 architecture behavior_ex of estagio_ex is
 
 	signal s_rd_ex, s_rs1_ex, s_rs2_ex : std_logic_vector(004 downto 0) := (others => '0');
-	signal ula_a, ula_b, s_immed, s_RB, s_RA, s_pcPlus4, s_ULA, s_dado_arma, s_NPC  : std_logic_vector(031 downto 0) := (others => '0');
+	signal ula_a, ula_b, s_immed, s_RB, s_RA, s_pcPlus4, s_ULA, s_dado_arma  : std_logic_vector(031 downto 0) := (others => '0');
 	signal s_fw_a, s_fw_b, s_ula_a, s_ula_b, s_MemToReg : std_logic_vector(001 downto 0) := (others => '0');
 	signal s_aluSrc : std_logic := '0';
 	signal s_aluOp : std_logic_vector(002 downto 0) := "000";
@@ -136,7 +136,7 @@ begin
 		ula_sel_b => s_ula_b
 	);
 
-	ula_NPC: alu port map(
+	ula: alu port map(
 		in_a => ula_a,
 		in_b => ula_b,
 		ALUOp => s_aluOp,
