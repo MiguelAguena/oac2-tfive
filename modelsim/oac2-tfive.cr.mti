@@ -1,15 +1,4 @@
-/home/miguelaguena/Documents/oac2-tfive/alu.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/alu.vhd
-Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_SIGNED
--- Compiling entity alu
--- Compiling architecture alu_arch of alu
-
-} {} {}} /home/miguelaguena/Documents/oac2-tfive/regfile.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/regfile.vhd
+/home/miguelaguena/Documents/oac2-tfive/regfile.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/regfile.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -27,6 +16,31 @@ Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package NUMERIC_STD
 -- Compiling entity ram
 -- Compiling architecture ram_arch of ram
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity hazard_detection
+-- Compiling architecture arch of hazard_detection
+** Error: /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd(161): (vcom-1136) Unknown identifier "rd2_id".
+** Error: /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd(161): Expression is not a signal.
+** Note: /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd(205): VHDL Compiler exiting
+
+} {12.0 14.0} {}} /home/miguelaguena/Documents/oac2-tfive/data_ram.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/data_ram.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package MATH_REAL
+-- Loading package NUMERIC_STD
+-- Compiling entity data_ram
+-- Compiling architecture data_ram_arch of data_ram
 
 } {} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd {1 {vcom -work work -2008 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
@@ -49,19 +63,112 @@ Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Compiling entity tb_if2
 -- Compiling architecture tb of tb_if2
 
-} {} {}} /home/miguelaguena/Documents/oac2-tfive/package_type.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/package_type.vhd
-Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
--- Loading package STANDARD
--- Compiling package tipos
-
-} {} {}} /home/miguelaguena/Documents/oac2-tfive/data_ram.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/data_ram.vhd
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd
 Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package MATH_REAL
 -- Loading package NUMERIC_STD
--- Compiling entity data_ram
--- Compiling architecture data_ram_arch of data_ram
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity forward_unit
+-- Compiling architecture behavior_forward_unit of forward_unit
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity estagio_ex
+-- Compiling architecture behavior_ex of estagio_ex
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(102): (vcom-1136) Unknown identifier "s_Memread".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(108): Illegal target for signal assignment.
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(108): (vcom-1136) Unknown identifier "s_RegWrite".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(109): Illegal target for signal assignment.
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(109): (vcom-1136) Unknown identifier "s_Memwrite".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(110): Illegal target for signal assignment.
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(110): (vcom-1136) Unknown identifier "s_Memread".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(193): (vcom-1136) Unknown identifier "s_RegWrite".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(194): (vcom-1136) Unknown identifier "s_Memwrite".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(195): (vcom-1136) Unknown identifier "s_Memread".
+** Note: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd(211): VHDL Compiler exiting
+
+} {12.0 22.0} {}} /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity estagio_id
+-- Compiling architecture arch of estagio_id
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd(332): (vcom-1136) Unknown identifier "alu_mem".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd(333): (vcom-1136) Unknown identifier "alu_ex".
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd(424): Cannot read output "COP_id".
+	VHDL 2008 allows reading outputs.
+	This facility is enabled by compiling with -2008.
+** Warning: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd(259): (vcom-1272) Length of expected is 32; length of actual is 11.
+** Note: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd(427): VHDL Compiler exiting
+
+} {12.0 15.0} {}} /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd {0 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package NUMERIC_STD
+-- Loading package tipos
+-- Compiling entity estagio_if
+-- Compiling architecture arch of estagio_if
+** Error: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd(217): (vcom-1136) Unknown identifier "stop".
+** Note: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd(222): VHDL Compiler exiting
+
+} {12.0 13.0} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd {1 {vcom -work work -2008 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity tb_if_id_swap_halt
+-- Compiling architecture tb_if_id_arch2 of tb_if_id_swap_halt
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/alu.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/alu.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Compiling entity alu
+-- Compiling architecture alu_arch of alu
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd {1 {vcom -work work -2008 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package tipos
+-- Compiling entity fd_if_id_ex
+-- Compiling architecture fd_arch of fd_if_id_ex
+
+} {} {}} /home/miguelaguena/Documents/oac2-tfive/package_type.vhd {1 {vcom -work work -2002 -explicit -vopt -stats=none /home/miguelaguena/Documents/oac2-tfive/package_type.vhd
+Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
+-- Loading package STANDARD
+-- Compiling package tipos
 
 } {} {}}

@@ -26,7 +26,7 @@ entity forward_unit is
         ex_fw_B_Branch		: out 	std_logic_vector (001 downto 0);	-- Dado comparado em B no id 
 																		-- em desvios com forward
         ula_sel_a           : out   std_logic_vector (001 downto 0);
-        ula_sel_b           : out   std_logic_vector (001 downto 0)
+        ula_sel_b           : out   std_logic_vector (001 downto 0);
 		);
 end entity;
 

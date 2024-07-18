@@ -75,6 +75,8 @@ architecture arch of hazard_detection is
 	signal s_branching_res : std_logic_vector(31 downto 0) := (others => '0');	
 	
 	signal s_RA, s_RB : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_in_a : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_in_b : std_logic_vector(31 downto 0) := (others => '0');
 begin
 
 	
@@ -87,10 +89,13 @@ begin
 		zero => open
 	);
 	
+	s_in_a <= (31 downto 5 => '0') & rs1_id;
+	s_in_b <= (31 downto 5 => '0') & rs2_id;
+
 	BRANCHING_ALU : alu
 	port map (
-		in_a => (31 downto 5 => '0') & rs1_id,
-		in_b => (31 downto 5 => '0') & rs2_id,
+		in_a => s_in_a,
+		in_b => s_in_b,
 		ALUOp	=> s_alu_branching_op,
 		ULA => open,
 		zero => s_branching_zero
@@ -124,7 +129,7 @@ begin
 
 			if((funct3 = "000" and s_branching_zero = '1') or
 	    	   (funct3 = "001" and s_branching_zero = '0') or
-			   (funct3 = "100" and s_branching_res(31) = '1') or
+			   (funct3 = "100" and s_branching_res(31) = '1')
 			   ) then --branch condition true
 
 			   	id_PC_src <= '1';

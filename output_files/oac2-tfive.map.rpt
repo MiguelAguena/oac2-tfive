@@ -1,5 +1,5 @@
 Analysis & Synthesis report for oac2-tfive
-Mon Jun 17 06:04:18 2024
+Thu Jul 18 11:57:18 2024
 Quartus Prime Version 22.1std.0 Build 915 10/25/2022 SC Lite Edition
 
 
@@ -37,7 +37,7 @@ https://fpgasoftware.intel.com/eula.
 +------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                 ;
 +-----------------------------+------------------------------------------------+
-; Analysis & Synthesis Status ; Failed - Mon Jun 17 06:04:18 2024              ;
+; Analysis & Synthesis Status ; Failed - Thu Jul 18 11:57:18 2024              ;
 ; Quartus Prime Version       ; 22.1std.0 Build 915 10/25/2022 SC Lite Edition ;
 ; Revision Name               ; oac2-tfive                                     ;
 ; Top-level Entity Name       ; oac2-tfive                                     ;
@@ -161,16 +161,28 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 22.1std.0 Build 915 10/25/2022 SC Lite Edition
-    Info: Processing started: Mon Jun 17 06:04:06 2024
+    Info: Processing started: Thu Jul 18 11:57:06 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off oac2-tfive -c oac2-tfive
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file tb_if_id_ex.vhd
+    Info (12022): Found design unit 1: fd_if_id_ex-fd_arch File: /home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd Line: 17
+    Info (12023): Found entity 1: fd_if_id_ex File: /home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd Line: 10
+Info (12021): Found 2 design units, including 1 entities, in source file entidade_estagio_ex.vhd
+    Info (12022): Found design unit 1: estagio_ex-behavior_ex File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd Line: 54
+    Info (12023): Found entity 1: estagio_ex File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd Line: 23
+Info (12021): Found 2 design units, including 1 entities, in source file forward_unit.vhd
+    Info (12022): Found design unit 1: forward_unit-behavior_forward_unit File: /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd Line: 33
+    Info (12023): Found entity 1: forward_unit File: /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file entidade_estagio_id.vhd
+    Info (12022): Found design unit 1: estagio_id-arch File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd Line: 68
+    Info (12023): Found entity 1: estagio_id File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd Line: 36
 Info (12021): Found 2 design units, including 1 entities, in source file entidade_estagio_if.vhd
-    Info (12022): Found design unit 1: estagio_if-arch File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd Line: 53
-    Info (12023): Found entity 1: estagio_if File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd Line: 32
+    Info (12022): Found design unit 1: estagio_if-arch File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd Line: 54
+    Info (12023): Found entity 1: estagio_if File: /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd Line: 33
 Info (12021): Found 2 design units, including 1 entities, in source file tb_if.vhd
-    Info (12022): Found design unit 1: tb_if-tb File: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd Line: 13
-    Info (12023): Found entity 1: tb_if File: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd Line: 10
+    Info (12022): Found design unit 1: tb_if-tb File: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd Line: 14
+    Info (12023): Found entity 1: tb_if File: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd Line: 11
 Info (12021): Found 2 design units, including 1 entities, in source file tb_if2_swap_original.vhd
     Info (12022): Found design unit 1: tb_if2-tb File: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd Line: 13
     Info (12023): Found entity 1: tb_if2 File: /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd Line: 10
@@ -188,11 +200,17 @@ Info (12021): Found 2 design units, including 1 entities, in source file ram.vhd
 Info (12021): Found 2 design units, including 1 entities, in source file regfile.vhd
     Info (12022): Found design unit 1: regfile-regfile_arch File: /home/miguelaguena/Documents/oac2-tfive/regfile.vhd Line: 24
     Info (12023): Found entity 1: regfile File: /home/miguelaguena/Documents/oac2-tfive/regfile.vhd Line: 8
-Error (10482): VHDL error at tb_if.vhd(74): object "to_hex_string" is used but not declared File: /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd Line: 74
+Info (12021): Found 2 design units, including 1 entities, in source file tb_if_id.vhd
+    Info (12022): Found design unit 1: tb_if_id_swap_halt-tb_if_id_arch2 File: /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd Line: 17
+    Info (12023): Found entity 1: tb_if_id_swap_halt File: /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd Line: 10
+Info (12021): Found 2 design units, including 1 entities, in source file hazard_detection.vhd
+    Info (12022): Found design unit 1: hazard_detection-arch File: /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd Line: 49
+    Info (12023): Found entity 1: hazard_detection File: /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd Line: 11
+Error (10482): VHDL error at tb_if_id_ex.vhd(246): object "to_string" is used but not declared File: /home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd Line: 246
 Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 1 warning
     Error: Peak virtual memory: 467 megabytes
-    Error: Processing ended: Mon Jun 17 06:04:18 2024
-    Error: Elapsed time: 00:00:12
+    Error: Processing ended: Thu Jul 18 11:57:19 2024
+    Error: Elapsed time: 00:00:13
     Error: Total CPU time (on all processors): 00:00:28
 
 
