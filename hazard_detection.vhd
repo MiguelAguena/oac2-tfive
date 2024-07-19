@@ -32,6 +32,7 @@ entity hazard_detection is
 		MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
 		RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
 		Jump				: in 	std_logic;
+		Branch				: in 	std_logic;
 		ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
 		ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB 
 		
@@ -97,19 +98,23 @@ begin
 		zero => s_branching_zero
 	);
 
-	STALL_HAZARD: process(rs1_id, rs2_id, rd_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
+	STALL_HAZARD: process(op, rs1_id, rs2_id, rd_ex, rd_mem, MemRead_mem)
 	begin
-
-		--RS1
-		if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
-			s_id_hd_hazard_rs1 <= '1';
-		else 
+		if(Jump = '1' or Branch = '1') then
+			--RS1
+			if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
+				s_id_hd_hazard_rs1 <= '1';
+			else 
+				s_id_hd_hazard_rs1 <= '0';
+			end if;
+			--RS2
+			if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
+				s_id_hd_hazard_rs2 <= '1';
+			else 
+				s_id_hd_hazard_rs2 <= '0';
+			end if;
+		else
 			s_id_hd_hazard_rs1 <= '0';
-		end if;
-		--RS2
-		if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
-			s_id_hd_hazard_rs2 <= '1';
-		else 
 			s_id_hd_hazard_rs2 <= '0';
 		end if;
 	end process;
@@ -135,12 +140,12 @@ begin
 
 			end if;
 		
-		elsif (op = "1101111") then
+		elsif (op = "1101111") then --jal
 			s_a <= pc;
 			id_PC_src <= '1';		  
 			id_Branch_nop <= '1';
 
-		elsif (op = "1100111") then --jal or Jalr
+		elsif (op = "1100111") then --jalr
 			s_a <= s_RA;
 			id_PC_src <= '1';		  
 			id_Branch_nop <= '1';
@@ -152,8 +157,16 @@ begin
 	
 	end process;
 
-	forwarding: process(clock, rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
+	ID_FORWARDING: process(clock, rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
 	begin
+		
+		
+
+
+
+
+
+
 		case ex_fw_A_Branch is
 			when "00" =>
 				s_RA <= RA_id;
