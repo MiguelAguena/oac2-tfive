@@ -58,6 +58,7 @@ architecture behavior_ex of estagio_ex is
 	signal s_fw_a, s_fw_b, s_ula_a, s_ula_b, s_MemToReg : std_logic_vector(001 downto 0) := (others => '0');
 	signal s_aluSrc : std_logic := '0';
 	signal s_aluOp : std_logic_vector(002 downto 0) := "000";
+	signal s_Memread, s_RegWrite, s_MemWrite : std_logic := '0';
 
 	component forward_unit is
 		port(

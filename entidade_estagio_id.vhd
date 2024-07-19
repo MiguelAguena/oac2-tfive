@@ -141,6 +141,7 @@ architecture arch of estagio_id is
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
 	signal s_id_Jump_PC, s_RA, s_RB: std_logic_vector(31 downto 0) := (others => '0');
+	signal s_COP_id : instruction_type := NOP;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
@@ -329,8 +330,8 @@ begin
 		rd_id => rd_id,
 		RA_id => RA_id,
 		RB_id => RB_id,
-		alu_mem => alu_mem,
-		alu_ex => alu_ex,
+		alu_mem => ula_mem,
+		alu_ex => ula_ex,
 		NPC_mem => NPC_mem,
 		writedata_wb => writedata_wb,
 		immediate => Imed_id,
@@ -375,53 +376,54 @@ begin
     begin
 		-- pseudo instruções
 		if (s_instruction = "00000000000000000000000000000000" or s_instruction = "00000000000000000001000000010011") then 
-			COP_id <= NOP;
+			s_COP_id <= NOP;
         -- tipo R
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "0110011") then
-            COP_id <= ADD;
+            s_COP_id <= ADD;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0110011") then
-            COP_id <= SLT;
+            s_COP_id <= SLT;
         -- tipo I
         elsif (s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "0010011") then
-            COP_id <= ADDI;
+            s_COP_id <= ADDI;
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0010011") then
-            COP_id <= SLTI;
+            s_COP_id <= SLTI;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "001" and s_instruction(6 downto 0) = "0010011") then
-            COP_id <= SLLI;
+            s_COP_id <= SLLI;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "101" and s_instruction(6 downto 0) = "0010011") then
-            COP_id <= SRLI;
+            s_COP_id <= SRLI;
         elsif (s_instruction(31 downto 25) = "0100000" and s_instruction(14 downto 12) = "101" and s_instruction(6 downto 0) = "0010011") then
-            COP_id <= SRAI;
+            s_COP_id <= SRAI;
         -- tipo load
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0000011") then
-            COP_id <= LW;
+            s_COP_id <= LW;
         -- tipo store
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0100011") then
-            COP_id <= SW;
+            s_COP_id <= SW;
         -- tipo branch
         elsif (s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "1100011") then
-            COP_id <= BEQ;
+            s_COP_id <= BEQ;
         elsif (s_instruction(14 downto 12) = "001" and s_instruction(6 downto 0) = "1100011") then
-            COP_id <= BNE;
+            s_COP_id <= BNE;
         elsif (s_instruction(14 downto 12) = "100" and s_instruction(6 downto 0) = "1100011") then
-            COP_id <= BLT;
+            s_COP_id <= BLT;
 		-- Halt
 		elsif (s_instruction = x"0000006F") then
-			COP_id <= HALT;
+			s_COP_id <= HALT;
         -- tipo Jump
         elsif (s_instruction(6 downto 0) = "1101111") then
-            COP_id <= JAL;
+            s_COP_id <= JAL;
         elsif (s_instruction(6 downto 0) = "1100111") then
-            COP_id <= JALR;
+            s_COP_id <= JALR;
         -- tipo não existente
         else
-            COP_id <= NOP;
+            s_COP_id <= NOP;
         end if;
+	COP_id <= s_COP_id;
     end process;
 	EX: process(clock)
 	begin
 		if(rising_edge(clock)) then
-			COP_ex <= COP_id;
+			COP_ex <= s_COP_id;
 		end if;
 	end process;
 end architecture;

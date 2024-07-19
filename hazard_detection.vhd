@@ -158,7 +158,7 @@ begin
 	
 	end process;
 
-	forwarding: process(rs1_id, rd2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
+	forwarding: process(rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
 	begin
 		case ex_fw_A_Branch is
 			when "00" =>

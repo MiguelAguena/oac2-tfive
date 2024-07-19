@@ -90,7 +90,8 @@ begin
 	);
 	
 	s_in_a <= (31 downto 5 => '0') & rs1_id;
-	s_in_b <= (31 downto 5 => '0') & rs2_id,
+	s_in_b <= (31 downto 5 => '0') & rs2_id;
+
 	BRANCHING_ALU : alu
 	port map (
 		in_a => s_in_a,

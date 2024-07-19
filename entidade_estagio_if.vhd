@@ -214,7 +214,7 @@ begin
 		if(rising_edge(clock)) then
 			if(s_instr = x"0000006F") then
 				s_halt <= '1';
-				stop;				
+				--stop;				
 			end if;
 		end if;
 	end process;
