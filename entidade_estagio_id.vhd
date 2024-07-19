@@ -209,7 +209,7 @@ begin
 
             when "1100011" => -- beq
 				AluSrc_id <= '0';
-				MemtoReg_id <= "--";
+				MemtoReg_id <= "00";
 				RegWrite_id <= '0';
 				Memread_id <= '0';
 				Memwrite_id <= '0';
