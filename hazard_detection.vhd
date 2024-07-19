@@ -159,47 +159,44 @@ begin
 
 	ID_FORWARDING: process(clock, rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
 	begin
-		
-		
-
-
-
-
-
-
-		case ex_fw_A_Branch is
-			when "00" =>
-				s_RA <= RA_id;
-			when "01" =>
-				s_RA <= alu_ex;
-			when "10" =>
-				if(s_jump = '1') then
-					s_RA <= NPC_mem;
-				else
-					s_RA <= alu_mem;
-				end if;
-			when "11" =>
-					s_RA <= writedata_wb;
-			when others =>
-				s_RA <= RA_id; 		
-		end case;
-
-		case ex_fw_B_Branch is
-			when "00" =>
-				s_RB <= RB_id;
-			when "01" =>
-				s_RB <= alu_ex;
-			when "10" =>
-				if(s_jump = '1') then
-					s_RB <= NPC_mem;
-				else
-					s_RB <= alu_mem;
-				end if;
-			when "11" =>
-					s_RB <= writedata_wb;
-			when others =>
-				s_RB <= RB_id;
-		end case;
+		if(Jump = '1' or Branch = '1') then
+			case ex_fw_A_Branch is
+				when "00" =>
+					s_RA <= RA_id;
+				when "01" =>
+					s_RA <= alu_ex;
+				when "10" =>
+					if(s_jump = '1') then
+						s_RA <= NPC_mem;
+					else
+						s_RA <= alu_mem;
+					end if;
+				when "11" =>
+						s_RA <= writedata_wb;
+				when others =>
+					s_RA <= RA_id; 		
+			end case;
+	
+			case ex_fw_B_Branch is
+				when "00" =>
+					s_RB <= RB_id;
+				when "01" =>
+					s_RB <= alu_ex;
+				when "10" =>
+					if(s_jump = '1') then
+						s_RB <= NPC_mem;
+					else
+						s_RB <= alu_mem;
+					end if;
+				when "11" =>
+						s_RB <= writedata_wb;
+				when others =>
+					s_RB <= RB_id;
+			end case;
+		else
+			s_RA <= RA_id;
+			s_RB <= RB_id;
+		end if;
 
 		if(Jump = '1') then
 			s_jump <= '1';
