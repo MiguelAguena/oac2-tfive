@@ -75,10 +75,9 @@ architecture arch of hazard_detection is
 	signal s_branching_res : std_logic_vector(31 downto 0) := (others => '0');	
 	
 	signal s_RA, s_RB : std_logic_vector(31 downto 0) := (others => '0');
-	signal s_in_a : std_logic_vector(31 downto 0) := (others => '0');
-	signal s_in_b : std_logic_vector(31 downto 0) := (others => '0');
 begin
-
+	RA_out <= s_RA;
+	RB_out <= s_RB;
 	
 	TARGET_ADDER : alu
 	port map (
@@ -88,20 +87,15 @@ begin
 		ULA => id_Jump_PC,
 		zero => open
 	);
-	
-	s_in_a <= (31 downto 5 => '0') & rs1_id;
-	s_in_b <= (31 downto 5 => '0') & rs2_id;
 
 	BRANCHING_ALU : alu
 	port map (
-		in_a => s_in_a,
-		in_b => s_in_b,
+		in_a => s_RA,
+		in_b => s_RB,
 		ALUOp	=> s_alu_branching_op,
 		ULA => open,
 		zero => s_branching_zero
 	);
-
-	
 
 	STALL_HAZARD: process(rs1_id, rs2_id, rd_id, rd_ex, rd_mem, rd_wb, RA_id, RB_id)
 	begin
@@ -132,7 +126,7 @@ begin
 			   (funct3 = "100" and s_branching_res(31) = '1')
 			   ) then --branch condition true
 
-			   	id_PC_src <= '1';
+			   id_PC_src <= '1';
 				id_Branch_nop <= '1';
 
 			else
@@ -158,7 +152,7 @@ begin
 	
 	end process;
 
-	forwarding: process(rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
+	forwarding: process(clock, rs1_id, rs2_id, rd_id, RA_id, RB_id, Jump, ex_fw_A_Branch, ex_fw_B_Branch, alu_mem, alu_ex, NPC_mem, writedata_wb)
 	begin
 		case ex_fw_A_Branch is
 			when "00" =>

@@ -257,7 +257,8 @@ begin
 				Memwrite_id <= '0';
 				Branch <= '0';
 				Jump <= '1';
-				Imed_id <= s_instruction(30 downto 21) & '0';
+				Imed_id <= (31 downto 12 => s_instruction(31)) &
+								s_instruction(30 downto 20) & '0';
 				rs2_id <= (others => '0');
 				rs1_id <= s_instruction(19 downto 15);
 				rd_id <= s_instruction(11 downto 7);
@@ -309,10 +310,10 @@ begin
 	rf : regfile
     port map (
         clock => clock,
-		RegWrite => RegWrite_id,
+		RegWrite => RegWrite_wb,
 		read_reg_rs1 => rs1_id,
 		read_reg_rs2 => rs2_id,
-		write_reg_rd => rd_id,
+		write_reg_rd => rd_wb,
 		data_in => writedata_wb,
 		data_out_a => RA_id,
 		data_out_b => RB_id

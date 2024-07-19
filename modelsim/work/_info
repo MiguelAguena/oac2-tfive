@@ -4,6 +4,14 @@ z2
 Z0 !s99 nomlopt
 R0
 R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
 !s11e vcom 2021.2 2021.04, Apr 14 2021
 13
 !s112 1.1
@@ -34,6 +42,16 @@ R3
 n@_opt1
 R4
 R1
+T_opt2
+!s110 1721417378
+VO:HL>0@lP5_BGkkXjVd:92
+04 11 7 work fd_if_id_ex fd_arch 1
+=20-000ae431a4f1-669abea1-f1e65-3747
+!s124 OEM10U13 
+R2
+R3
+n@_opt2
+R4
 Ealu
 Z5 w1718614429
 Z6 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
@@ -41,7 +59,7 @@ Z7 DPx4 ieee 16 std_logic_signed 0 22 C<aanc0R`<LWPSe[JYRP^3
 Z8 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z9 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z10 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 205
+!i122 331
 Z11 d/home/miguelaguena/Documents/oac2-tfive/modelsim
 Z12 8/home/miguelaguena/Documents/oac2-tfive/alu.vhd
 Z13 F/home/miguelaguena/Documents/oac2-tfive/alu.vhd
@@ -51,9 +69,9 @@ VEPThKS@6mk_3^O`;4NT[X1
 !s100 Nkgkfe0LY;@PLCmliC?Uc1
 Z14 OL;C;2021.2;73
 32
-Z15 !s110 1721390820
+Z15 !s110 1721417362
 !i10b 1
-Z16 !s108 1721390820.000000
+Z16 !s108 1721417362.000000
 Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/alu.vhd|
 Z18 !s107 /home/miguelaguena/Documents/oac2-tfive/alu.vhd|
 !i113 0
@@ -66,7 +84,7 @@ R8
 R9
 R10
 DEx4 work 3 alu 0 22 EPThKS@6mk_3^O`;4NT[X1
-!i122 205
+!i122 331
 l27
 L22 27
 V[_]lIJH<TZclUa:9`Lg]K3
@@ -87,7 +105,7 @@ R8
 Z22 DPx4 ieee 9 math_real 0 22 gNk<PdFJ<XNPcfef`f?Z81
 R9
 R10
-!i122 206
+!i122 332
 R11
 Z23 8/home/miguelaguena/Documents/oac2-tfive/data_ram.vhd
 Z24 F/home/miguelaguena/Documents/oac2-tfive/data_ram.vhd
@@ -111,7 +129,7 @@ R22
 R9
 R10
 DEx4 work 8 data_ram 0 22 H>34dOhOKQDB?BJ@lUmid1
-!i122 206
+!i122 332
 l66
 L29 59
 V[>[I=j]]HD][m]RoCH8CX2
@@ -134,7 +152,7 @@ R7
 R8
 R9
 R10
-!i122 213
+!i122 339
 R11
 Z30 8/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd
 Z31 F/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd
@@ -144,7 +162,7 @@ V7PWz3Z>Fon5n8Q^QWSk110
 !s100 L6jKh`i^k3^0]O`@Y?i[A1
 R14
 32
-Z32 !s110 1721390821
+Z32 !s110 1721417363
 !i10b 1
 R16
 Z33 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_ex.vhd|
@@ -160,7 +178,7 @@ R8
 R9
 R10
 DEx4 work 10 estagio_ex 0 22 7PWz3Z>Fon5n8Q^QWSk110
-!i122 213
+!i122 339
 l101
 L54 159
 VCb>5@KELJ@@MzPhQ6KPga2
@@ -176,14 +194,14 @@ R34
 R19
 R20
 Eestagio_id
-Z35 w1721390621
+Z35 w1721417357
 R29
 R6
 R7
 R8
 R9
 R10
-!i122 214
+!i122 340
 R11
 Z36 8/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd
 Z37 F/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd
@@ -195,7 +213,7 @@ R14
 32
 R32
 !i10b 1
-Z38 !s108 1721390821.000000
+Z38 !s108 1721417363.000000
 Z39 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd|
 Z40 !s107 /home/miguelaguena/Documents/oac2-tfive/entidade_estagio_id.vhd|
 !i113 0
@@ -209,11 +227,11 @@ R8
 R9
 R10
 DEx4 work 10 estagio_id 0 22 :zj09]`EL@g:JM@RE0=K51
-!i122 214
+!i122 340
 l145
-L68 362
-VWI`zAWNLWeo=?VVYkFXJ`1
-!s100 >bhf`6B83^eZdc_ocaE?e1
+L68 363
+VAYOAj2h_3bF;a^lzFh;ak2
+!s100 RT]AG?eOzMPKD9Q;>RQXA2
 R14
 32
 R32
@@ -225,21 +243,21 @@ R40
 R19
 R20
 Eestagio_if
-Z41 w1721390816
+Z41 w1721414201
 R29
 R8
 R7
 R6
 R9
 R10
-!i122 207
+!i122 333
 R11
 Z42 8/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd
 Z43 F/home/miguelaguena/Documents/oac2-tfive/entidade_estagio_if.vhd
 l0
 L33 1
-V1B2OX4k5J1m3C=ng^Il=o3
-!s100 T:j9WkIQdO8:6X_<dDO<;3
+V21;2A]o_amZjE6ALAi>l_0
+!s100 7jkz`[<oV5:J^a>E>f56z3
 R14
 32
 R15
@@ -257,12 +275,12 @@ R7
 R6
 R9
 R10
-DEx4 work 10 estagio_if 0 22 1B2OX4k5J1m3C=ng^Il=o3
-!i122 207
-l101
-L54 169
-VV63gC_UXRiGUjn[L`W_@:1
-!s100 ?mPM]<0J2fz9^REgE1Q?a0
+DEx4 work 10 estagio_if 0 22 21;2A]o_amZjE6ALAi>l_0
+!i122 333
+l102
+L55 170
+VZ9]_NWnM5<S9@c_zITMae3
+!s100 T>98=<LIR4ncVzH?4=SSo0
 R14
 32
 R15
@@ -281,7 +299,7 @@ R7
 R8
 R9
 R10
-!i122 218
+!i122 344
 R11
 Z47 8/home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd
 Z48 F/home/miguelaguena/Documents/oac2-tfive/tb_if_id_ex.vhd
@@ -306,12 +324,12 @@ R7
 R8
 R9
 R10
-Z53 DEx4 work 11 fd_if_id_ex 0 22 7Z2A@HjL<:9HZ;:@lgi>U2
-!i122 218
+DEx4 work 11 fd_if_id_ex 0 22 7Z2A@HjL<:9HZ;:@lgi>U2
+!i122 344
 l156
-Z54 L17 488
-Z55 VeP^WX7geQ6=3^VFZ;`g`53
-Z56 !s100 4Edl[4Bee>gMOQ>IaSLTX0
+L17 488
+VeP^WX7geQ6=3^VFZ;`g`53
+!s100 4Edl[4Bee>gMOQ>IaSLTX0
 R14
 33
 R32
@@ -323,17 +341,17 @@ R51
 R52
 R20
 Eforward_unit
-Z57 w1721307570
+Z53 w1721307570
 R29
 R6
 R7
 R8
 R9
 R10
-!i122 215
+!i122 341
 R11
-Z58 8/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd
-Z59 F/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd
+Z54 8/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd
+Z55 F/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd
 l0
 L9 1
 VQ@iDzlU?jWhCDjoeD6FM<3
@@ -343,8 +361,8 @@ R14
 R32
 !i10b 1
 R38
-Z60 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd|
-Z61 !s107 /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd|
+Z56 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd|
+Z57 !s107 /home/miguelaguena/Documents/oac2-tfive/forward_unit.vhd|
 !i113 0
 R19
 R20
@@ -356,7 +374,7 @@ R8
 R9
 R10
 DEx4 work 12 forward_unit 0 22 Q@iDzlU?jWhCDjoeD6FM<3
-!i122 215
+!i122 341
 l37
 L33 138
 VUHbie?70=Xch0Vc?ciTKa0
@@ -366,23 +384,23 @@ R14
 R32
 !i10b 1
 R38
-R60
-R61
+R56
+R57
 !i113 0
 R19
 R20
 Ehazard_detection
-Z62 w1721390268
+Z58 w1721416516
 R29
 R6
 R7
 R8
 R9
 R10
-!i122 216
+!i122 342
 R11
-Z63 8/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd
-Z64 F/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd
+Z59 8/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd
+Z60 F/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd
 l0
 R25
 V><QElbVlHH:Ym:1`g8]9z0
@@ -392,8 +410,8 @@ R14
 R32
 !i10b 1
 R38
-Z65 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd|
-Z66 !s107 /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd|
+Z61 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd|
+Z62 !s107 /home/miguelaguena/Documents/oac2-tfive/hazard_detection.vhd|
 !i113 0
 R19
 R20
@@ -405,31 +423,31 @@ R8
 R9
 R10
 DEx4 work 16 hazard_detection 0 22 ><QElbVlHH:Ym:1`g8]9z0
-!i122 216
-l80
-L49 157
-V0?jEfPBXUeVMQ4791M<J_3
-!s100 @XdELb;jUDfd0ndQFj>Ua1
+!i122 342
+l78
+L49 151
+VSCKP=K@CjI_egnUXJFA0=1
+!s100 kohhVW[Y=ccINCIn_EEC]2
 R14
 32
 R32
 !i10b 1
 R38
-R65
-R66
+R61
+R62
 !i113 0
 R19
 R20
 Eram
-Z67 w1718545435
+Z63 w1718545435
 R8
 R22
 R9
 R10
-!i122 209
+!i122 335
 R11
-Z68 8/home/miguelaguena/Documents/oac2-tfive/ram.vhd
-Z69 F/home/miguelaguena/Documents/oac2-tfive/ram.vhd
+Z64 8/home/miguelaguena/Documents/oac2-tfive/ram.vhd
+Z65 F/home/miguelaguena/Documents/oac2-tfive/ram.vhd
 l0
 R25
 V`4SE6f33JDLT6a3TESKYb3
@@ -439,8 +457,8 @@ R14
 R15
 !i10b 1
 R16
-Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/ram.vhd|
-Z71 !s107 /home/miguelaguena/Documents/oac2-tfive/ram.vhd|
+Z66 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/ram.vhd|
+Z67 !s107 /home/miguelaguena/Documents/oac2-tfive/ram.vhd|
 !i113 0
 R19
 R20
@@ -450,7 +468,7 @@ R22
 R9
 R10
 DEx4 work 3 ram 0 22 `4SE6f33JDLT6a3TESKYb3
-!i122 209
+!i122 335
 l73
 L29 67
 V>4TkmT4>I8;30K[`KZnmW2
@@ -460,20 +478,20 @@ R14
 R15
 !i10b 1
 R16
-R70
-R71
+R66
+R67
 !i113 0
 R19
 R20
 Eregfile
-Z72 w1718545482
+Z68 w1718545482
 R8
 R9
 R10
-!i122 210
+!i122 336
 R11
-Z73 8/home/miguelaguena/Documents/oac2-tfive/regfile.vhd
-Z74 F/home/miguelaguena/Documents/oac2-tfive/regfile.vhd
+Z69 8/home/miguelaguena/Documents/oac2-tfive/regfile.vhd
+Z70 F/home/miguelaguena/Documents/oac2-tfive/regfile.vhd
 l0
 L8 1
 VQQ=k[X5;bY[67=U`LENWF3
@@ -483,8 +501,8 @@ R14
 R15
 !i10b 1
 R16
-Z75 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/regfile.vhd|
-Z76 !s107 /home/miguelaguena/Documents/oac2-tfive/regfile.vhd|
+Z71 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/regfile.vhd|
+Z72 !s107 /home/miguelaguena/Documents/oac2-tfive/regfile.vhd|
 !i113 0
 R19
 R20
@@ -493,7 +511,7 @@ R8
 R9
 R10
 DEx4 work 7 regfile 0 22 QQ=k[X5;bY[67=U`LENWF3
-!i122 210
+!i122 336
 l31
 L24 24
 VlI4Q0E?R49LdM;K69O16d0
@@ -503,22 +521,22 @@ R14
 R15
 !i10b 1
 R16
-R75
-R76
+R71
+R72
 !i113 0
 R19
 R20
 Etb_if
-Z77 w1718642131
+Z73 w1718642131
 R8
 R7
 R6
 R9
 R10
-!i122 211
+!i122 337
 R11
-Z78 8/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
-Z79 F/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
+Z74 8/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
+Z75 F/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd
 l0
 R25
 V9?bS:DYOL9iOI;:31G9IA0
@@ -528,8 +546,8 @@ R14
 R15
 !i10b 1
 R16
-Z80 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd|
-Z81 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd|
+Z76 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if.vhd|
+Z77 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if.vhd|
 !i113 0
 R52
 R20
@@ -540,7 +558,7 @@ R6
 R9
 R10
 DEx4 work 5 tb_if 0 22 9?bS:DYOL9iOI;:31G9IA0
-!i122 211
+!i122 337
 l42
 L14 239
 VI9YG=bf[VYVO7V5<1n?LO3
@@ -550,21 +568,21 @@ R14
 R15
 !i10b 1
 R16
-R80
-R81
+R76
+R77
 !i113 0
 R52
 R20
 Etb_if2
-Z82 w1718544514
+Z78 w1718544514
 R7
 R6
 R9
 R10
-!i122 212
+!i122 338
 R11
-Z83 8/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
-Z84 F/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
+Z79 8/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
+Z80 F/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd
 l0
 R49
 V[mfS<[nY2[?>7NgOC<=cz2
@@ -574,8 +592,8 @@ R14
 R15
 !i10b 1
 R16
-Z85 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd|
-Z86 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd|
+Z81 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd|
+Z82 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if2_swap_original.vhd|
 !i113 0
 R52
 R20
@@ -585,7 +603,7 @@ R6
 R9
 R10
 DEx4 work 6 tb_if2 0 22 [mfS<[nY2[?>7NgOC<=cz2
-!i122 212
+!i122 338
 l42
 L13 260
 VeK0YnQ`BcO=KUhXJS[zfz1
@@ -595,23 +613,23 @@ R14
 R15
 !i10b 1
 R16
-R85
-R86
+R81
+R82
 !i113 0
 R52
 R20
 Etb_if_id_swap_halt
-Z87 w1720186722
+Z83 w1720186722
 R29
 R6
 R7
 R8
 R9
 R10
-!i122 217
+!i122 343
 R11
-Z88 8/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd
-Z89 F/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd
+Z84 8/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd
+Z85 F/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd
 l0
 R49
 Vb7EHN8<RhE;h8?d=hM1>L1
@@ -621,8 +639,8 @@ R14
 R32
 !i10b 1
 R38
-Z90 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd|
-Z91 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd|
+Z86 !s90 -reportprogress|300|-work|work|-2008|-explicit|-vopt|-stats=none|/home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd|
+Z87 !s107 /home/miguelaguena/Documents/oac2-tfive/tb_if_id.vhd|
 !i113 0
 R52
 R20
@@ -634,7 +652,7 @@ R8
 R9
 R10
 DEx4 work 18 tb_if_id_swap_halt 0 22 b7EHN8<RhE;h8?d=hM1>L1
-!i122 217
+!i122 343
 l129
 L17 1046
 VPA>gKODWk>SDmZah7eXR;0
@@ -644,13 +662,13 @@ R14
 R32
 !i10b 1
 R38
-R90
-R91
+R86
+R87
 !i113 0
 R52
 R20
 Ptipos
-!i122 208
+!i122 334
 w1718670159
 R11
 8/home/miguelaguena/Documents/oac2-tfive/package_type.vhd

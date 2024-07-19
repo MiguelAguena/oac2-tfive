@@ -46,7 +46,8 @@ entity estagio_if is
 			keep_simulating	: in	Boolean := True; -- Sinal que indica a continua�ao da simula�ao
 			
 			-- Sa�da
-			BID				: out 	std_logic_vector(63 downto 0) := x"0000000000000000"--Reg. de sa�da 
+			BID				: out 	std_logic_vector(63 downto 0) := x"0000000000000000"; --Reg. de sa�da 
+			COP_if_out		: out instruction_type
 																					-- if para id
     );
 end entity;
@@ -159,7 +160,7 @@ begin
 	BID <= s_BID;
 
     -- determinar o tipo da instr
-    process(s_instr)
+    COP_set: process(s_instr)
     begin
 			ri_if <= s_instr;
 			PC_if <= s_pc;
@@ -207,6 +208,7 @@ begin
 			else
 				COP_if <= NOP;
 			end if;
+			COP_if_out <= COP_if;
     end process;
 	 
 	behavior_halt: process(clock)
@@ -214,7 +216,7 @@ begin
 		if(rising_edge(clock)) then
 			if(s_instr = x"0000006F") then
 				s_halt <= '1';
-				--stop;				
+				--wait;				
 			end if;
 		end if;
 	end process;
