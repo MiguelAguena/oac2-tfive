@@ -89,7 +89,7 @@ architecture arch of estagio_if is
 	signal s_imem_out : std_logic_vector(31 downto 0);
 	signal s_instr : std_logic_vector(31 downto 0) :=(others => '0'	);
 	signal s_pc : std_logic_vector(31 downto 0) :=(others => '0'	);
-	signal s_pc_enable: std_logic;
+	signal s_pc_enable: std_logic := '0';
 	signal s_halt: std_logic := '0';
 	signal s_BID: std_logic_vector(63 downto 0) := (others => '0');
 
@@ -126,7 +126,7 @@ begin
 
 	behavior_pc_enable: process(clock)
 	begin
-		if(falling_edge(clock) and s_pc_enable /= '1') then
+		if(rising_edge(clock) and s_pc_enable /= '1') then
 			s_pc_enable <= '1';
 		end if;
 	end process;
@@ -140,21 +140,25 @@ begin
 			end if;
 		end if;
 	end process;
-	behavior_pc_in: process(clock)
+	behavior_pc_in: process(clock, id_hd_hazard, s_halt)
 	begin
-		if(rising_edge(clock) and id_hd_hazard = '0') then
+		if(rising_edge(clock) and id_hd_hazard = '0' and s_halt='0') then
 			if(id_pc_src = '0') then
 				s_pc <= s_pc_plus4;
 			else
-				s_pc 	<= id_Jump_PC;
+				s_pc <= id_Jump_PC;
 			end if;
 		end if;
 	end process;
 	
-	BID_reg: process (clock) is
+	BID_reg: process (clock, id_hd_hazard, id_Branch_nop) is
 	begin
-		if(rising_edge(clock) and id_hd_hazard = '0') then
-			s_BID <= s_pc & s_instr;
+		if(rising_edge(clock) and s_halt='0') then
+			if(id_Branch_Nop = '0' and id_hd_hazard = '0') then
+				s_BID <= s_pc & s_instr;
+			elsif(id_Branch_nop = '1') then
+				s_BID <= (others => '0');
+			end if;
 		end if;
 	end process;
 	BID <= s_BID;

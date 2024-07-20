@@ -118,6 +118,7 @@ architecture arch of estagio_id is
 			MemRead_ex			: in	std_logic;						-- Leitura de memória no estagio ex
 			RegWrite_wb			: in 	std_logic; 						-- Escrita no RegFile vindo de wb
 			Jump				: in 	std_logic;
+			Branch				: in 	std_logic;
 			ex_fw_A_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardA
 			ex_fw_B_Branch		: in 	std_logic_vector(001 downto 0);	-- Seleçao de Branch forwardB
 			-- Saídas
@@ -141,7 +142,7 @@ architecture arch of estagio_id is
 	signal ImmSrc: std_logic_vector(1 downto 0) := (others => '0');
 	signal Aluop_id: std_logic_vector(2 downto 0) := (others => '0');
 	signal s_id_Jump_PC, s_RA, s_RB: std_logic_vector(31 downto 0) := (others => '0');
-	signal s_COP_id : instruction_type := NOP;
+	signal s_COP_ex : instruction_type := NOP;
 begin
     s_instruction <= BID(31 downto 0);
     s_pc <= BID(63 downto 32);
@@ -290,17 +291,21 @@ begin
             when others =>
                 case s_funct3 is -- R–type or I–type ALU
                     when "000" =>
-                        if ((s_funct7(5) and s_op(5)) = '1') then
+                        if (s_funct7(5) = '1' and s_op(5) = '1') then
                             Aluop_id <= "001"; -- sub
                         else 
                             Aluop_id <= "000"; -- add, addi
                         end if;
+					when "001" => 
+						Aluop_id <= "011"; --sll
                     when "010" => 
-                        Aluop_id <= "101"; -- slt, slti
-                    when "110" => 
-                        Aluop_id <= "011"; -- or, ori
-                    when "111" => 
-                        Aluop_id <= "010"; -- and, andi
+                        Aluop_id <= "010"; -- slt, slti
+					when "101" =>
+						if(s_funct7(5) = '1') then
+							Aluop_id <= "101"; -- sra
+						else
+							Aluop_id <= "100"; -- srl
+						end if;
                     when others => 
                         Aluop_id <= "000"; -- unknown
                 end case;
@@ -342,6 +347,7 @@ begin
 		MemRead_ex => MemRead_ex,
 		RegWrite_wb => RegWrite_wb,
 		Jump => Jump,
+		Branch => Branch,
 		ex_fw_A_Branch => ex_fw_A_Branch,
 		ex_fw_B_Branch => ex_fw_B_Branch,
 		id_hd_hazard => s_id_hd_hazard,
@@ -377,54 +383,70 @@ begin
     begin
 		-- pseudo instruções
 		if (s_instruction = "00000000000000000000000000000000" or s_instruction = "00000000000000000001000000010011") then 
-			s_COP_id <= NOP;
+			COP_id <= NOP;
+			s_COP_ex <= NOP;
         -- tipo R
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "0110011") then
-            s_COP_id <= ADD;
+            s_COP_ex <= ADD;
+            COP_id <= ADD;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0110011") then
-            s_COP_id <= SLT;
+            s_COP_ex <= SLT;
+            COP_id <= SLT;
         -- tipo I
         elsif (s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "0010011") then
-            s_COP_id <= ADDI;
+            s_COP_ex <= ADDI;
+            COP_id <= ADDI;
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0010011") then
-            s_COP_id <= SLTI;
+            s_COP_ex <= SLTI;
+            COP_id <= SLTI;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "001" and s_instruction(6 downto 0) = "0010011") then
-            s_COP_id <= SLLI;
+            s_COP_ex <= SLLI;
+            COP_id <= SLLI;
         elsif (s_instruction(31 downto 25) = "0000000" and s_instruction(14 downto 12) = "101" and s_instruction(6 downto 0) = "0010011") then
-            s_COP_id <= SRLI;
+            s_COP_ex <= SRLI;
+            COP_id <= SRLI;
         elsif (s_instruction(31 downto 25) = "0100000" and s_instruction(14 downto 12) = "101" and s_instruction(6 downto 0) = "0010011") then
-            s_COP_id <= SRAI;
+            s_COP_ex <= SRAI;
+            COP_id <= SRAI;
         -- tipo load
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0000011") then
-            s_COP_id <= LW;
+            s_COP_ex <= LW;
+            COP_id <= LW;
         -- tipo store
         elsif (s_instruction(14 downto 12) = "010" and s_instruction(6 downto 0) = "0100011") then
-            s_COP_id <= SW;
+            s_COP_ex <= SW;
+            COP_id <= SW;
         -- tipo branch
         elsif (s_instruction(14 downto 12) = "000" and s_instruction(6 downto 0) = "1100011") then
-            s_COP_id <= BEQ;
+            s_COP_ex <= BEQ;
+            COP_id <= BEQ;
         elsif (s_instruction(14 downto 12) = "001" and s_instruction(6 downto 0) = "1100011") then
-            s_COP_id <= BNE;
+            s_COP_ex <= BNE;
+            COP_id <= BNE;
         elsif (s_instruction(14 downto 12) = "100" and s_instruction(6 downto 0) = "1100011") then
-            s_COP_id <= BLT;
+            s_COP_ex <= BLT;
+            COP_id <= BLT;
 		-- Halt
 		elsif (s_instruction = x"0000006F") then
-			s_COP_id <= HALT;
+			s_COP_ex <= HALT;
+			COP_id <= HALT;
         -- tipo Jump
         elsif (s_instruction(6 downto 0) = "1101111") then
-            s_COP_id <= JAL;
+            s_COP_ex <= JAL;
+            COP_id <= JAL;
         elsif (s_instruction(6 downto 0) = "1100111") then
-            s_COP_id <= JALR;
+            s_COP_ex <= JALR;
+            COP_id <= JALR;
         -- tipo não existente
         else
-            s_COP_id <= NOP;
+			s_COP_ex <= NOP;
+			COP_id <= NOP;
         end if;
-	COP_id <= s_COP_id;
     end process;
 	EX: process(clock)
 	begin
 		if(rising_edge(clock)) then
-			COP_ex <= s_COP_id;
+			COP_ex <= s_COP_ex;
 		end if;
 	end process;
 end architecture;
