@@ -90,7 +90,7 @@ begin
 
 			end if;
 		else
-            
+
             s_fw_b <= "00";
 
 		end if;
@@ -129,6 +129,8 @@ begin
                 s_ula_a <= "00";     
 
             end if;
+        else
+            s_ula_a <= "00";
         end if;
 
         -- ula a
@@ -163,6 +165,8 @@ begin
                 s_ula_b <= "00";  -- sem fw     
 
             end if;
+        else
+            s_ula_b <= "00";
         end if;
 
     end process;
