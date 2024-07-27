@@ -7,34 +7,123 @@ use ieee.std_logic_1164.all;
 library work;
 use work.tipos.all;	
 
--- O est·gio de memÛria È respons·vel por implementar os acessos a memÛria de dados nas 
--- instruÁ±oes de load e Store.
--- Nas demais instruÁ±oes este est·gio nao realiza nenhuma operaÁao e passa simplesmente 
--- os dados recebidos para o est·gio wb de forma a viabilizar
--- o armazenamento das informaÁoes nos registradores do Banco de registradores.
--- Os sinais de entrada e saÌda deste est·gio encontram-se definidos na declaraÁao da 
+-- O estÔøΩgio de memÔøΩria ÔøΩ responsÔøΩvel por implementar os acessos a memÔøΩria de dados nas 
+-- instruÔøΩoes de load e Store.
+-- Nas demais instruÔøΩoes este estÔøΩgio nao realiza nenhuma operaÔøΩao e passa simplesmente 
+-- os dados recebidos para o estÔøΩgio wb de forma a viabilizar
+-- o armazenamento das informaÔøΩoes nos registradores do Banco de registradores.
+-- Os sinais de entrada e saÔøΩda deste estÔøΩgio encontram-se definidos na declaraÔøΩao da 
 -- entidade estagio_mem.
 
 entity estagio_mem is
     generic(
-        dmem_init_file: string := "dmem.txt"		  		-- Arquivo inicializar a memÛria de dados
+        dmem_init_file: string := "dmem.txt"		  		-- Arquivo inicializar a memÔøΩria de dados
     );
     port(
 		-- Entradas
 		clock		: in std_logic;						 	-- Base de tempo
-        BMEM		: in std_logic_vector(115 downto 0); 	-- InformaÁoes vindas do est·gio ex
-		COP_mem		: in instruction_type;					-- MnemÙnico sendo processada no est·gio mem
+        BMEM		: in std_logic_vector(115 downto 0); 	-- InformaÔøΩoes vindas do estÔøΩgio ex
+		COP_mem		: in instruction_type;					-- MnemÔøΩnico sendo processada no estÔøΩgio mem
 		
-		-- SaÌdas
-        BWB			: out std_logic_vector(103 downto 0) := (others => '0');-- InformaÁoes para o wb
-		COP_wb 		: out instruction_type := NOP;			-- MnemÙnico a ser processada pelo est·gio wb
-		RegWrite_mem: out std_logic;						-- Escrita em regs no est·gio mem
-		MemRead_mem	: out std_logic;						-- Leitura da memÛria no est·gio mem 
-		MemWrite_mem: out std_logic;						-- Escrita na memoria de dados no est·gio mem
+		-- SaÔøΩdas
+        BWB			: out std_logic_vector(103 downto 0) := (others => '0');-- InformaÔøΩoes para o wb
+		COP_wb 		: out instruction_type := NOP;			-- MnemÔøΩnico a ser processada pelo estÔøΩgio wb
+		RegWrite_mem: out std_logic;						-- Escrita em regs no estÔøΩgio mem
+		MemRead_mem	: out std_logic;						-- Leitura da memÔøΩria no estÔøΩgio mem 
+		MemWrite_mem: out std_logic;						-- Escrita na memoria de dados no estÔøΩgio mem
 		rd_mem		: out std_logic_vector(004 downto 0);	-- Destino nos regs. no estagio mem
-		ula_mem		: out std_logic_vector(031 downto 0);	-- ULA no est·go mem para o est·gio mem
+		ula_mem		: out std_logic_vector(031 downto 0);	-- ULA no estÔøΩgo mem para o estÔøΩgio mem
 		NPC_mem		: out std_logic_vector(031 downto 0);	-- Valor do NPC no estagio mem
-		Memval_mem	: out std_Logic_vector(031 downto 0)	-- Saida da memÛria no est·gio mem
+		Memval_mem	: out std_Logic_vector(031 downto 0)	-- Saida da memÔøΩria no estÔøΩgio mem
 		
     );
 end entity;
+
+architecture behavior_mem of estagio_mem is
+	signal s_rd_ex, s_rs1_ex, s_rs2_ex : std_logic_vector(4 downto 0) := (others => '0');
+	signal s_pcPlus4, s_ULA, s_dado_arma, s_memval_mem  : std_logic_vector(31 downto 0) := (others => '0');
+	signal s_MemToReg : std_logic_vector(1 downto 0) := (others => '0');
+	signal s_Memread, s_RegWrite, s_MemWrite, s_write, s_read : std_logic := '0';
+	signal s_mem_out : std_logic_vector(31 downto 0) := (others => '0'); -- sa√≠da da mem√≥ria
+
+	component data_ram is
+		generic(
+			address_bits		: integer 	:= 32;		  -- Bits de end. da mem√≥ria de dados
+			size				: integer 	:= 4096;	  -- Tamanho da mem√≥ria de dados em Bytes
+			data_ram_init_file	: string 	:= "dmem.txt" -- Arquivo da mem√≥ria de dados
+		);
+		port (
+			-- Entradas
+			clock 		: in  std_logic;							    -- Base de tempo bancada de teste
+			write 		: in  std_logic;								-- Sinal de escrita na mem√≥ria
+			address 	: in  std_logic_vector(address_bits-1 downto 0);-- Entrada de endere√ßo da mem√≥ria
+			data_in 	: in  std_logic_vector(address_bits-1 downto 0);-- Entrada de dados da mem√≥ria
+			
+			-- Sa√≠da
+			data_out 	: out std_logic_vector(address_bits-1 downto 0)	-- Sa√≠da de dados da mem√≥ria
+		);
+	end component data_ram;
+begin
+	-- Sinais de controle
+	s_MemtoReg <= BMEM(115 downto 114);
+	s_RegWrite <= BMEM(113); -- indica escrita no banco de registradores / regwrite_mem
+	s_Memwrite <= BMEM(112); -- indica opera√ß√£o de escrita na mem√≥ria de dados / memwrite_mem
+	s_Memread <= BMEM(111);  -- indica opera√ß√£o de leitura na mem√≥ria de dados / memread_mem
+	s_pcPlus4 <= BMEM(110 downto 79); -- NPC no est√°gio MEM
+	s_ULA <= BMEM(78 downto 47); -- endere√ßo da mem√≥ria de dados a ser acessado / ula_mem
+	s_dado_arma <= BMEM(46 downto 15); -- dado para armazenar na mem√≥ria de dados em opera√ß√µes de escrita
+	s_rs1_ex <= BMEM(14 downto 10);
+	s_rs2_ex <= BMEM(9 downto 5);
+	s_rd_ex <= BMEM(4 downto 0); -- rd_mem
+
+	-- Sinal intermedi√°rio para controle de escrita e de leitura
+	s_write <= s_Memwrite and not s_Memread;
+	s_read <=  s_Memread and not s_MemWrite;
+
+	-- Instancia√ß√£o da mem√≥ria de dados
+	inst_mem : data_ram
+		generic map (
+			address_bits => 32,
+			size => 4096,
+			data_ram_init_file => dmem_init_file
+		)
+		port map (
+			clock => clock,
+			write => s_write,
+			address => s_ULA,
+			data_in => s_dado_arma,
+			data_out => s_mem_out
+		);
+
+	-- Sinal intermedi√°rio de dado lido da mem√≥ria de dados
+	s_memval_mem <= s_mem_out when s_read = '1' else s_ULA;
+
+	-- Sa√≠das para o pr√≥ximo est√°gio
+	Memval_mem <= s_memval_mem;
+	NPC_mem <= s_pcPlus4;
+	rd_mem <= s_rd_ex;
+	ula_mem <= s_ULA;
+	RegWrite_mem <= s_RegWrite;
+	MemRead_mem <= s_Memread;
+	MemWrite_mem <= s_Memwrite;
+
+	-- Defini√ß√£o do buffer BWB
+	BWB_load: process(clock)
+	begin
+		BWB(103 downto 102) <= s_MemtoReg;      -- Valor que deve ser armazenado em registradores
+		BWB(101) <= s_RegWrite;                 -- Sinal de escrita em registradores
+		BWB(100 downto 69) <= s_pcPlus4;        -- End. de retorno nas chamada de sub-rotina-Jal ou JALR
+		BWB(068 downto 37) <= s_ULA;            -- Valor vindo da sa√≠da da ula
+		BWB(036 downto 05) <= s_memval_mem;     -- Valor da sa√≠da da mem√≥ria
+		BWB(004 downto 00) <= s_rd_ex;          -- Endere√ßo do registrador a ser escrito
+	end process;
+
+	-- Defini√ß√£o do COP
+	WB: process(clock)
+	begin
+		if(rising_edge(clock)) then
+			COP_wb <= COP_mem;
+		end if;
+	end process;
+
+end architecture;
