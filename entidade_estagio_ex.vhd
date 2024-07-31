@@ -179,8 +179,9 @@ begin
 		else
 			if (s_ula_b = "01") then
 				ula_b <= ula_mem;
-			elsif (s_ula_b = "10") then
-				ula_b <= Memval_mem;
+			elsif (s_ula_b = "10") then -- não deve atingir esse estado
+			-- ula_b <= Memval_mem;
+				ula_b <= s_RB;
 			elsif (s_ula_b = "11") then
 				ula_b <= writedata_wb;
 			else
