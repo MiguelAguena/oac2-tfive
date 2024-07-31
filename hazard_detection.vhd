@@ -101,14 +101,26 @@ begin
 	STALL_HAZARD: process(op, rs1_id, rs2_id, rd_ex, rd_mem, MemRead_mem)
 	begin
 		--RS1
-		if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
-			s_id_hd_hazard_rs1 <= '1';
+		if(rs1_id /= "00000" and MemRead_mem = '1') then ---
+			if(rs1_id = rd_ex) then
+				s_id_hd_hazard_rs1 <= '1';
+			elsif(rs1_id = rd_mem and (Branch = '1' or Jump = '1')) then
+				s_id_hd_hazard_rs1 <= '1';
+			else
+				s_id_hd_hazard_rs1 <= '0';
+			end if;
 		else 
 			s_id_hd_hazard_rs1 <= '0';
 		end if;
 		--RS2
-		if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
-			s_id_hd_hazard_rs2 <= '1';
+		if(rs2_id /= "00000" and MemRead_mem = '1') then ---
+			if(rs2_id = rd_ex) then
+				s_id_hd_hazard_rs2 <= '1';
+			elsif(rs2_id = rd_mem and (Branch = '1' or Jump = '1')) then
+				s_id_hd_hazard_rs2 <= '1';
+			else
+				s_id_hd_hazard_rs2 <= '0';
+			end if;
 		else 
 			s_id_hd_hazard_rs2 <= '0';
 		end if;

@@ -164,8 +164,9 @@ begin
 		-- ula a
 		if (s_ula_a = "01") then
 			ula_a <= ula_mem;
-		elsif (s_ula_a = "10") then
-			ula_a <= Memval_mem;
+		elsif (s_ula_a = "10") then -- não deve atingir esse estado
+			--ula_a <= Memval_mem; 
+			ula_a <= s_RA;
 		elsif (s_ula_a = "11") then
 			ula_a <= writedata_wb;
 		else
