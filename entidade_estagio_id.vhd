@@ -360,21 +360,24 @@ begin
 
 	bex_reg: process(clock)
 	begin
-		if(rising_edge(clock) and s_id_hd_hazard = '0') then
-
-			BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
-			BEX(149) <= RegWrite_id;
-			BEX(148) <= Memwrite_id;
-			BEX(147) <= Memread_id;
-			BEX(146) <= AluSrc_id;
-			BEX(145 downto 143) <= Aluop_id(02 downto 0);
-			BEX(142 downto 138) <= rd_id(04 downto 0);
-			BEX(137 downto 133) <= rs2_id(04 downto 0);
-			BEX(132 downto 128) <= rs1_id(04 downto 0);
-			BEX(127 downto 096) <= PC_id_Plus4;
-			BEX(095 downto 064) <= Imed_id(31 downto 0);
-			BEX(063 downto 032) <= s_RB;
-			BEX(031 downto 000) <= s_RA;
+		if(rising_edge(clock)) then
+			if(s_id_hd_hazard = '0') then
+				BEX(151 downto 150) <= MemtoReg_id(01 downto 0);
+				BEX(149) <= RegWrite_id;
+				BEX(148) <= Memwrite_id;
+				BEX(147) <= Memread_id;
+				BEX(146) <= AluSrc_id;
+				BEX(145 downto 143) <= Aluop_id(02 downto 0);
+				BEX(142 downto 138) <= rd_id(04 downto 0);
+				BEX(137 downto 133) <= rs2_id(04 downto 0);
+				BEX(132 downto 128) <= rs1_id(04 downto 0);
+				BEX(127 downto 096) <= PC_id_Plus4;
+				BEX(095 downto 064) <= Imed_id(31 downto 0);
+				BEX(063 downto 032) <= s_RB;
+				BEX(031 downto 000) <= s_RA;
+			else
+				BEX <= (others => '0');
+			end if;
 		end if;
 	end process;
 
@@ -446,7 +449,11 @@ begin
 	EX: process(clock)
 	begin
 		if(rising_edge(clock)) then
-			COP_ex <= s_COP_ex;
+			if(s_id_hd_hazard = '0') then	
+				COP_ex <= s_COP_ex;
+			else
+				COP_ex <= NOP;
+			end if;
 		end if;
 	end process;
 end architecture;

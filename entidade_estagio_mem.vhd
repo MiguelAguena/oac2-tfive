@@ -98,7 +98,7 @@ begin
 	-- Sinal intermediário de dado lido da memória de dados
 	s_memval_mem <= s_mem_out when s_read = '1' else s_ULA;
 
-	-- Saídas para o próximo estágio
+	-- Saídas para os estágios anteriores
 	Memval_mem <= s_memval_mem;
 	NPC_mem <= s_pcPlus4;
 	rd_mem <= s_rd_ex;
@@ -107,15 +107,18 @@ begin
 	MemRead_mem <= s_Memread;
 	MemWrite_mem <= s_Memwrite;
 
+
 	-- Definição do buffer BWB
 	BWB_load: process(clock)
 	begin
-		BWB(103 downto 102) <= s_MemtoReg;      -- Valor que deve ser armazenado em registradores
-		BWB(101) <= s_RegWrite;                 -- Sinal de escrita em registradores
-		BWB(100 downto 69) <= s_pcPlus4;        -- End. de retorno nas chamada de sub-rotina-Jal ou JALR
-		BWB(068 downto 37) <= s_ULA;            -- Valor vindo da saída da ula
-		BWB(036 downto 05) <= s_memval_mem;     -- Valor da saída da memória
-		BWB(004 downto 00) <= s_rd_ex;          -- Endereço do registrador a ser escrito
+		if(rising_edge(clock)) then
+			BWB(103 downto 102) <= s_MemtoReg;      -- Valor que deve ser armazenado em registradores
+			BWB(101) <= s_RegWrite;                 -- Sinal de escrita em registradores
+			BWB(100 downto 69) <= s_pcPlus4;        -- End. de retorno nas chamada de sub-rotina-Jal ou JALR
+			BWB(068 downto 37) <= s_ULA;            -- Valor vindo da saída da ula
+			BWB(036 downto 05) <= s_memval_mem;     -- Valor da saída da memória
+			BWB(004 downto 00) <= s_rd_ex;          -- Endereço do registrador a ser escrito
+		end if;
 	end process;
 
 	-- Definição do COP

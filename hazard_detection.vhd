@@ -100,21 +100,16 @@ begin
 
 	STALL_HAZARD: process(op, rs1_id, rs2_id, rd_ex, rd_mem, MemRead_mem)
 	begin
-		if(Jump = '1' or Branch = '1') then
-			--RS1
-			if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
-				s_id_hd_hazard_rs1 <= '1';
-			else 
-				s_id_hd_hazard_rs1 <= '0';
-			end if;
-			--RS2
-			if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
-				s_id_hd_hazard_rs2 <= '1';
-			else 
-				s_id_hd_hazard_rs2 <= '0';
-			end if;
-		else
+		--RS1
+		if(rs1_id /= "00000" and (rs1_id = rd_mem or rs1_id = rd_ex) and MemRead_mem = '1') then
+			s_id_hd_hazard_rs1 <= '1';
+		else 
 			s_id_hd_hazard_rs1 <= '0';
+		end if;
+		--RS2
+		if(rs2_id /= "00000" and (rs2_id = rd_mem or rs2_id = rd_ex) and MemRead_mem = '1') then
+			s_id_hd_hazard_rs2 <= '1';
+		else 
 			s_id_hd_hazard_rs2 <= '0';
 		end if;
 	end process;
@@ -131,7 +126,7 @@ begin
 			   (funct3 = "100" and s_branching_res(31) = '1')
 			   ) then --branch condition true
 
-			   id_PC_src <= '1';
+			    id_PC_src <= '1';
 				id_Branch_nop <= '1';
 
 			else

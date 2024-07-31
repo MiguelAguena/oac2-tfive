@@ -59,6 +59,9 @@ architecture behavior_ex of estagio_ex is
 	signal s_aluSrc : std_logic := '0';
 	signal s_aluOp : std_logic_vector(002 downto 0) := "000";
 	signal s_Memread, s_RegWrite, s_MemWrite : std_logic := '0';
+	signal s_rd_wb : std_logic_vector(004 downto 0) := (others => '0');
+	signal s_writedata_wb : std_logic_vector(031 downto 0) := (others => '0');
+	signal s_regwrite_wb : std_logic := '0';
 
 	component forward_unit is
 		port(
@@ -99,6 +102,17 @@ architecture behavior_ex of estagio_ex is
 
 
 begin
+
+	-- correct_wb: process(clock)
+	-- begin
+	-- 	if(rising_edge(clock)) then
+	-- 		s_rd_wb <= rd_wb;
+	-- 		s_writedata_wb <= writedata_wb;
+	-- 		s_regwrite_wb <= regwrite_wb;
+	-- 	end if;
+	-- end process;
+
+
 	rd_ex <= s_rd_ex;
 	MemRead_ex <= s_Memread;
 	ULA_ex <= s_ULA;
@@ -190,16 +204,18 @@ begin
 
 	BMEM_load: process(clock)
 	begin
-		BMEM(115 downto 114) <= s_MemtoReg;
-		BMEM(113) <= s_RegWrite;
-		BMEM(112) <= s_Memwrite;
-		BMEM(111) <= s_Memread;
-		BMEM(110 downto 079) <= s_pcPlus4;
-		BMEM(078 downto 047) <= s_ULA;
-		BMEM(046 downto 015) <= s_dado_arma;
-		BMEM(014 downto 010) <= s_rs1_ex;
-		BMEM(009 downto 005) <= s_rs2_ex;
-		BMEM(004 downto 000) <= s_rd_ex;
+		if(rising_edge(clock)) then
+			BMEM(115 downto 114) <= s_MemtoReg;
+			BMEM(113) <= s_RegWrite;
+			BMEM(112) <= s_Memwrite;
+			BMEM(111) <= s_Memread;
+			BMEM(110 downto 079) <= s_pcPlus4;
+			BMEM(078 downto 047) <= s_ULA;
+			BMEM(046 downto 015) <= s_dado_arma;
+			BMEM(014 downto 010) <= s_rs1_ex;
+			BMEM(009 downto 005) <= s_rs2_ex;
+			BMEM(004 downto 000) <= s_rd_ex;
+		end if;
 	end process;
 
 	MEM: process(clock)
