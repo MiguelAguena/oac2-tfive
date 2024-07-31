@@ -203,7 +203,7 @@
 .text
 main:
     addi tp, zero, 328 ## initial position for the data vector
-    addi t0, zero, 200 ## data vector size
+    addi t0, zero, 10 ## data vector size
     addi t4, zero, 1532 ## moving our stack pointer to the last position valid
     jal zero, sort
 sort: 	 
