@@ -44,7 +44,7 @@ architecture behavior_mem of estagio_mem is
 	signal s_pcPlus4, s_ULA, s_dado_arma, s_memval_mem  : std_logic_vector(31 downto 0) := (others => '0');
 	signal s_MemToReg : std_logic_vector(1 downto 0) := (others => '0');
 	signal s_Memread, s_RegWrite, s_MemWrite, s_write, s_read : std_logic := '0';
-	signal s_mem_out : std_logic_vector(31 downto 0) := (others => '0'); -- saída da memória
+	signal s_mem_out, s_address : std_logic_vector(31 downto 0) := (others => '0'); -- saída da memória
 
 	component data_ram is
 		generic(
@@ -76,9 +76,20 @@ begin
 	s_rs2_ex <= BMEM(9 downto 5);
 	s_rd_ex <= BMEM(4 downto 0); -- rd_mem
 
-	-- Sinal intermediário para controle de escrita e de leitura
-	s_write <= s_Memwrite and not s_Memread;
-	s_read <=  s_Memread and not s_MemWrite;
+	write_logic: process(clock)
+	begin
+		if(rising_edge(clock)) then
+			if(s_Memwrite = '1') then
+				s_write <= '1';
+				s_address <= s_ULA;
+				s_memval_mem <= s_mem_out;
+			else
+				s_write <= '0';
+				s_address <= (others => '0');
+				s_memval_mem <= s_UlA;
+			end if;
+		end if;
+	end process;
 
 	-- Instanciação da memória de dados
 	inst_mem : data_ram
@@ -95,8 +106,6 @@ begin
 			data_out => s_mem_out
 		);
 
-	-- Sinal intermediário de dado lido da memória de dados
-	s_memval_mem <= s_mem_out when s_read = '1' else s_ULA;
 
 	-- Saídas para os estágios anteriores
 	Memval_mem <= s_memval_mem;
