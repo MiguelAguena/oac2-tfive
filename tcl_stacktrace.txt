@@ -29,3 +29,22 @@ Trace back: bad window path name ""
     ("after" script)
   <2:/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/tk8.6/bgerror.tcl:106: ::tkerror {bad window path name ""}
   <1:proc:24: ::tk::dialog::error::bgerror {bad window path name ""}
+Sun Aug 04 18:37:37 -03 2024
+Trace back: bad window path name ""
+    while executing
+"winfo rootx $widget"
+    (procedure "drag" line 16)
+    invoked from within
+"$cmd {*}$args"
+    (procedure "dnd" line 2)
+    invoked from within
+"dnd drag $w"
+    (object "::.main_pane.objects.interior.cs.body.tree" method "::vsimwidgets::Hierarchy::_buttonMotion1" body line 13)
+    invoked from within
+"::.main_pane.objects.interior.cs.body.tree _buttonMotion1 .main_pane.objects.interior.cs.body.tree.lwchildsite.clipper.canvas.sfchildsite.list 272 8 2..."
+    (in namespace inscope "::vsimwidgets::Hierarchy" script line 1)
+    invoked from within
+"namespace inscope ::vsimwidgets::Hierarchy {::.main_pane.objects.interior.cs.body.tree _buttonMotion1 .main_pane.objects.interior.cs.body.tree.lwchild..."
+    (command bound to event)
+  <2:/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/tk8.6/bgerror.tcl:106: ::tkerror {bad window path name ""}
+  <1:eval:1: ::tk::dialog::error::bgerror {bad window path name ""}

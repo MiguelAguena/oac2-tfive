@@ -75,19 +75,14 @@ begin
 	s_rs1_ex <= BMEM(14 downto 10);
 	s_rs2_ex <= BMEM(9 downto 5);
 	s_rd_ex <= BMEM(4 downto 0); -- rd_mem
+	s_memval_mem <= s_mem_out;
 
-	write_logic: process(clock)
+	address_logic: process(clock)
 	begin
-		if(rising_edge(clock)) then
-			if(s_Memwrite = '1') then
-				s_write <= '1';
-				s_address <= s_ULA;
-				s_memval_mem <= s_mem_out;
-			else
-				s_write <= '0';
-				s_address <= (others => '0');
-				s_memval_mem <= s_UlA;
-			end if;
+		if(s_memread = '1' or s_memwrite = '1') then
+			s_address <= s_ULA;
+		else
+			s_address <= (others => '0');
 		end if;
 	end process;
 
@@ -100,8 +95,8 @@ begin
 		)
 		port map (
 			clock => clock,
-			write => s_write,
-			address => s_ULA,
+			write => s_Memwrite,
+			address => s_address,
 			data_in => s_dado_arma,
 			data_out => s_mem_out
 		);

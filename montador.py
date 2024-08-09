@@ -301,7 +301,7 @@ def montador ():
             saída31a20 = BitArray(int=int(imediato),length=12).bin
             saída = saída31a20+saída19a15+saída14a12+saída11a7+saída6a0
         if linha[0] == "halt":
-            saída = "11111111111111111111111111111111"
+            saída = "00000000000000000000000001101111"
         #else:
             #print("Erro de montagem!")
             #return
@@ -309,7 +309,7 @@ def montador ():
     
     #
     # Coloque o nome do arquivo de saída aqui!    
-    arquivo = open('Test.txt','w')
+    arquivo = open('imem.txt','w')
     # --------------------------------------
     #
     

@@ -1,0 +1,18 @@
+# Current time Wed Jul 31 19:05:19 2024
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.1"
+# Version = "2020.02"
+# Date = "Feb 28 2020"
+# Platform = "linuxaloem"
+# 0    0x083a3538: '<unknown (@0x83a3538)>'
+# 1    0x083a32d3: '<unknown (@0x83a32d3)>'
+# 2    0x083b32f4: 'wlfPrepareObjStringValue + 0x164' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 3    0x082d903f: '<unknown (@0x82d903f)>'
+# 4    0x08736e0d: 'hashIterate2 + 0x3d' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 5    0x082d9e18: 'ValueMonitorTimeChange + 0xa8' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 6    0x082da8f8: 'ValueMonitorRadixChange + 0x38' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 7    0x0820f854: 'mti_trace_write_cb + 0x1584' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 8    0x0866aa38: 'TclCallVarTraces + 0x238' in '/media/jmuniz/Amido/Questa/modelsim_ase/linuxaloem/vish'
+# 9    0x0000000f: '<unknown (@0xf)>'
+# 10   0xec815351: '<unknown (@0xec815351)>'
