@@ -190,12 +190,13 @@ begin
 		end if;
 	end process;
 
-	dado_arma: process(s_ula_b, ula_mem, memval_mem, writedata_wb, s_RB)
+	dado_arma: process(s_ula_b, ula_mem, writedata_wb, s_RB)
 	begin
 		if (s_ula_b = "01") then
 			s_dado_arma <= ula_mem;
-		elsif (s_ula_b = "10") then
-			s_dado_arma <= Memval_mem;
+		elsif (s_ula_b = "10") then -- não deve atingir esse estado
+			-- s_dado_arma <= memval_mem;
+			s_dado_arma <= s_RB;
 		elsif (s_ula_b = "11") then
 			s_dado_arma <= writedata_wb;
 		else  

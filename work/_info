@@ -67,7 +67,7 @@ Z8 DPx4 ieee 16 std_logic_signed 0 22 C<aanc0R`<LWPSe[JYRP^3
 Z9 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z10 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z11 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 238
+!i122 240
 Z12 d/media/jmuniz/Amido/Curso/2024/Ma/oac/projeto/oac2-tfive
 Z13 8alu.vhd
 Z14 Falu.vhd
@@ -77,9 +77,9 @@ V@CMTV<^MO[MngTmkgl5^<0
 !s100 Nkgkfe0LY;@PLCmliC?Uc1
 Z15 OV;C;2020.1;71
 33
-Z16 !s110 1723213528
+Z16 !s110 1723248159
 !i10b 1
-Z17 !s108 1723213528.000000
+Z17 !s108 1723248159.000000
 Z18 !s90 -reportprogress|300|alu.vhd|data_ram.vhd|entidade_estagio_ex.vhd|entidade_estagio_id.vhd|entidade_estagio_if.vhd|entidade_estagio_mem.vhd|entidade_estagio_wb.vhd|forward_unit.vhd|hazard_detection.vhd|package_type.vhd|ram.vhd|regfile.vhd|tb_completa.vhd|tb_if.vhd|tb_if2_swap_original.vhd|tb_if_id.vhd|tb_if_id_ex.vhd|tb_if_id_tr.vhd|
 Z19 !s107 tb_if_id_tr.vhd|tb_if_id_ex.vhd|tb_if_id.vhd|tb_if2_swap_original.vhd|tb_if.vhd|tb_completa.vhd|regfile.vhd|ram.vhd|package_type.vhd|hazard_detection.vhd|forward_unit.vhd|entidade_estagio_wb.vhd|entidade_estagio_mem.vhd|entidade_estagio_if.vhd|entidade_estagio_id.vhd|entidade_estagio_ex.vhd|data_ram.vhd|alu.vhd|
 !i113 1
@@ -91,7 +91,7 @@ R9
 R10
 R11
 Z21 DEx4 work 3 alu 0 22 @CMTV<^MO[MngTmkgl5^<0
-!i122 238
+!i122 240
 l27
 Z22 L22 27
 Z23 VX9WZ[3MEb[5IYA@nWnJjZ3
@@ -111,7 +111,7 @@ R9
 Z25 DPx4 ieee 9 math_real 0 22 gNk<PdFJ<XNPcfef`f?Z81
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z26 8data_ram.vhd
 Z27 Fdata_ram.vhd
@@ -134,7 +134,7 @@ R25
 R10
 R11
 Z29 DEx4 work 8 data_ram 0 22 KRL4U?>@n9AC;`b?85Ol]0
-!i122 238
+!i122 240
 l66
 Z30 L29 59
 Z31 Ve0Hol<5eIi:NZlE51bakh0
@@ -149,14 +149,14 @@ R19
 !i113 1
 R20
 Eestagio_ex
-Z33 w1722456089
+Z33 w1723243246
 Z34 DPx4 work 5 tipos 0 22 KZM7B`45K>O6f=FZ6o7?V3
 R7
 R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z35 8entidade_estagio_ex.vhd
 Z36 Fentidade_estagio_ex.vhd
@@ -181,11 +181,11 @@ R9
 R10
 R11
 Z37 DEx4 work 10 estagio_ex 0 22 Pe2XH<S;^=RG8Ea=cVB<;2
-!i122 238
+!i122 240
 l104
-Z38 L54 177
-Z39 VzgEP3PE>joNHXXQD4N]NT2
-Z40 !s100 GNUKk>GQ=DP`KZ@fjX2Sj1
+Z38 L54 178
+Z39 Vm4RVoC:?PH9BRIin5^98[3
+Z40 !s100 NP2gDY9R<if7ocJ`a=GQV2
 R15
 33
 R16
@@ -203,7 +203,7 @@ R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z42 8entidade_estagio_id.vhd
 Z43 Fentidade_estagio_id.vhd
@@ -228,7 +228,7 @@ R9
 R10
 R11
 Z44 DEx4 work 10 estagio_id 0 22 eW:4Q?bh52ZeGP8=4J_Y60
-!i122 238
+!i122 240
 l146
 Z45 L68 392
 Z46 V4h6200YclGZ>RDfTD02F[2
@@ -243,14 +243,14 @@ R19
 !i113 1
 R20
 Eestagio_if
-Z48 w1722446200
+Z48 w1723233629
 R34
 R9
 R8
 R7
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z49 8entidade_estagio_if.vhd
 Z50 Fentidade_estagio_if.vhd
@@ -275,11 +275,11 @@ R7
 R10
 R11
 Z51 DEx4 work 10 estagio_if 0 22 S4cOfhoFVX:KfnlE1_1]62
-!i122 238
-l102
-Z52 L55 174
-Z53 VmRm`Kin?6[XGbQ:ReT`l;3
-Z54 !s100 3cJCAaCCO0WF79TAkMngo1
+!i122 240
+l100
+Z52 L55 165
+Z53 VLKd30Zl>7SUP_4>Xn7?HZ3
+Z54 !s100 CFTbA@74LVWIQ[<Sh=Z:12
 R15
 33
 R16
@@ -294,7 +294,7 @@ Z55 w1723213513
 R34
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z56 8entidade_estagio_mem.vhd
 Z57 Fentidade_estagio_mem.vhd
@@ -316,11 +316,11 @@ R34
 R10
 R11
 Z58 DEx4 work 11 estagio_mem 0 22 0S@?`gLn]XfgT]>QLo=Nk0
-!i122 238
+!i122 240
 l66
 Z59 L42 95
-V;`gAd`Bk7a;Hia<z]:D5h1
-!s100 aF10GknGcX=8VO[H2m0iO1
+Z60 V;`gAd`Bk7a;Hia<z]:D5h1
+Z61 !s100 aF10GknGcX=8VO[H2m0iO1
 R15
 33
 R16
@@ -331,14 +331,14 @@ R19
 !i113 1
 R20
 Eestagio_wb
-Z60 w1722449982
+Z62 w1722449982
 R34
 R10
 R11
-!i122 238
+!i122 240
 R12
-Z61 8entidade_estagio_wb.vhd
-Z62 Fentidade_estagio_wb.vhd
+Z63 8entidade_estagio_wb.vhd
+Z64 Fentidade_estagio_wb.vhd
 l0
 L17 1
 Vf`n^28Pk7b<VD^iJ;Nm`j2
@@ -356,12 +356,12 @@ Abehavior_wb
 R34
 R10
 R11
-Z63 DEx4 work 10 estagio_wb 0 22 f`n^28Pk7b<VD^iJ;Nm`j2
-!i122 238
+Z65 DEx4 work 10 estagio_wb 0 22 f`n^28Pk7b<VD^iJ;Nm`j2
+!i122 240
 l35
-Z64 L30 34
-Z65 VN^PGG:a0d];0X[f4XV5nG0
-Z66 !s100 EU>Fi0]ndeKCHLzIg1<a22
+Z66 L30 34
+Z67 VN^PGG:a0d];0X[f4XV5nG0
+Z68 !s100 EU>Fi0]ndeKCHLzIg1<a22
 R15
 33
 R16
@@ -372,19 +372,19 @@ R19
 !i113 1
 R20
 Efd_if_id_ex
-R48
+Z69 w1722446200
 R34
 R7
 R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
-Z67 8tb_if_id_ex.vhd
-Z68 Ftb_if_id_ex.vhd
+Z70 8tb_if_id_ex.vhd
+Z71 Ftb_if_id_ex.vhd
 l0
-Z69 L10 1
+Z72 L10 1
 VknkXcXBg0zSmDAAm1ZmNK3
 !s100 >m9;A6Roe4zB`_f?OdEm92
 R15
@@ -403,12 +403,12 @@ R8
 R9
 R10
 R11
-Z70 DEx4 work 11 fd_if_id_ex 0 22 knkXcXBg0zSmDAAm1ZmNK3
-!i122 238
+Z73 DEx4 work 11 fd_if_id_ex 0 22 knkXcXBg0zSmDAAm1ZmNK3
+!i122 240
 l156
-Z71 L17 584
-Z72 VGW^aEo1>TZ9[o]QIafCY32
-Z73 !s100 <mk]@9A3kjWSKjg_C<miK2
+Z74 L17 584
+Z75 VGW^aEo1>TZ9[o]QIafCY32
+Z76 !s100 <mk]@9A3kjWSKjg_C<miK2
 R15
 33
 R16
@@ -419,17 +419,17 @@ R19
 !i113 1
 R20
 Eforward_unit
-R48
+R69
 R34
 R7
 R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
-Z74 8forward_unit.vhd
-Z75 Fforward_unit.vhd
+Z77 8forward_unit.vhd
+Z78 Fforward_unit.vhd
 l0
 L9 1
 VPLHL@@DhnR3SAeMe14Ln]0
@@ -450,12 +450,12 @@ R8
 R9
 R10
 R11
-Z76 DEx4 work 12 forward_unit 0 22 PLHL@@DhnR3SAeMe14Ln]0
-!i122 238
+Z79 DEx4 work 12 forward_unit 0 22 PLHL@@DhnR3SAeMe14Ln]0
+!i122 240
 l37
-Z77 L33 142
-Z78 VPH:UjYilMR252i?HBOTE?2
-Z79 !s100 <jNB;3DCc>VHKE?R3i<`S2
+Z80 L33 142
+Z81 VPH:UjYilMR252i?HBOTE?2
+Z82 !s100 <jNB;3DCc>VHKE?R3i<`S2
 R15
 33
 R16
@@ -466,17 +466,17 @@ R19
 !i113 1
 R20
 Ehazard_detection
-Z80 w1722455663
+Z83 w1723248158
 R34
 R7
 R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
-Z81 8hazard_detection.vhd
-Z82 Fhazard_detection.vhd
+Z84 8hazard_detection.vhd
+Z85 Fhazard_detection.vhd
 l0
 R28
 VoSMDC]kj>;a2:>@FhVU3P1
@@ -497,12 +497,12 @@ R8
 R9
 R10
 R11
-Z83 DEx4 work 16 hazard_detection 0 22 oSMDC]kj>;a2:>@FhVU3P1
-!i122 238
-l79
-Z84 L50 167
-Z85 V1hTjjc_Vj9W[3bD@B:4e51
-Z86 !s100 _EmPMdE[`:OcBf06H:VjC0
+Z86 DEx4 work 16 hazard_detection 0 22 oSMDC]kj>;a2:>@FhVU3P1
+!i122 240
+l78
+L50 166
+VKG]JNP6>BgdGHlOeP>DWc3
+!s100 72[J3c[alG:NBjDC^]`1]2
 R15
 33
 R16
@@ -513,12 +513,12 @@ R19
 !i113 1
 R20
 Eram
-R48
+R69
 R9
 R25
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z87 8ram.vhd
 Z88 Fram.vhd
@@ -541,7 +541,7 @@ R25
 R10
 R11
 Z89 DEx4 work 3 ram 0 22 AW@E>K>WiiP7<JXaQZ]dA0
-!i122 238
+!i122 240
 l73
 Z90 L29 67
 Z91 VQR0H]L@>znAH=3EhcMd^S1
@@ -556,11 +556,11 @@ R19
 !i113 1
 R20
 Eregfile
-R48
+R69
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z93 8regfile.vhd
 Z94 Fregfile.vhd
@@ -582,7 +582,7 @@ R9
 R10
 R11
 Z95 DEx4 work 7 regfile 0 22 QccJDh6ITMl3`6C;Kl=oH0
-!i122 238
+!i122 240
 l31
 Z96 L24 24
 Z97 V9leeOYmjjCo8RQ0XfCUE@1
@@ -603,7 +603,7 @@ R8
 R7
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z100 8tb_if.vhd
 Z101 Ftb_if.vhd
@@ -627,7 +627,7 @@ R7
 R10
 R11
 Z102 DEx4 work 5 tb_if 0 22 [dBlcXA9JfIGfRBFKQ:4A0
-!i122 238
+!i122 240
 l42
 Z103 L14 239
 Z104 Vimjl31Z2TW]e1kP8TiEfg2
@@ -647,12 +647,12 @@ R8
 R7
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z107 8tb_if2_swap_original.vhd
 Z108 Ftb_if2_swap_original.vhd
 l0
-R69
+R72
 V;5Q47[dJbCk2K1@YmJE0<3
 !s100 YFaF:MU[0LfK:^k0hSBHj2
 R15
@@ -670,7 +670,7 @@ R7
 R10
 R11
 Z109 DEx4 work 6 tb_if2 0 22 ;5Q47[dJbCk2K1@YmJE0<3
-!i122 238
+!i122 240
 l42
 Z110 L13 260
 Z111 Vg0;73^gYiK`:l^]6^h`Yo1
@@ -692,7 +692,7 @@ R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z114 8tb_completa.vhd
 Z115 Ftb_completa.vhd
@@ -717,7 +717,7 @@ R9
 R10
 R11
 Z116 DEx4 work 18 tb_if_id_ex_mem_wb 0 22 aNX5fZO0O1Y<96PGL;G@`0
-!i122 238
+!i122 240
 l206
 Z117 L31 500
 Z118 VUEMW<SB5CoI9BQ^;T:[QY0
@@ -739,12 +739,12 @@ R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z121 8tb_if_id.vhd
 Z122 Ftb_if_id.vhd
 l0
-R69
+R72
 VDRlEaLGmM^^PRT9kVPejQ3
 !s100 aG?0[k[Ne=3PRA^IG]m;N3
 R15
@@ -764,7 +764,7 @@ R9
 R10
 R11
 Z123 DEx4 work 18 tb_if_id_swap_halt 0 22 DRlEaLGmM^^PRT9kVPejQ3
-!i122 238
+!i122 240
 l129
 Z124 L17 1046
 Z125 VnP6@<C52Kle:Q=`@:Tz>[3
@@ -786,12 +786,12 @@ R8
 R9
 R10
 R11
-!i122 238
+!i122 240
 R12
 Z128 8tb_if_id_tr.vhd
 Z129 Ftb_if_id_tr.vhd
 l0
-R69
+R72
 V<m]fYEPz_`Y7o2R2lT8BM3
 !s100 9I:IM0K@`6CcXC[8PRzbz3
 R15
@@ -811,7 +811,7 @@ R9
 R10
 R11
 Z130 DEx4 work 11 tb_if_id_tr 0 22 <m]fYEPz_`Y7o2R2lT8BM3
-!i122 238
+!i122 240
 l129
 Z131 L17 169
 Z132 VeS>:4Bod8RY78n@4BFbi;0
@@ -826,8 +826,8 @@ R19
 !i113 1
 R20
 Ptipos
-!i122 238
-R48
+!i122 240
+R69
 R12
 8package_type.vhd
 Fpackage_type.vhd

@@ -62,7 +62,6 @@ architecture arch of hazard_detection is
 	end component;
 	
 	signal s_a : std_logic_vector(31 downto 0) := (others => '0');	
-	signal s_b : std_logic_vector(31 downto 0) := (others => '0');	
 	signal s_alu_target_op : std_logic_vector(2 downto 0) := "000";	
 	signal s_target_res : std_logic_vector(31 downto 0) := (others => '0');	
 
@@ -94,7 +93,7 @@ begin
 		in_a => s_RA,
 		in_b => s_RB,
 		ALUOp	=> s_alu_branching_op,
-		ULA => open,
+		ULA => s_branching_res,
 		zero => s_branching_zero
 	);
 

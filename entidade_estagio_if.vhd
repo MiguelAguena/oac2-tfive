@@ -89,14 +89,12 @@ architecture arch of estagio_if is
 	signal s_imem_out : std_logic_vector(31 downto 0);
 	signal s_instr : std_logic_vector(31 downto 0) :=(others => '0'	);
 	signal s_pc : std_logic_vector(31 downto 0) :=(others => '0'	);
-	signal s_pc_enable: std_logic := '0';
 	signal s_halt: std_logic := '0';
 	signal s_BID: std_logic_vector(63 downto 0) := (others => '0');
 
-   signal COP_if : instruction_type;
+    signal COP_if : instruction_type;
 	signal ri_if: std_logic_vector(31 downto 0);
 	signal PC_if: std_logic_vector(31 downto 0);
-	signal wait_bit : std_logic := '0';
 
 	
 begin
@@ -123,13 +121,6 @@ begin
 		data_in => (others => '0'),
 		data_out => s_imem_out
 	);
-
-	behavior_pc_enable: process(clock)
-	begin
-		if(rising_edge(clock) and s_pc_enable /= '1') then
-			s_pc_enable <= '1';
-		end if;
-	end process;
 	behaviour_instr: process(clock)
 	begin
 		if(falling_edge(clock)) then
